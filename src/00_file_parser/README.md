@@ -155,9 +155,9 @@ Rscript src/00_file_parser/czi_generate_csv_joblist.R --path.input.folder <path_
 
 | Argument                  | Description                                                                                                                                                      |
 |---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `path.input.folder`            | Path to the parent directory where the raw czi files are stored (dir). Example: `/path/to/data_files`                                                                                      |
+| `path.input.folder`            | Path to the parent directory where the raw czi files are stored (dir). Example: `/path/to/data_files`                                                            |
 | `path.input.channel.dictionary`| Path to the CSV file mapping numeric (C0, C1, ...) to alphabetic (DAPI, FITC, ...) channel names (.csv). Example: `/path/to/project_directory/channel_names.csv` |
-| `path.output.folder`           | Path to the output directory where the processed tiles will be saved (dir). Example: `/path/to/project_directory/output_tiles_tiff`                          |
+| `path.output.folder`           | Path to the output directory where the processed tiles will be saved (dir). Example: `/path/to/project_directory/output_tiles_tiffs`                             |
 | `path.output.csv`              | Path to the output CSV file where the list of jobs will be stored (.csv). Example: `/path/to/project_directory/czi_extraction_csv.csv`                           |
 
 
@@ -177,7 +177,7 @@ Rscript src/00_file_parser/czi_generate_csv_joblist.R --imfilename <path_to_inpu
 |-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `imfilename`    | Path to the CZI file for the project/experiment (.czi). Example: `/path/to/data_files/subfolder/czi_file.czi`                                                    |
 | `channel_names_dictionary`             | Path to the CSV file mapping numeric (C0, C1, ...) to alphabetic (DAPI, FITC, ...) channel names (.csv). Example: `/path/to/project_directory/channel_names.csv` |
-| `output_folder` | Path to the output directory where the raw tiles will be saved (.tiff). Example: `/path/to/project_directory/output_tiles_tiff`                                  |
+| `output_folder` | Path to the output directory where the raw tiles will be saved (.tiff). Example: `/path/to/project_directory/output_tiles_tiffs`                                 |
 
 
 ---
