@@ -70,12 +70,12 @@ def parse_metadata(directory, output_csv_channels, output_csv_slides):
 
 
 parser = argparse.ArgumentParser(description='CZIReader - extract metadata. type czi_extract_metadata.py -h for positional and optional inputs description')
-parser.add_argument('directory', type=str,
+parser.add_argument('--directory', type=str,
                     help=' parent directory where the czi files are stored e.g. /path/to/raw_data_files ')
-parser.add_argument('output_csv_channels', type=str,
+parser.add_argument('--output_csv_channels', type=str,
                     help='path to csv where the channel metadata will be stored e.g. /path/to/project_directory/experimental_design/channel_names.csv')
-parser.add_argument('output_csv_slides', type=str,
-                    help='path to csv where the channel metadata will be stored e.g. /path/to/project_directory/experimental_design/exp_design_slides.csv')
+parser.add_argument('--output_csv_slides', type=str,
+                    help='path to csv where the slide metadata will be stored e.g. /path/to/project_directory/experimental_design/exp_design_slides.csv')
 
 # If no arguments are provided, show help and exit
 if len(sys.argv) == 1:

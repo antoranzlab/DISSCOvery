@@ -1,12 +1,11 @@
 #!/usr/bin/env Rscript
 
 # Load Packages -----------------------------------------------------------
-renv::activate()
+# renv::activate()
 # install.packages('https://cran.r-project.org/src/contrib/Archive/ff/ff_2.2-14.tar.gz', repos=NULL)
 # https://community.rstudio.com/t/unable-to-install-bioconductor-package/75223
 
 library(tidyverse)
-# library(EBImage)  
 library(argparser, quietly = TRUE)
 
 # Parser ------------------------------------------------------------------
@@ -78,8 +77,6 @@ generate_csv_czi_extraction <- function(input_folder, # Path to input czi files 
   tmp_files <- tmp_files %>% 
     mutate(folder = basename(output_folder)) %>% 
     separate(folder, c('slide_id', 'round_id', 'version_id', 'project_id', 'user_id'), sep = '_')
-  tmp_files <- tmp_files %>% 
-    filter(round_id %in% c('R01', 'R02', 'R03', 'R04'))
   print('Creating csv file')
   
   write.csv(tmp_files, output_csv, row.names = FALSE)
