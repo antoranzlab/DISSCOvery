@@ -189,7 +189,7 @@ It orchestrates the data parsing. It requires the output CSV file of [czi_genera
 
 ### Arguments
 ```
-python run_czi_extraction.py <path_to_output_csv_joblist/> czi_reader.py
+python src/00_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> czi_reader.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|

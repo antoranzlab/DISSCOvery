@@ -2,7 +2,7 @@ import pandas as pd
 import subprocess
 import argparse
 
-parser = argparse.ArgumentParser(description='orchestrate Hard Stitching. type run_czi_extraction.py -h for positional and optional inputs description')
+parser = argparse.ArgumentParser(description='orchestrate Hard Stitching. Type run_hs.py -h for positional and optional inputs description')
 parser.add_argument('csv_path', type=str,
                     help=' full path to the csv with the joblist. file e.g. /path/to/project_directory/hard_stitching_job_list.csv')
 parser.add_argument('script_path', type=str,
