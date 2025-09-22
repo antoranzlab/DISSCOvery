@@ -142,14 +142,17 @@ def hard_stitching(input_path_tiles, input_path_meta, output_folder, conversion_
         
         tifffile.imwrite(output_path, tmp_dapi, compression='lzma')
 
+def str2bool(v):
+    return v.lower() in ('yes', 'true', 't', '1')
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Coarse stitching from individual tiles.")
     parser.add_argument("--input_tiles", type=str, help="Path to input tiles (path).")
     parser.add_argument("--input_metadata", type=str, help="Path to input metadata file (.csv).")
     parser.add_argument("--output_folder", type=str, help="Path to output path to save images (path).")
     parser.add_argument("--conversion_factor", type=float, help="Conversion factor for downscaling (numeric).")
-    parser.add_argument("--skip_existing", type=bool, help="skip already existing results (boolean).")
-    parser.add_argument("--only_dapi", type=bool, help="Boolean to do only DAPI (boolean).")
+    parser.add_argument("--skip_existing", type=str2bool, help="skip already existing results (boolean).")
+    parser.add_argument("--only_dapi", type=str2bool, help="Boolean to do only DAPI (boolean).")
 
     # If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
 

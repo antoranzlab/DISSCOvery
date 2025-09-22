@@ -119,7 +119,7 @@ It orchestrates BaSiC FFC. It requires the output CSV file of [FFC_list_jobs.R ]
 
 ### Arguments
 ```
-python src/04_FFC/run_ffc_basic.py <path_to_output_csv_joblist/> FFC_BaSiC.py
+python src/04_FFC/run_ffc_basic.py <path_to_output_csv_joblist/> src/04_FFC/FFC_BaSiC.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -171,11 +171,11 @@ python src/04_FFC/FFC_Kask.py --input_images <path_to_tiles/> --input_metadata <
 **Script:** [run_ffc_kask.py](src/04_FFC/run_ffc_kask.py)
 
 ### Description
-It orchestrates Kask FFC. It requires the output CSV file of [FFC_list_jobs.R ](src/04_FFC/FFC_list_jobs.R) and [FFC_kask.py](src/04_FFC/FFC_kask.py) script  as positional arguments
+It orchestrates Kask FFC. It requires the output CSV file of [FFC_list_jobs.R](src/04_FFC/FFC_list_jobs.R) and [FFC_kask.py](src/04_FFC/FFC_kask.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/04_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> FFC_kask.py
+python src/04_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> src/04_FFC/FFC_kask.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -208,11 +208,11 @@ python src/04_FFC/FFC_raw.py --input_images <path_to_tiles/> --channel <channel_
 **Script:** [run_ffc_raw.py](src/04_FFC/run_ffc_raw.py)
 
 ### Description
-It orchestrates FFC raw. It requires the output CSV file of [FFC_list_jobs.R ](src/04_FFC/FFC_list_jobs.R) and [FFC_raw.py](src/04_FFC/FFC_raw.py) script  as positional arguments
+It orchestrates FFC raw. It requires the output CSV file of [FFC_list_jobs.R](src/04_FFC/FFC_list_jobs.R) and [FFC_raw.py](src/04_FFC/FFC_raw.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/04_FFC/run_ffc_raw.py <path_to_output_csv_joblist/> FFC_raw.py
+python src/04_FFC/run_ffc_raw.py <path_to_output_csv_joblist/> src/04_FFC/FFC_raw.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -246,7 +246,7 @@ It orchestrates copying the metadata after FFC. It requires the output CSV file 
 
 ### Arguments
 ```
-python src/04_FFC/run_ffc_metadata.py <path_to_output_csv_joblist/> FFC_metadata.py
+python src/04_FFC/run_ffc_metadata.py <path_to_output_csv_joblist/> src/04_FFC/FFC_metadata.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
