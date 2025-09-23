@@ -201,7 +201,7 @@ python src/04_FFC/FFC_raw.py --input_images <path_to_tiles/> --channel <channel_
 |-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_images`          | Path to the input directory where the raw tiles are stored (folder). For example: `path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND`. |
 | `channel`               | Channel identifier (string). For example: `DAPI`.                                                                                                |
-| `output_corrected_images` | Path to the output directory where the corrected tiles will be stored (folder). For example: `path/to/project_directory/output_FFC/BM_R00_V01_BENCHMARK_ND`. |
+| `output_corrected_images` | Path to the output directory where the corrected tiles will be stored (folder). For example: `path/to/project_directory/output_FFC_corrected/BM_R00_V01_BENCHMARK_ND`. |
 | `skip_existing`         | Whether to skip already existing results (boolean). For example: `False`.                                                                        |
 
 ---
@@ -236,7 +236,7 @@ python src/04_FFC/FFC_metadata.py --input_metadata <path_to_input_metadata/> --o
 | Argument         | Description                                                                                                                                               |
 |------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_metadata` | Path to the input CSV file with the metadata. For example: `path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND/BM_R00_V01_BENCHMARK_ND.csv`. |
-| `output_metadata`| Path to the output CSV file with the metadata. For example: `path/to/project_directory/output_FFC/BM_R00_V01_BENCHMARK_ND/BM_R00_V01_BENCHMARK_ND.csv`.      |
+| `output_metadata`| Path to the output CSV file with the metadata. For example: `path/to/project_directory/output_FFC_corrected/BM_R00_V01_BENCHMARK_ND/BM_R00_V01_BENCHMARK_ND.csv`.      |
 
 ---
 **Script:** [run_ffc_metadata.py](src/04_FFC/run_ffc_metadata.py)

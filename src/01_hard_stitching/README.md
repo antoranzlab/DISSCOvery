@@ -16,21 +16,21 @@
 
 ### Description
 This script generates coarse stitched images from the individual tiles. 
-This coarse stitched image is used for Smart Tissue Detection (STS) and for generating input files for FFC Kask method. 
+This coarse stitched image is used for Smart Tissue Detection (STS), Qual-IF-AI, and for generating input files for FFC Kask method. 
 
 ### Arguments
 ```
 Rscript src/01_hard_stitching/01_hard_stitching_list_jobs.R --input_path_tiles <path_to_tiles/> --input_path_meta <path_to_metadata/> --output_folder <path_to_output_images/> --output_path_csv <path_to_output_csv/> --output_pixel_size <pixel_size_output_images/> --_skip_existing <skip_existing/> --only_dapi <do_only_dapi/> 
 ```
-| Argument             | Description                                                                                                                                                                                                                                 |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_tiles`   | Path to the parent directory where the tiles are stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs`. It can also use the output of FFC.                                                                                 |
-| `input_path_meta`    | Path to the parent directory where the metadata is stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs`                                                                                                                   |
-| `output_folder`      | Path to the folder where the hard stitched images will be stored (dir). Example: `/path/to/project_directory/hard_stitching`, `/path/to/project_directory/hard_stitching_FFC` or `hard_stitching_full_res`                                  |                   |
-| `output_path_csv`    | Path to the CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/hard_stitching_job_list.csv`, `/path/to/project_directory/hard_stitching_job_list_FFC.csv` or  `hard_stitching_job_list_full_res.csv` |
-| `output_pixel_size`  | Pixel size for output images (numeric). Used to calculate conversion factor between real and reduced dimensions. For STS/FFC Kask the recommended value is 2.6, for QUALIFAI 0.65. Example: `2.6`.                                          |
-| `skip_existing`     | Boolean to skip already existing results (str). Example: `True`.                                                                                                                                                                            |
-| `only_dapi`          | Boolean indicating whether to process only DAPI (str). Example: `True`.                                                                                                                                                                     |
+| Argument             | Description                                                                                                                                                                                                                                                      |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_tiles`   | Path to the parent directory where the tiles are stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs`. It can also use the output of FFC.                                                                                                      |
+| `input_path_meta`    | Path to the parent directory where the metadata is stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs`                                                                                                                                        |
+| `output_folder`      | Path to the folder where the hard stitched images will be stored (dir). Example: `/path/to/project_directory/hard_stitching` (for STS), `/path/to/project_directory/hard_stitching_FFC` (for FFC Kask) or `hard_stitching_full_res` (for QUALIFAI)               |                   |
+| `output_path_csv`    | Path to the CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/hard_stitching_job_list.csv` (for STS), `/path/to/project_directory/hard_stitching_job_list_FFC.csv` (for FFC Kask) or  `hard_stitching_job_list_full_res.csv` (for QUALIFAI)|
+| `output_pixel_size`  | Pixel size for output images (numeric). Used to calculate conversion factor between real and reduced dimensions. For STS/FFC Kask the recommended value is 2.6, for QUALIFAI 0.65. Example: `2.6`.                                                               |
+| `skip_existing`     | Boolean to skip already existing results (str). Example: `True`.                                                                                                                                                                                                 |
+| `only_dapi`          | Boolean indicating whether to process only DAPI (str). Example: `True`.                                                                                                                                                                                          |
 
 ---
 
