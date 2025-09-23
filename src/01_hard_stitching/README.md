@@ -2,11 +2,12 @@
 
 ---
 
-<pre> 01_hard_stitching 
+<pre> 
+01_hard_stitching 
 ├── MILAN
-|    1. 01_hard_stitching_list_jobs.R
-|    2. run_hs.py
-|         └── 01_hard_stitching.py
+    ├── 1. 01_hard_stitching_list_jobs.R
+    └── 2. run_hs.py
+        └── 01_hard_stitching.py
 
 </pre>
 
@@ -41,7 +42,7 @@ This function generates a hard stitched image.
 
 ### Arguments
 ```
-    python src/01_hard_stitching/01_hard_stitching.py --input_tiles <path_to_tiles/> --input_metadata <path_to_metadata/> --output_folder <path_to_output/> --conversion_factor <conversion_factor/> --skip_existing <skip_existing/> --only_dapi <do_only_dapi/> 
+python src/01_hard_stitching/01_hard_stitching.py --input_tiles <path_to_tiles/> --input_metadata <path_to_metadata/> --output_folder <path_to_output/> --conversion_factor <conversion_factor/> --skip_existing <skip_existing/> --only_dapi <do_only_dapi/> 
 ```
 
 | Argument           | Description                                                                                                                                                                                                                                                   |

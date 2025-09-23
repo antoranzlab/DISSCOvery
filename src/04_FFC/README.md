@@ -16,16 +16,25 @@
 
 <pre> 04_FFC 
 ├── MILAN
-|    1. FFC_list_jobs.R
-|    2. run_ffc_basic.py
-|         └── FFC_BaSiC.py
-|    3. run_ffc_kask.py
-|         └── FFC_kask.py
-|    3. run_ffc_raw.py
-|         └── FFC_raw.py
-|    4. run_ffc_metadata.py
-|         └── FFC_metadata.py
+    ├── 1. FFC_list_jobs.R
+    │   ├── 1.1 01_hard_stitching*
+    │   │   ├── 1.1.1 01_hard_stitching_list_jobs.R
+    │   │   └── 1.1.2 run_hs.py
+    │   │       └── 01_hard_stitching.py
+    │   └── 1.2 02_STS*
+    │       ├── 1.2.1 mask_generation_list_jobs.R
+    │       └── 1.2.2 run_STS_mask.py
+    │           └── 01_STS_generate_mask.py
+    ├── 2. run_ffc_basic.py
+    │   └── FFC_BaSiC.py
+    ├── 3. run_ffc_kask.py
+    │   └── FFC_kask.py
+    ├── 4. run_ffc_raw.py
+    │   └── FFC_raw.py
+    └── 5. run_ffc_metadata.py
+        └── FFC_metadata.py
 
+* preparation of the input data for FFC Kask
 </pre>
 
 ---

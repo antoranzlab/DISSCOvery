@@ -10,6 +10,26 @@
 
 [3.  Bounding Box Generation ](#3-bounding-box-generation-)
 
+[4. Evaluate concordance](#4-evaluate-concordance-)
+
+<pre> 
+02_STS 
+├── MILAN
+    ├── 1. coarse_registration_list_jobs.R
+    ├── 2. run_sts_coarse_reg.py
+    │   └── STS_coarse_registration_imreg.py
+    ├── 3. mask_generation_list_jobs.R
+    ├── 4. run_STS_mask.py
+    │   └── STS_generate_mask.py
+    ├── 5. BB_estimation_list_jobs.R
+    ├── 6. run_STS_BB.py
+    │   └── STS_generate_BB.py
+    ├── 7. bb_concordance_list_jobs.R
+    └── 8. run_STS_concordance.py
+        └── STS_evaluate_concordance.R
+
+</pre>
+
 ---
 
 # 1. Coarse Registration
@@ -23,7 +43,7 @@
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Coarse Registration.
 ### Arguments
 ```
-        Rscript src/02_STS/coarse_registration_list_jobs.R --input_path_images <path_to_hard_stitching_images/> --output_path_images <path_to_output_images/> --output_path_tm <path_to_output_transformation_matrices/> --ref_channel <reference_channel/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/>  
+Rscript src/02_STS/coarse_registration_list_jobs.R --input_path_images <path_to_hard_stitching_images/> --output_path_images <path_to_output_images/> --output_path_tm <path_to_output_transformation_matrices/> --ref_channel <reference_channel/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/>  
 ```
 | Argument           | Description                                                                                                                            |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------------------|
@@ -140,7 +160,7 @@ python src/02_STS/run_STS_mask.py <csv_path/> src/02_STS/STS_generate_mask.py
 
 ---
 
-**Script:** [02_STS/BB_estimation_list_jobs.R](src/02_STS/BB_estimation_list_jobs.R ) 
+**Script:** [02_STS/BB_estimation_list_jobs.R](src/02_STS/BB_estimation_list_jobs.R) 
 
 ### Description
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Bounding Boxes Estimation.
@@ -176,6 +196,24 @@ python src/02_STS/STS_generate_BB.py --input_image_path <path_to_mask/> --bbox_t
 | `input_image_path`  | Full path to the image file where the STS mask is stored (.tiff). Example: `/path/to/project_directory/output_STS/masks/BM_R00_V01_BENCHMARK_ND_DAPI.tiff`            |
 | `bbox_tile_path`    | Full path to the output CSV file where the bounding boxes will be stored (.csv). Example: `/path/to/project_directory/output_STS/BB/BM_R00_V01_BENCHMARK_ND_DAPI.csv` |
 | `filter_small`      | Boolean indicating whether small objects from the mask need to be filtered (str). Example: `True`. This is hardcoded to 0.1% of the whole image.                           |
+
+
+---
+
+**Script:** [run_STS_BB.py](src/02_STS/run_STS_BB.py) 
+
+### Description
+It orchestrates Bound Boxes estimation. It requires the output CSV file of [BB_estimation_list_jobs.R](src/02_STS/BB_estimation_list_jobs.R) and [STS_generate_BB.py](src/02_STS/STS_generate_BB.py) script  as positional arguments
+
+
+### Arguments
+```
+python src/02_STS/run_STS_BB.py <csv_path/> src/02_STS/STS_generate_BB.py
+```
+
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/BB_estimation_job_list.csv` |
 
 
 ---

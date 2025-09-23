@@ -10,12 +10,13 @@
 
 [3. Data parsing](#3-data-parsing)
 
-<pre> 00_file_parser 
+<pre> 
+00_file_parser 
 ├── MILAN
-|    1. czi_files_qc.py
-|    2. czi_extract_channel_metadata.py
-|    3. run_czi_extraction.py
-|         └── czi_reader.py
+    ├── 1. czi_files_qc.py
+    ├── 2. czi_extract_channel_metadata.py
+    └── 3. run_czi_extraction.py
+        └── czi_reader.py
 
 </pre>
 

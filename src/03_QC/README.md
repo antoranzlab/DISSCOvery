@@ -2,11 +2,12 @@
 
 ---
 
-<pre> 03_QC 
+<pre> 
+03_QC 
 ├── MILAN
-|    1. qualifai_list_jobs_multiclass.R
-|    2. run_QC.py
-|         └── QUALIFAI.py
+    ├── 1. qualifai_list_jobs_multiclass.R
+    └── 2. run_QC.py
+        └── QUALIFAI.py
 
 </pre>
 
