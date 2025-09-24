@@ -24,7 +24,7 @@ for i, row in df.iterrows():
     path_json = str(row["path_json"])
 
     
-    print(f"Running reverse transformation for {path_query_image}")
+    print(f"Running AlgnQC for {path_query_image}")
     
     subprocess.run([
         "python", script_path,

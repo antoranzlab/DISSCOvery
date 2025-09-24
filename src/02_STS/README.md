@@ -110,13 +110,13 @@ This function lists all the paths for input and output files and generates a csv
 Rscript src/02_STS/mask_generation_list_jobs.R --input_path_images <path_to_hard_registered_images/> --output_path_images <path_to_output_masks/> --path_model <path_to_model/> --output_path_csv <path_to_output_csv/> --ref_channel <reference_channel/> 
 ```
 
-| Argument            | Description                                                                                                                                                                                                                        |
-|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_images` | Full path to the registered hard stitching images directory (dir). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images` (for STS) or  `/path/to/project_directory/hard_stitching_FFC` (for FFC Kask) |
-| `output_path_images` | Full path to the output masks directory (dir). Example: `/path/to/project_directory/output_STS/output_masks` (for STS) or `/path/to/project_directory/output_FFC_kask_masks ` (for FFC Kask)                                       |
-| `path_model`        | Full path to the segmentation model file (`.h5`). Example: `/path/to/model/02_STS/uNet_simple_best.h5`                                                                                                                             |
-| `output_path_csv`   | Path to the output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/generate_mask_job_list.csv` (for STS) or `/path/to/project_directory/generate_mask_job_list_ffc.csv` (for FFC Kask)                     |
-| `ref_channel`       | Reference channel (string). Example: `DAPI`                                                                                                                                                                                        |
+| Argument            | Description                                                                                                                                                                                                                   |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_images` | Path to the registered hard stitching images directory (dir). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images` (for STS) or  `/path/to/project_directory/hard_stitching_FFC` (for FFC Kask) |
+| `output_path_images` | Path to the output masks directory (dir). Example: `/path/to/project_directory/output_STS/output_masks` (for STS) or `/path/to/project_directory/output_FFC_kask_masks ` (for FFC Kask)                                       |
+| `path_model`        | Path to the segmentation model file (`.h5`). Example: `/path/to/model/02_STS/uNet_simple_best.h5`                                                                                                                             |
+| `output_path_csv`   | Path to the output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/generate_mask_job_list.csv` (for STS) or `/path/to/project_directory/generate_mask_job_list_ffc.csv` (for FFC Kask)  |
+| `ref_channel`       | Reference channel (string). Example: `DAPI`                                                                                                                                                                                   |
 
 
 ---

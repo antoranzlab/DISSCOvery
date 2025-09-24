@@ -28,7 +28,7 @@ for i, row in df.iterrows():
     skip_existing = str(row["skip_existing"])
 
     
-    print(f"Running reverse transformation for {input_path_tiles}")
+    print(f"Running split scenes for {input_path_tiles}")
     
     subprocess.run([
         "Rscript", script_path,
