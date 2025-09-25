@@ -154,8 +154,6 @@ if __name__ == "__main__":
     parser.add_argument("--skip_existing", type=str2bool, help="skip already existing results (boolean).")
     parser.add_argument("--only_dapi", type=str2bool, help="Boolean to do only DAPI (boolean).")
 
-    # If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
-
     # If no arguments are provided, show help and exit
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
@@ -171,17 +169,3 @@ skip_existing = args.skip_existing
 only_dapi = args.only_dapi
 
 hard_stitching(input_path_tiles, input_path_meta, output_folder, conversion_factor, skip_existing, only_dapi)
-
-# Job list parser
-# tmp_csv = pd.read_csv('/path/to/project_directory/hard_stitching_job_list.csv') # provide the csv created by job list script
-#
-# for index, row in tmp_csv.iterrows():
-#     input_path_tiles = row['input_path_tiles']
-#     input_path_meta = row['input_path_meta']
-#     output_folder = row['output_folder']
-#     conversion_factor = row['conversion_factor']
-#     only_dapi = row['only_dapi']
-#     skip_existing = row['skip_existing']
-#
-#     # Assuming `hard_stitching` is defined as previously described
-#     hard_stitching(input_path_tiles, input_path_meta, output_folder, conversion_factor, skip_existing, only_dapi)

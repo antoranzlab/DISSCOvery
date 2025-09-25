@@ -78,7 +78,6 @@ if __name__ == "__main__":
     parser.add_argument('--filter_small', type=str2bool, default=True,
                         help='boolean indicating whether small objects are filtered out or not, e.g. True ')
 
-    # If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
 
     # If no arguments are provided, show help and exit
     if len(sys.argv) == 1:
@@ -93,14 +92,3 @@ if __name__ == "__main__":
 
     create_bounding_boxes(input_image_path = input_image_path, bbox_tile_path = bbox_tile_path, filter_small = filter_small)
 
-
-    # Job list parser
-    # tmp_csv = pd.read_csv('/path/to/project_directory/BB_estimation_job_list.csv')
-    #
-    # for index, row in tmp_csv.iterrows():
-    #     input_image_path = row['input_image']
-    #     bbox_tile_path = row['output_bb']
-    #     filter_small = row['filter_small']
-    #
-    #     # Assuming `hard_stitching` is defined as previously described
-    #     create_bounding_boxes(input_image_path=input_image_path, bbox_tile_path=bbox_tile_path, filter_small=filter_small)

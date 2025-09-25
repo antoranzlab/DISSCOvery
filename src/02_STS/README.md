@@ -114,7 +114,7 @@ Rscript src/02_STS/mask_generation_list_jobs.R --input_path_images <path_to_hard
 |---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_path_images` | Path to the registered hard stitching images directory (dir). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images` (for STS) or  `/path/to/project_directory/hard_stitching_FFC` (for FFC Kask) |
 | `output_path_images` | Path to the output masks directory (dir). Example: `/path/to/project_directory/output_STS/output_masks` (for STS) or `/path/to/project_directory/output_FFC_kask_masks ` (for FFC Kask)                                       |
-| `path_model`        | Path to the segmentation model file (`.h5`). Example: `/path/to/model/02_STS/uNet_simple_best.h5`                                                                                                                             |
+| `path_model`        | Path to the segmentation model file (`.h5`). Example: `models/02_uNet_simple_best.h5`                                                                                                                                     |
 | `output_path_csv`   | Path to the output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/generate_mask_job_list.csv` (for STS) or `/path/to/project_directory/generate_mask_job_list_ffc.csv` (for FFC Kask)  |
 | `ref_channel`       | Reference channel (string). Example: `DAPI`                                                                                                                                                                                   |
 
@@ -134,7 +134,7 @@ python src/02_STS/STS_generate_mask.py --input_image_path <path_to_registered_ha
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_image_path`  | Full path to the image file where the registered hard stitched image is stored (.tiff). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images/BM/BM_R00_V01_BENCHMARK_ND_DAPI.tiff` |
 | `output_image_path` | Full path to the output file where the mask will be stored (.tiff). Example: `/path/to/project_directory/output_STS/output_masks/BM/BM_R00_V01_BENCHMARK_ND_DAPI.tiff`                                          |
-| `model_path`        | Path to the output directory where the AI model is saved (.h5). Example: `/path/to/project_directory/02_STS/uNet_simple_best.h5`                                                                                |
+| `model_path`        | Path to the output directory where the AI model is saved (.h5). Example: `models/02_uNet_simple_best.h5`                                                                                |
 
 ---
 

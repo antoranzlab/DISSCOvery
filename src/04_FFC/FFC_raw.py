@@ -53,8 +53,6 @@ if __name__ == "__main__":
     parser.add_argument("--output_path_corrected_tiles", help="path to output corrected tiles. Example: path/to/project_directory/output_FFC/BM_R00_V01_BENCHMARK_ND", type=str)
     parser.add_argument("--skip_existing", help="skip existing results. Example: False", type=bool)
 
-    # If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
-
     # If no arguments are provided, show help and exit
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
@@ -68,16 +66,3 @@ if __name__ == "__main__":
     skip_existing = args.skip_existing
 
     copy_files(in_path=in_path, channel=channel, out_path_corr=out_path_corr, skip_existing=skip_existing)
-
-    # Job list parser
-    # tmp_csv = pd.read_csv('FFC_job_list.csv')
-    # tmp_csv = tmp_csv[tmp_csv['method'] == 'RAW']
-
-
-    # for index, row in tmp_csv.iterrows():
-    #     in_path = row['input_path']
-    #     channel = row['channel']
-    #     out_path_corr = row['output_path_corr']
-    #     skip_existing = True
-
-    #     copy_files(in_path=in_path, channel=channel, out_path_corr=out_path_corr, skip_existing=skip_existing)

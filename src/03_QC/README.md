@@ -26,7 +26,7 @@ Rscript src/03_QC/qualifai_list_jobs_multiclass.R --input_folder_path <path_to_i
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | `input_folder_path`   | Path to the parent directory where the input images are stored (dir). Example: `/path/to/project_directory/hard_stitching_full_res`. |
 | `input_path_meta`    | Path to the directory where the output masks will be stored (dir). Example: `/path/to/project_directory/output_QC`                   |
-| `output_folder`      | Path to the model to identify artifacts (pth). Example: `/src/03_QC/model_20_DAPI_resnet34_currated/unetpp_best.pth`                 |
+| `output_folder`      | Path to the model to identify artifacts (pth). Example: `models/03_unetpp_best.pth`                                                  |
 | `output_path_csv`    | Path to the CSV where the list of jobs will be saved (.csv). Example:  `/path/to/project_directory/qualifai_list_jobs.csv`           |
 
 ---
@@ -45,7 +45,7 @@ python src/03_QC/QUALIFAI.py --input_image_path <path_to_the_input_image/> --out
 |--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_image_path`      | Path to the folder where the full resolution, hard stitched images are stored (dir). Example: `/path/to/project_directory/hard_stitching_full_res/BM`. |
 | `output_image_path`    | Path to the folder where the masks will be stored (dir). Example: `/path/to/project_directory/output_QC`.                                              |
-| `model_path`        | Path to the output directory where the AI model is saved (.pth). Example: `/src/03_QC/model_20_DAPI_resnet34_currated/unetpp_best.pth`                 |
+| `model_path`        | Path to the output directory where the AI model is saved (.pth). Example: `models/03_unetpp_best.pth`                 |
 
 ---
 

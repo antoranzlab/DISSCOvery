@@ -88,7 +88,7 @@ Rscript src/05_reg_COLLAGE/algnqc_list_jobs.R --input_path_images <path_to_input
 | `output_folder_csv` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/csv`.        |
 | `output_folder_html` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/html`.       |
 | `output_folder_json` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/json`.       |
-| `path_model` | Path to the classification model (h5). Example: `/src/05_reg_COLLAGE/classification_network.h5`.                |
+| `path_model` | Path to the classification model (h5). Example: `models/05_classification_network.h5`.                          |
 | `ref_round` | Reference round (str).  Example: `R01`.                                                                         |
 | `ref_version` | Reference version (str). Example: `V01`.                                                                        |
 | `ref_channel` | Reference channel (str). Example: `DAPI`.                                                                       |
@@ -107,16 +107,16 @@ This function lists all the paths for input and output files and generates a csv
 Rscript src/05_reg_COLLAGE/algnqc_list_jobs.R --input_path_images <path_to_input_images/> --output_folder_csv <path_to_output_directory_csv/> --output_folder_html <path_to_output_directory_html/> --output_folder_json <path_to_output_directory_json/> --path_model <path_to_algnqc_model/> --ref_round <reference_round/> --ref_version <reference_version/> --ref_channel <reference_channel/> --output_path_csv <path_csv/>
 ```
 
-| Argument     | Description                                                                                                    |
-|--------------|----------------------------------------------------------------------------------------------------------------|
-| `input_path_images` | Path to input images (dir). Example: `/path/to/project_directory/output_registration/output_registration`.     |
-| `output_folder_csv` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/csv`.       |
-| `output_folder_html` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/html`.      |
-| `output_folder_json` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/json`.      |
-| `path_model` | Path to the classification model (h5). Example: `/src/05_reg_COLLAGE/classification_network.h5`.             |
-| `ref_round` | Reference round (str).  Example: `R01`.                                                                        |
-| `ref_version` | Reference version (str). Example: `V01`.                                                       |
-| `ref_channel` | Reference channel (str). Example: `DAPI`.                                                   |
+| Argument     | Description                                                                                                     |
+|--------------|-----------------------------------------------------------------------------------------------------------------|
+| `input_path_images` | Path to input images (dir). Example: `/path/to/project_directory/output_registration/output_registration`.      |
+| `output_folder_csv` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/csv`.        |
+| `output_folder_html` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/html`.       |
+| `output_folder_json` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/json`.       |
+| `path_model` | Path to the classification model (h5). Example: `/models/05_classification_network.h5`.                         |
+| `ref_round` | Reference round (str).  Example: `R01`.                                                                         |
+| `ref_version` | Reference version (str). Example: `V01`.                                                                        |
+| `ref_channel` | Reference channel (str). Example: `DAPI`.                                                                       |
 | `output_path_csv` | Path to output csv where to save the joblist (.csv). Example: `/path/to/project_directory/algnqc_job_list.csv`. |
 
 ---
@@ -136,7 +136,7 @@ Rscript src/05_reg_COLLAGE/evaluate_registration_algnqc.py --path_ref_image <pat
 |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `path_ref_image` | Path to the reference image (.tiff). Example, `/path/to/project_directory/output_registration_collage/BM_R01_V01_BENCHMARK_ND_S0/BM_R01_V01_BENCHMARK_ND_S0_DAPI.tiff`.     |
 | `path_query_image` | Path to the query image (.tiff). Example, `/path/to/project_directory/output_registration_collage/BM_R01_V01_BENCHMARK_ND_S0/BM_R01_V01_BENCHMARK_ND_S0_DAPI.tiff`.         |
-| `path_model` | Loaded Algnqc model (.h5). Example: `src/05_reg_COLLAGE/classification_network.h5`.                                                                                         |
+| `path_model` | Loaded Algnqc model (.h5). Example: `models/05_classification_network.h5`.                                                                                                  |
 | `path_csv` | Path to the csv output where the AlgnQC stats will be saved. Example, `/path/to/project_directory/output_registration_qc/csv/BM_S0/BM_R01_V01_BENCHMARK_ND_S0_DAPI.csv`.    |
 | `path_html` | Path to the html output where the AlgnQC stats will be saved. Example, `/path/to/project_directory/output_registration_qc/html/BM_S0/BM_R01_V01_BENCHMARK_ND_S0_DAPI.html`. |
 | `path_json` | Path to the json output where the AlgnQC stats will be saved. Example, `/path/to/project_directory/output_registration_qc/json/BM_S0/BM_R01_V01_BENCHMARK_ND_S0_DAPI.json`. |

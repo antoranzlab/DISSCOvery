@@ -204,9 +204,8 @@ parser.add_argument('--input_image_path', type=str,
 parser.add_argument('--output_image_path', type=str,
                     help='full path to the file where the STS masks will be saved, e.g. path/to/project_directory/output_QC/subfolder_name/image_name.tiff')
 parser.add_argument('--model_path', type=str,
-                    help='full path to where the model is saved, e.g. /src/03_QC/model_20_DAPI_resnet34_currated/unetpp_best.pth')
+                    help='full path to where the model is saved, e.g. models/03_unetpp_best.pth')
 
-# If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
 
 # If no arguments are provided, show help and exit
 if len(sys.argv) == 1:
@@ -220,14 +219,3 @@ output_image_path = args.output_image_path
 model_path = args.model_path
 
 qualifai(input_image_path = input_image_path, output_image_path = output_image_path, model_path = model_path)
-
-
-# tmp_csv = pd.read_csv('/path/to/project_directory/qualifai_list_jobs.csv')
-# for index, row in tmp_csv.iterrows():
-#     input_image_path = row['input_image']
-#     print(input_image_path)
-#     output_image_path = row['output_image']
-#     model_path = row['model_path']
-#
-#     # Assuming `hard_stitching` is defined as previously described
-#     qualifai(input_image_path=input_image_path, output_image_path=output_image_path, model_path=model_path) #skip_existing

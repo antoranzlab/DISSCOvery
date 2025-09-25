@@ -98,7 +98,7 @@ if (length(missing_args) > 0) {
 # Function call ------------------------------------------------------------------
 MaskGenerationJobList(input_path_images = argv$input_path_images, # Path to input images (dir), example: /path/to/project_directory/output_STS/output_coarse_registration/images
                       output_path_images = argv$output_path_images, # Path to output path to save masks (dir), example: /path/to/project_directory/output_STS/output_masks
-                      path_model = argv$path_model, # Path to input segmentation model (.h5), example: /path/to/model/02_STS/uNet_simple_best.h5
+                      path_model = argv$path_model, # Path to input segmentation model (.h5), example: models/02_uNet_simple_best.h5
                       output_path_csv = argv$output_path_csv, # Path to output csv where the job list will be saved (.csv), example: /path/to/project_directory/generate_mask_job_list.csv
                       ref_channel = argv$ref_channel # DAPI
 )

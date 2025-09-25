@@ -78,8 +78,6 @@ if __name__ == "__main__":
     parser.add_argument('--output_folder', type=str,
                         help='output directory where the tiles and metadata will be stored. e.g. indicate scene number to read e.g. /path/to/project_directory/output_tiles_tiffs')
 
-    # If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
-
     # If no arguments are provided, show help and exit
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
@@ -93,14 +91,3 @@ if __name__ == "__main__":
     output_folder = args.output_folder # Example: /path/to/project_directory/output_tiles_tiffs/BM_R01_V02_BENCHMARK_ND
 
     extract_tiles_from_czi(imfilename=imfilename, channel_names_dictionary=channel_names_dictionary, output_folder=output_folder)
-
-    # Job list parser
-    # tmp_csv = pd.read_csv('/path/to/project_directory/output_tiles_tiffs/czi_extraction_csv.csv') # provide the csv created by job list script
-
-    # for index, row in tmp_csv.iterrows():
-    #     imfilename = row['input_path']
-    #     output_folder = row['output_folder']
-    #     channel_names_dictionary = row['input_channel_dictionary']
-
-        # Assuming `hard_stitching` is defined as previously described
-        # extract_tiles_from_czi(imfilename=imfilename, output_folder=output_folder, channel_names_dictionary=channel_names_dictionary)

@@ -126,8 +126,6 @@ if __name__ == "__main__":
         type=str,
     )
 
-    # If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
-
     # If no arguments are provided, show help and exit
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
@@ -147,21 +145,3 @@ if __name__ == "__main__":
         out_path_corr=out_path_corr,
         out_path_templates=out_path_templates,
     )
-
-
-    # Job list parser
-    # tmp_csv = pd.read_csv("path/to/project_directory/FFC_job_list.csv")
-    # for index, row in tmp_csv.iterrows():
-    #     in_path = row["in_path"]
-    #     channel = row["channel"]
-    #     out_path_corr = row["output_path_corr"]
-    #     out_path_templates = row["output_path_templates"]
-    #     skip_existing = False
-    #
-    #     RunBasic(
-    #         in_path=in_path,
-    #         channel=channel,
-    #         out_path_corr=out_path_corr,
-    #         out_path_templates=out_path_templates,
-    #         skip_existing=skip_existing,
-    #     )

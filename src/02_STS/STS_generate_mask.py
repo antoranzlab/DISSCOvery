@@ -198,10 +198,8 @@ parser.add_argument('--input_image_path', type=str,
 parser.add_argument('--output_image_path', type=str,
                     help='full path to the file where the STS masks will be saved, e.g. /path/to/project_directory/output_STS/masks/BM_R00_V01_BENCHMARK_ND_DAPI.tiff ')
 parser.add_argument('--model_path', type=str,
-                    help='full path to the directory where the uNet model is saved, e.g. /path/to/model/uNet_simple_best.h5')
+                    help='full path to the directory where the uNet model is saved, e.g. models/02_uNet_simple_best.h5')
 
-
-# If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
 
 # If no arguments are provided, show help and exit
 if len(sys.argv) == 1:
@@ -215,13 +213,3 @@ output_image_path = args.output_image_path
 model_path = args.model_path
 
 generate_mask(input_image_path = input_image_path, output_image_path = output_image_path, model_path = model_path)
-
-# Job list parser
-# tmp_csv = pd.read_csv("/path/to/project_directory/mask_generation_job_list_ffc.csv") # provide the csv created by job list script
-# for index, row in tmp_csv.iterrows():
-#     input_image_path = row['input_image']
-#     output_image_path = row['output_image']
-#     model_path = row['model']
-#
-#     # Assuming `hard_stitching` is defined as previously described
-#     generate_mask(input_image_path=input_image_path, output_image_path=output_image_path, model_path=model_path)

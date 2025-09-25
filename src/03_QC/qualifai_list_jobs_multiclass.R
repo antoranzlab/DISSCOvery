@@ -89,6 +89,6 @@ if (length(missing_args) > 0) {
 # Function call ------------------------------------------------------------------
 QualifaiJobList(input_folder_path = argv$input_folder_path, # Path to input images (path). Example: /path/to/project_directory/hard_stitching_full_res
                 output_folder_path = argv$output_folder_path, # Path to output images (path). Example: /path/to/project_directory/output_QC
-                model_path = argv$model_path, # Path to input model for air bubbles (.h5). Example: /src/03_QC/model_20_DAPI_resnet34_currated/unetpp_best.pth 
+                model_path = argv$model_path, # Path to input model for air bubbles (.h5). Example: models/03_unetpp_best.pth 
                 output_path_csv = argv$output_path_csv # Path to output csv where the job list will be saved (.csv). Example: /path/to/project_directory/qualifai_list_jobs.csv
 )

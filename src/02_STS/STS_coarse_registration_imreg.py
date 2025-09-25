@@ -103,8 +103,6 @@ if __name__ == "__main__":
     parser.add_argument('--path_transformation_matrix', type=str,
                         help='full path to the transformation matrix (.npy). Example, /path/to/project_directory/output_coarse_registration/tm/BM/BM_R02_V01_BENCHMARK_ND_DAPI.npy')
 
-    # If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
-
     # If no arguments are provided, show help and exit
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
@@ -118,17 +116,3 @@ if __name__ == "__main__":
     output_tm = args.path_transformation_matrix
 
     get_regstat(fixed_image = fixed_image, query_image = query_image, output_image = output_image, output_tm = output_tm)
-
-    # Job list parser
-    # tmp_csv = pd.read_csv("/path/to/project_directory/coarse_registration_job_list.csv") # provide the csv created by job list script
-
-    # for index, row in tmp_csv.iterrows():
-    #     fixed_image = row['fixed_image']
-    #     query_image = row['query_image']
-    #     # if fixed_image == query_image:
-    #     #     continue
-    #     output_image = row['output_image']
-    #     output_tm = row['output_tm']
-    #     print(query_image)
-    #     # Assuming `hard_stitching` is defined as previously described
-    #     get_regstat(fixed_image=fixed_image, query_image=query_image, output_image=output_image, output_tm=output_tm)

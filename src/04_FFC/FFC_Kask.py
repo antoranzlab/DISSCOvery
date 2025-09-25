@@ -260,8 +260,6 @@ if __name__ == "__main__":
     parser.add_argument("--n_cores", help="number of cores. Example: 10", type=int)
     parser.add_argument("--skip_existing", help="skip existing results. Example: False", type=bool)
 
-    # If you use the csv job list file comment out everything starting from here to 'Job list parser' comment
-
     # If no arguments are provided, show help and exit
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
@@ -280,19 +278,3 @@ if __name__ == "__main__":
     skip_existing = args.skip_existing
 
     RunKask(in_path=in_path, in_meta=in_meta, in_mask=in_mask, px_size=px_size, channel=channel, out_path_corr=out_path_corr, out_path_templates=out_path_templates, n_cores=n_cores, skip_existing=skip_existing)
-
-
-    # Job list parser
-    # tmp_csv = pd.read_csv('FFC_job_list_kask.csv')
-    # for index, row in tmp_csv.iterrows():
-    #     in_path = row['input_path']
-    #     in_meta = row['input_meta']
-    #     in_mask = row['input_mask']
-    #     px_size = row['mask_pixel_size']
-    #     channel = row['channel']
-    #     out_path_corr = row['output_path_corr']
-    #     out_path_templates = row['output_path_templates']
-    #     skip_existing = True # Fixed
-    #     n_cores = 10 #25 # Fixed
-    #
-    #     RunKask(in_path=in_path, in_meta=in_meta, in_mask=in_mask, px_size=px_size, channel=channel, out_path_corr=out_path_corr, out_path_templates=out_path_templates, n_cores=n_cores, skip_existing=skip_existing)
