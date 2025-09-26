@@ -1,6 +1,10 @@
 # DISSCOvery
 
+
 ## Description
+<p align="center">
+  <img src="images/workflow.png" alt="My Plot" width="600"/>
+</p>
 
 ## Installation
 
