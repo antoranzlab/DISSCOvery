@@ -20,7 +20,7 @@ for i, row in df.iterrows():
     input_metadata = str(row["input_path_meta"])
     output_folder = str(row["output_folder"])
     conversion_factor = str(row["conversion_factor"])
-    skip_existing = str(False)
+    skip_existing = str(row['skip_existing'])
     only_dapi = str(row['only_dapi'])
     
     print(f"Running HS for {input_tiles}")
