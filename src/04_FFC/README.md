@@ -28,7 +28,7 @@
     ├── 2. run_ffc_basic.py
     │   └── FFC_BaSiC.py
     ├── 3. run_ffc_kask.py
-    │   └── FFC_kask.py
+    │   └── FFC_Kask.py
     ├── 4. run_ffc_raw.py
     │   └── FFC_raw.py
     └── 5. run_ffc_metadata.py
@@ -155,7 +155,7 @@ Therefore, first the course stitching and tissue masks have to be generated.
 
 **Main script:** 
 
-[FFC_kask.py](src/04_FFC/FFC_kask.py)
+[FFC_Kask.py](src/04_FFC/FFC_Kask.py)
 
 ### Arguments for main script
 
@@ -180,11 +180,11 @@ python src/04_FFC/FFC_Kask.py --input_images <path_to_tiles/> --input_metadata <
 **Script:** [run_ffc_kask.py](src/04_FFC/run_ffc_kask.py)
 
 ### Description
-It orchestrates Kask FFC. It requires the output CSV file of [FFC_list_jobs.R](src/04_FFC/FFC_list_jobs.R) and [FFC_kask.py](src/04_FFC/FFC_kask.py) script  as positional arguments
+It orchestrates Kask FFC. It requires the output CSV file of [FFC_list_jobs.R](src/04_FFC/FFC_list_jobs.R) and [FFC_Kask.py](src/04_FFC/FFC_Kask.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/04_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> src/04_FFC/FFC_kask.py
+python src/04_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> src/04_FFC/FFC_Kask.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
