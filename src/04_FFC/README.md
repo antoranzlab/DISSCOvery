@@ -98,7 +98,7 @@ Rscript base_path/FFC_list_jobs.R --input_path_tiles <path_to_tiles/> --input_pa
 
 ---
 
-**Script:** [FFC_BaSiC.py](src/4_FFC/FFC_BaSiC.py)  
+**Script:** [FFC_BaSiC.py](src/04_FFC/FFC_BaSiC.py)  
 
 ### Description
 This function performs FFC using BaSiC method. It takes as an input a path to a folder with tiles and returns the same tiles without vignetting effect. It also creates QC plots. 
@@ -124,7 +124,7 @@ python src/04_FFC/04_FFC_BaSiC.py --in_path <path_to_raw_tiles/> --channel <chan
 **Script:** [run_ffc_basic.py](src/04_FFC/run_ffc_basic.py)
 
 ### Description
-It orchestrates BaSiC FFC. It requires the output CSV file of [FFC_list_jobs.R ](src/04_FFC/FFC_list_jobs.R) and [FFC_BaSiC.py](src/4_FFC/FFC_BaSiC.py) script  as positional arguments
+It orchestrates BaSiC FFC. It requires the output CSV file of [FFC_list_jobs.R ](src/04_FFC/FFC_list_jobs.R) and [FFC_BaSiC.py](src/04_FFC/FFC_BaSiC.py) script  as positional arguments
 
 ### Arguments
 ```
