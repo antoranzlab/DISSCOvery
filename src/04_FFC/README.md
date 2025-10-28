@@ -18,9 +18,9 @@
 ├── MILAN
     ├── 1. FFC_list_jobs.R
     │   ├── 1.1 01_hard_stitching*
-    │   │   ├── 1.1.1 01_hard_stitching_list_jobs.R
+    │   │   ├── 1.1.1 hard_stitching_list_jobs.R
     │   │   └── 1.1.2 run_hs.py
-    │   │       └── 01_hard_stitching.py
+    │   │       └── hard_stitching.py
     │   └── 1.2 02_STS*
     │       ├── 1.2.1 mask_generation_list_jobs.R
     │       └── 1.2.2 run_STS_mask.py
@@ -146,8 +146,8 @@ Therefore, first the course stitching and tissue masks have to be generated.
 **File preparation:**
 
  - Step 1: Coarse stitching
-   - [01_hard_stitching_list_jobs.R](src/01_hard_stitching/01_hard_stitching_list_jobs.R) 
-   - [01_hard_stitching.py](src/01_hard_stitching/01_hard_stitching.py)
+   - [hard_stitching_list_jobs.R](src/01_hard_stitching/hard_stitching_list_jobs.R) 
+   - [hard_stitching.py](src/01_hard_stitching/hard_stitching.py)
    
  - Step 2: Mask generation
    - [mask_generation_list_jobs.R](src/02_STS/mask_generation_list_jobs.R) 
