@@ -24,7 +24,7 @@
     │   └── 1.2 02_STS*
     │       ├── 1.2.1 mask_generation_list_jobs.R
     │       └── 1.2.2 run_STS_mask.py
-    │           └── 01_STS_generate_mask.py
+    │           └── STS_generate_mask.py
     ├── 2. run_ffc_basic.py
     │   └── FFC_BaSiC.py
     ├── 3. run_ffc_kask.py
