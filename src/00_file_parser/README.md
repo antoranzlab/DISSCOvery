@@ -15,7 +15,8 @@
 ├── MILAN
     ├── 1. czi_files_qc.py
     ├── 2. czi_extract_channel_metadata.py
-    └── 3. run_czi_extraction.py
+    ├── 3. czi_generate_csv_joblist.R
+    └── 4. run_czi_extraction.py
         └── czi_reader.py
 
 </pre>
