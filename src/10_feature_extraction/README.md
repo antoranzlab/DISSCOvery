@@ -3,14 +3,14 @@
 ---
 
 <pre> 
-08_feature_extraction
+11_feature_extraction
 ├── MILAN
     ├── 1. FeatureExtraction.py
 </pre>
 
 ---
 
-**Script:** [FeatureExtraction.py](src/08_feature_extraction/FeatureExtraction.py) 
+**Script:** [FeatureExtraction.py](src/11_feature_extraction/FeatureExtraction.py) 
 
 ### Description
 
@@ -18,7 +18,7 @@ This script subtracts teh autofluorescence signal from the image.
 
 ### Arguments
 ```
-python src/08_feature_extraction/FeatureExtraction.py --path_input_AFS <path_to_input_AFS/> --path_exp_design_rounds <exp_design_rounds/> --path_input_seg <path_input_segmentation/> --ref_round <reference_round/> --path_output_csv <path_output_csv/>
+python src/10_feature_extraction/FeatureExtraction.py --path_input_AFS <path_to_input_AFS/> --path_exp_design_rounds <exp_design_rounds/> --path_input_seg <path_input_segmentation/> --ref_round <reference_round/> --path_output_csv <path_output_csv/>
 ```
 
 | Argument        | Description                                                                                                                                    |

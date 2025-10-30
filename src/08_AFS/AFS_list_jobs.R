@@ -162,6 +162,18 @@ AFSJobList <- function(input_path_images, # Path to input images (path).
   write.csv(job_list, output_path_csv, row.names = FALSE)
 }
 
+# Parser check -------------------------------------------------------------------
+required_args <- c("input_path_images", "input_path_medoids", "output_folder", 
+                   "output_folder_qc", "exp_design_rounds", "output_path_csv")
+missing_args <- required_args[sapply(required_args, function(x) is.null(argv[[x]]) || is.na(argv[[x]]))]
+
+
+if (length(missing_args) > 0) {
+  cat("Missing required arguments:", paste(missing_args, collapse = ", "), "\n\n")
+  print(tmp_parser)
+  quit(status = 1)
+}
+
 # Function call ------------------------------------------------------------------
 AFSJobList(input_path_images = argv$input_path_images, # Path to input tiles (dir). Example: /path/to/project_directory/output_registration
            input_path_medoids = argv$input_path_medoids, # Path to input medoids (csv). Example: src/00_Figures/AFS/medoid_series.csv
