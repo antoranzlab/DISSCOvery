@@ -11,7 +11,7 @@
 [3. Split scenes](#3-split-scenes-)
 
 <pre> 
-04_split_scenes
+06_split_scenes
 ├── MILAN
     ├── 1. generate_scenes_csv.R
     ├── 2. reverse_transformation_list_jobs.R
@@ -28,7 +28,7 @@
 
 ---
 
- **Script:** [generate_scenes_csv.R](src/04_split_scenes/generate_scenes_csv.R) 
+ **Script:** [generate_scenes_csv.R](src/06_split_scenes/generate_scenes_csv.R) 
 
 ### Description
 
@@ -36,7 +36,7 @@ The script generates CSV file that is necessary to run cell phenotyping and assi
 
 ### Arguments
 ```
-Rscript src/04_split_scenes/generate_scenes_csv.R --input_path_bb <path_to_input_bounding_boxes/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/> 
+Rscript src/06_split_scenes/generate_scenes_csv.R --input_path_bb <path_to_input_bounding_boxes/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/> 
 ```
 
 | Argument             | Description                                                                                                                                                                                                                                                     |
@@ -51,7 +51,7 @@ Rscript src/04_split_scenes/generate_scenes_csv.R --input_path_bb <path_to_input
 # 2. Reverse transformation
 
 ---
-**Script:** [reverse_transformation_list_jobs.R](src/04_split_scenes/reverse_transformation_list_jobs.R) 
+**Script:** [reverse_transformation_list_jobs.R](src/06_split_scenes/reverse_transformation_list_jobs.R) 
 
 ### Description
 
@@ -59,7 +59,7 @@ This function lists all the paths for input and output files and generates a csv
 
 ### Arguments
 ```
-Rscript src/04_split_scenes/reverse_transformation_list_jobs.R --input_path_tm <path_to_input_transformation_matrices/> --input_path_masks <path_to_input_foreground_masks/> --input_path_bb <path_to_input_bounding_boxes/> --output_path_masks <path_to_output_foreground_masks/> --output_path_bb <path_to_output_bounding_boxes/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/>
+Rscript src/06_split_scenes/reverse_transformation_list_jobs.R --input_path_tm <path_to_input_transformation_matrices/> --input_path_masks <path_to_input_foreground_masks/> --input_path_bb <path_to_input_bounding_boxes/> --output_path_masks <path_to_output_foreground_masks/> --output_path_bb <path_to_output_bounding_boxes/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/>
 ```
 
 | Argument        | Description                                                                                                                             |
@@ -75,7 +75,7 @@ Rscript src/04_split_scenes/reverse_transformation_list_jobs.R --input_path_tm <
 
 ---
 
-**Script:** [reverse_transformation.py](src/04_split_scenes/reverse_transformation.py) 
+**Script:** [reverse_transformation.py](src/06_split_scenes/reverse_transformation.py) 
 
 ### Description
 
@@ -83,7 +83,7 @@ The script projects the masks and bounding boxes from the reference round to oth
 
 ### Arguments
 ```
-python src/04_split_scenes/reverse_transformation.py --input_path_tm <path_to_input_transformation_matrices/> --input_path_masks <path_to_input_foreground_masks/> --input_path_bb <path_to_input_bounding_boxes/> --output_path_masks <path_to_output_foreground_masks/> --output_path_bb <path_to_output_bounding_boxes/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/>
+python src/06_split_scenes/reverse_transformation.py --input_path_tm <path_to_input_transformation_matrices/> --input_path_masks <path_to_input_foreground_masks/> --input_path_bb <path_to_input_bounding_boxes/> --output_path_masks <path_to_output_foreground_masks/> --output_path_bb <path_to_output_bounding_boxes/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/>
 ```
 
 | Argument        | Description                                                                                                                             |
@@ -97,14 +97,14 @@ python src/04_split_scenes/reverse_transformation.py --input_path_tm <path_to_in
 
 ---
 
-**Script:** [run_reverse_transformation.py](src/04_split_scenes/run_reverse_transformation.py) 
+**Script:** [run_reverse_transformation.py](src/06_split_scenes/run_reverse_transformation.py) 
 
 ### Description
-It orchestrates reverse transformation. It requires the output CSV file of [reverse_transformation_list_jobs.R](src/04_split_scenes/reverse_transformation_list_jobs.R) and [reverse_transformation.py](src/04_split_scenes/reverse_transformation.py) script  as positional arguments
+It orchestrates reverse transformation. It requires the output CSV file of [reverse_transformation_list_jobs.R](src/06_split_scenes/reverse_transformation_list_jobs.R) and [reverse_transformation.py](src/06_split_scenes/reverse_transformation.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/04_split_scenes/run_reverse_transformation.py <csv_path/> src/04_split_scenes/reverse_transformation.py
+python src/06_split_scenes/run_reverse_transformation.py <csv_path/> src/06_split_scenes/reverse_transformation.py
 ```
 
 | Argument                 | Description                                                                                                                         |
@@ -117,7 +117,7 @@ python src/04_split_scenes/run_reverse_transformation.py <csv_path/> src/04_spli
 
 ---
 
-**Script:** [split_scenes_list_jobs.R](src/04_split_scenes/split_scenes_list_jobs.R) 
+**Script:** [split_scenes_list_jobs.R](src/06_split_scenes/split_scenes_list_jobs.R) 
 
 ### Description
 
@@ -125,7 +125,7 @@ This function lists all the paths for input and output files and generates a csv
 
 ### Arguments
 ```
-Rscript src/04_split_scenes/split_scenes_list_jobs.R --input_path_tiles <path_to_input_tiles/> --input_path_meta <path_to_input_metadata/> --input_path_masks_foreground <path_to_input_foreground_masks/> --input_path_bb <path_to_input_bounding_boxes/> --input_path_masks_qc <path_to_input_quality_control_masks/> --output_path_error_log <path_to_output_error_log/> --px_size_sts <pixel_size_used_in_STS/> --px_size_qc <pixel_size_used_in_QC/> --output_path_folder <path_to_output_directory/> --output_path_csv <path_to_output_csv/> --skip_existing <skip_existing_results/>
+Rscript src/06_split_scenes/split_scenes_list_jobs.R --input_path_tiles <path_to_input_tiles/> --input_path_meta <path_to_input_metadata/> --input_path_masks_foreground <path_to_input_foreground_masks/> --input_path_bb <path_to_input_bounding_boxes/> --input_path_masks_qc <path_to_input_quality_control_masks/> --output_path_error_log <path_to_output_error_log/> --px_size_sts <pixel_size_used_in_STS/> --px_size_qc <pixel_size_used_in_QC/> --output_path_folder <path_to_output_directory/> --output_path_csv <path_to_output_csv/> --skip_existing <skip_existing_results/>
 ```
 
 | Argument                      | Description                                                                                                                                 |
@@ -144,7 +144,7 @@ Rscript src/04_split_scenes/split_scenes_list_jobs.R --input_path_tiles <path_to
 
 ---
 
-**Script:** [split_scenes.R](src/04_split_scenes/split_scenes.R) 
+**Script:** [split_scenes.R](src/06_split_scenes/split_scenes.R) 
 
 ### Description
 
@@ -152,7 +152,7 @@ This function generates separate scenes from the original images
 
 ### Arguments
 ```
-Rscript src/04_split_scenes/split_scenes.R --input_path_tiles <path_to_input_tiles/> --input_path_meta <path_to_input_metadata/> --input_path_bb <path_to_input_bounding_boxes/> --input_path_masks_foreground <path_to_input_foreground_masks/> --input_path_masks_qc <path_to_input_quality_control_masks/> --output_path_folder <path_to_output_directory/> --conversion_factor_sts <conversion_factor_sts/> --conversion_factor_qc <conversion_factor_qc/> --channel_id <channel_id/> --skip_existing <skip_existing/>
+Rscript src/06_split_scenes/split_scenes.R --input_path_tiles <path_to_input_tiles/> --input_path_meta <path_to_input_metadata/> --input_path_bb <path_to_input_bounding_boxes/> --input_path_masks_foreground <path_to_input_foreground_masks/> --input_path_masks_qc <path_to_input_quality_control_masks/> --output_path_folder <path_to_output_directory/> --conversion_factor_sts <conversion_factor_sts/> --conversion_factor_qc <conversion_factor_qc/> --channel_id <channel_id/> --skip_existing <skip_existing/>
 ```
 
 | Argument                      | Description                                                                                                     |
@@ -170,15 +170,15 @@ Rscript src/04_split_scenes/split_scenes.R --input_path_tiles <path_to_input_til
 
 ---
 
-**Script:** [run_split_scenes.py](src/04_split_scenes/run_split_scenes.py) 
+**Script:** [run_split_scenes.py](src/06_split_scenes/run_split_scenes.py) 
 
 ### Description
-It orchestrates reverse transformation. It requires the output CSV file of [split_scenes_list_jobs.R](src/04_split_scenes/split_scenes_list_jobs.R) and [split_scenes.R](src/04_split_scenes/split_scenes.R) script  as positional arguments
+It orchestrates reverse transformation. It requires the output CSV file of [split_scenes_list_jobs.R](src/06_split_scenes/split_scenes_list_jobs.R) and [split_scenes.R](src/06_split_scenes/split_scenes.R) script  as positional arguments
 
 ### Arguments
 
 ```
-python src/04_split_scenes/run_split_scenes.py <csv_path/> src/04_split_scenes/split_scenes.R
+python src/06_split_scenes/run_split_scenes.py <csv_path/> src/06_split_scenes/split_scenes.R
 ```
 
 | Argument                 | Description                                                                                                                         |
