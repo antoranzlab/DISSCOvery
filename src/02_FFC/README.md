@@ -14,7 +14,7 @@
 
 [5. FFC metadata](#5-ffc-metadata)
 
-<pre> 04_FFC 
+<pre> 02_FFC 
 ├── MILAN
     ├── 1. FFC_list_jobs.R
     │   ├── 1.1 01_hard_stitching*
@@ -69,14 +69,14 @@ The method from Kask et al requires providing input masks. These can be calculat
 If a technology/channel is not included in the list, BASIC is applied as default. 
 
 ---
-**Script:** [FFC_list_jobs.R](src/04_FFC/FFC_list_jobs.R) 
+**Script:** [FFC_list_jobs.R](src/02_FFC/FFC_list_jobs.R) 
 
 ### Description
 This script lists all the folders in the input directory and generates a csv with the list of jobs that have to be run for FFC. 
 
 ### Arguments
 ```
-Rscript base_path/FFC_list_jobs.R --input_path_tiles <path_to_tiles/> --input_path_meta <path_to_input_metadata/> --input_path_masks <path_to_input_masks/> --mask_pixel_size <px_size_masks/> --input_method_dictionary <path_to_input_csv_with_dictionary/> --acquisition_technology <acquisition_technology/> --output_folder_corr <path_to_output_corrected/> --output_folder_templates <path_to_output_templates/> --output_csv <path_to_output_path_csv/> --output_path_csv_metadata <path_to_output_csv_for_metadata/> 
+Rscript src/02_FFC//FFC_list_jobs.R --input_path_tiles <path_to_tiles/> --input_path_meta <path_to_input_metadata/> --input_path_masks <path_to_input_masks/> --mask_pixel_size <px_size_masks/> --input_method_dictionary <path_to_input_csv_with_dictionary/> --acquisition_technology <acquisition_technology/> --output_folder_corr <path_to_output_corrected/> --output_folder_templates <path_to_output_templates/> --output_csv <path_to_output_path_csv/> --output_path_csv_metadata <path_to_output_csv_for_metadata/> 
 ```
 
 | Argument                   | Description                                                                                                                                                                             |
@@ -85,7 +85,7 @@ Rscript base_path/FFC_list_jobs.R --input_path_tiles <path_to_tiles/> --input_pa
 | `input_path_meta`          | Path to the parent directory where the metadata is stored (dir). Usually the same folder as the input_path_tiles. Example: `/path/to/project_directory/output_tiles_tiffs`.             |
 | `input_path_masks`         | Path to the parent directory where the masks will be stored (dir). Example: `/path/to/project_directory/output_STS/output_masks` or `/path/to/project_directory/output_FFC_kask_masks`. |
 | `mask_pixel_size`          | Pixel size used for the masks (numeric). Example: `2.6`.                                                                                                                                |
-| `input_method_dictionary`  | Path to the CSV with the dictionary containing FFC method per technology/channel (.csv). Example: `04_FFC/technology_channel_method_dictionary.csv`.                                    |
+| `input_method_dictionary`  | Path to the CSV with the dictionary containing FFC method per technology/channel (.csv). Example: `02_FFC/technology_channel_method_dictionary.csv`.                                    |
 | `acquisition_technology`   | Used technology (str). Example: `MILAN`.                                                                                                                                                |
 | `output_folder_corr`       | Path to the folder where the FFC tiles will be stored (dir). Example: `/path/to/project_directory/output_FFC_corrected`.                                                                |
 | `output_folder_templates`  | Path to the folder where the FFC templates will be stored (dir). Example: `/path/to/project_directory/output_FFC_templates`.                                                            |
@@ -98,7 +98,7 @@ Rscript base_path/FFC_list_jobs.R --input_path_tiles <path_to_tiles/> --input_pa
 
 ---
 
-**Script:** [FFC_BaSiC.py](src/04_FFC/FFC_BaSiC.py)  
+**Script:** [FFC_BaSiC.py](src/02_FFC/FFC_BaSiC.py)  
 
 ### Description
 This function performs FFC using BaSiC method. It takes as an input a path to a folder with tiles and returns the same tiles without vignetting effect. It also creates QC plots. 
@@ -109,7 +109,7 @@ Therefore, it needs its own python environment. It is compatible with GPU accele
 ### Arguments
 
 ```
-python src/04_FFC/04_FFC_BaSiC.py --in_path <path_to_raw_tiles/> --channel <channel_id/> --out_path_corr <path_to_output_directory/> --out_path_templates <path_to_output_qc_directory/> 
+python src/02_FFC/02_FFC_BaSiC.py --in_path <path_to_raw_tiles/> --channel <channel_id/> --out_path_corr <path_to_output_directory/> --out_path_templates <path_to_output_qc_directory/> 
 ```
 
 | Argument               | Description                                                                                                                                                           |
@@ -121,14 +121,14 @@ python src/04_FFC/04_FFC_BaSiC.py --in_path <path_to_raw_tiles/> --channel <chan
 
 ---
 
-**Script:** [run_ffc_basic.py](src/04_FFC/run_ffc_basic.py)
+**Script:** [run_ffc_basic.py](src/02_FFC/run_ffc_basic.py)
 
 ### Description
-It orchestrates BaSiC FFC. It requires the output CSV file of [FFC_list_jobs.R ](src/04_FFC/FFC_list_jobs.R) and [FFC_BaSiC.py](src/04_FFC/FFC_BaSiC.py) script  as positional arguments
+It orchestrates BaSiC FFC. It requires the output CSV file of [FFC_list_jobs.R ](src/02_FFC/FFC_list_jobs.R) and [FFC_BaSiC.py](src/02_FFC/FFC_BaSiC.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/04_FFC/run_ffc_basic.py <path_to_output_csv_joblist/> src/04_FFC/FFC_BaSiC.py
+python src/02_FFC/run_ffc_basic.py <path_to_output_csv_joblist/> src/02_FFC/FFC_BaSiC.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -146,21 +146,21 @@ Therefore, first the course stitching and tissue masks have to be generated.
 **File preparation:**
 
  - Step 1: Coarse stitching
-   - [hard_stitching_list_jobs.R](src/01_hard_stitching/hard_stitching_list_jobs.R) 
-   - [hard_stitching.py](src/01_hard_stitching/hard_stitching.py)
+   - [hard_stitching_list_jobs.R](src/03_hard_stitching/hard_stitching_list_jobs.R) 
+   - [hard_stitching.py](src/03_hard_stitching/hard_stitching.py)
    
  - Step 2: Mask generation
-   - [mask_generation_list_jobs.R](src/02_STS/mask_generation_list_jobs.R) 
-   - [STS_generate_mask.py](src/02_STS/STS_generate_mask.py)
+   - [mask_generation_list_jobs.R](src/04_STS/mask_generation_list_jobs.R) 
+   - [STS_generate_mask.py](src/04_STS/STS_generate_mask.py)
 
 **Main script:** 
 
-[FFC_Kask.py](src/04_FFC/FFC_Kask.py)
+[FFC_Kask.py](src/02_FFC/FFC_Kask.py)
 
 ### Arguments for main script
 
 ```
-python src/04_FFC/FFC_Kask.py --input_images <path_to_tiles/> --input_metadata <path_to_metadata/> --input_mask <path_to_mask/> --pixel_size <pixel_size_in_mask/> --channel <channel_identifier/> --output_path_corrected_tiles <path_to_corrected_tiles/> --output_path_templates <path_to_templates/> --n_cores <number_of_cores/> --skip_existing <skip_existing_results/> 
+python src/02_FFC/FFC_Kask.py --input_images <path_to_tiles/> --input_metadata <path_to_metadata/> --input_mask <path_to_mask/> --pixel_size <pixel_size_in_mask/> --channel <channel_identifier/> --output_path_corrected_tiles <path_to_corrected_tiles/> --output_path_templates <path_to_templates/> --n_cores <number_of_cores/> --skip_existing <skip_existing_results/> 
 ```
 
 | Argument                    | Description                                                                                                                                                                |
@@ -177,14 +177,14 @@ python src/04_FFC/FFC_Kask.py --input_images <path_to_tiles/> --input_metadata <
 
 ---
 
-**Script:** [run_ffc_kask.py](src/04_FFC/run_ffc_kask.py)
+**Script:** [run_ffc_kask.py](src/02_FFC/run_ffc_kask.py)
 
 ### Description
-It orchestrates Kask FFC. It requires the output CSV file of [FFC_list_jobs.R](src/04_FFC/FFC_list_jobs.R) and [FFC_Kask.py](src/04_FFC/FFC_Kask.py) script  as positional arguments
+It orchestrates Kask FFC. It requires the output CSV file of [FFC_list_jobs.R](src/02_FFC/FFC_list_jobs.R) and [FFC_Kask.py](src/02_FFC/FFC_Kask.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/04_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> src/04_FFC/FFC_Kask.py
+python src/02_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> src/02_FFC/FFC_Kask.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -195,7 +195,7 @@ python src/04_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> src/04_FFC/FFC_K
 
 
 # 4. FFC Raw
-**Script:** [FFC_raw.py](src/04_FFC/FFC_raw.py) 
+**Script:** [FFC_raw.py](src/02_FFC/FFC_raw.py) 
 
 ### Description
 This function copies the raw tiles to the output folder
@@ -203,7 +203,7 @@ This function copies the raw tiles to the output folder
 ### Arguments
 
 ```
-python src/04_FFC/FFC_raw.py --input_images <path_to_tiles/> --channel <channel_identifier/> --output_path_corrected_tiles <path_to_corrected_tiles/> --skip_existing <skip_existing_results/> 
+python src/02_FFC/FFC_raw.py --input_images <path_to_tiles/> --channel <channel_identifier/> --output_path_corrected_tiles <path_to_corrected_tiles/> --skip_existing <skip_existing_results/> 
 ```
 
 | Argument                | Description                                                                                                                                      |
@@ -214,14 +214,14 @@ python src/04_FFC/FFC_raw.py --input_images <path_to_tiles/> --channel <channel_
 | `skip_existing`         | Whether to skip already existing results (boolean). For example: `False`.                                                                        |
 
 ---
-**Script:** [run_ffc_raw.py](src/04_FFC/run_ffc_raw.py)
+**Script:** [run_ffc_raw.py](src/02_FFC/run_ffc_raw.py)
 
 ### Description
-It orchestrates FFC raw. It requires the output CSV file of [FFC_list_jobs.R](src/04_FFC/FFC_list_jobs.R) and [FFC_raw.py](src/04_FFC/FFC_raw.py) script  as positional arguments
+It orchestrates FFC raw. It requires the output CSV file of [FFC_list_jobs.R](src/02_FFC/FFC_list_jobs.R) and [FFC_raw.py](src/02_FFC/FFC_raw.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/04_FFC/run_ffc_raw.py <path_to_output_csv_joblist/> src/04_FFC/FFC_raw.py
+python src/02_FFC/run_ffc_raw.py <path_to_output_csv_joblist/> src/02_FFC/FFC_raw.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -231,7 +231,7 @@ python src/04_FFC/run_ffc_raw.py <path_to_output_csv_joblist/> src/04_FFC/FFC_ra
 ---
 
 # 5. FFC metadata
-**Script:** [FFC_metadata.py](src/04_FFC/FFC_metadata.py)
+**Script:** [FFC_metadata.py](src/02_FFC/FFC_metadata.py)
 
 ### Description
 This function copies the metadata from the raw tiles to the output folders.
@@ -239,7 +239,7 @@ This function copies the metadata from the raw tiles to the output folders.
 ### Arguments
 
 ```
-python src/04_FFC/FFC_metadata.py --input_metadata <path_to_input_metadata/> --output_metadata <path_to_output_metadata/> 
+python src/02_FFC/FFC_metadata.py --input_metadata <path_to_input_metadata/> --output_metadata <path_to_output_metadata/> 
 ```
 
 | Argument         | Description                                                                                                                                               |
@@ -248,14 +248,14 @@ python src/04_FFC/FFC_metadata.py --input_metadata <path_to_input_metadata/> --o
 | `output_metadata`| Path to the output CSV file with the metadata. For example: `path/to/project_directory/output_FFC_corrected/BM_R00_V01_BENCHMARK_ND/BM_R00_V01_BENCHMARK_ND.csv`.      |
 
 ---
-**Script:** [run_ffc_metadata.py](src/04_FFC/run_ffc_metadata.py)
+**Script:** [run_ffc_metadata.py](src/02_FFC/run_ffc_metadata.py)
 
 ### Description
-It orchestrates copying the metadata after FFC. It requires the output CSV file of [FFC_job_list_metadata.csv](src/04_FFC/FFC_job_list_metadata.csv) and [FFC_metadata.py](src/04_FFC/FFC_metadata.py) script  as positional arguments
+It orchestrates copying the metadata after FFC. It requires the output CSV file of [FFC_job_list_metadata.csv](src/02_FFC/FFC_job_list_metadata.csv) and [FFC_metadata.py](src/02_FFC/FFC_metadata.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/04_FFC/run_ffc_metadata.py <path_to_output_csv_joblist/> src/04_FFC/FFC_metadata.py
+python src/02_FFC/run_ffc_metadata.py <path_to_output_csv_joblist/> src/02_FFC/FFC_metadata.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|

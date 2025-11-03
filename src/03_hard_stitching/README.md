@@ -3,7 +3,7 @@
 ---
 
 <pre> 
-01_hard_stitching 
+03_hard_stitching 
 ├── MILAN
     ├── 1. hard_stitching_list_jobs.R
     └── 2. run_hs.py
@@ -13,7 +13,7 @@
 
 ----
 
- **Script:** [hard_stitching_list_jobs.R](src/01_hard_stitching/hard_stitching_list_jobs.R) 
+ **Script:** [hard_stitching_list_jobs.R](src/03_hard_stitching/hard_stitching_list_jobs.R) 
 
 ### Description
 This script generates coarse stitched images from the individual tiles. 
@@ -21,7 +21,7 @@ This coarse stitched image is used for Smart Tissue Detection (STS), Qual-IF-AI,
 
 ### Arguments
 ```
-Rscript src/01_hard_stitching/01_hard_stitching_list_jobs.R --input_path_tiles <path_to_tiles/> --input_path_meta <path_to_metadata/> --output_folder <path_to_output_images/> --output_path_csv <path_to_output_csv/> --output_pixel_size <pixel_size_output_images/> --_skip_existing <skip_existing/> --only_dapi <do_only_dapi/> 
+Rscript src/03_hard_stitching/03_hard_stitching_list_jobs.R --input_path_tiles <path_to_tiles/> --input_path_meta <path_to_metadata/> --output_folder <path_to_output_images/> --output_path_csv <path_to_output_csv/> --output_pixel_size <pixel_size_output_images/> --_skip_existing <skip_existing/> --only_dapi <do_only_dapi/> 
 ```
 | Argument             | Description                                                                                                                                                                                                                                                      |
 |----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -35,14 +35,14 @@ Rscript src/01_hard_stitching/01_hard_stitching_list_jobs.R --input_path_tiles <
 
 ---
 
-**Script:** [hard_stitching.py](src/01_hard_stitching/hard_stitching.py) 
+**Script:** [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) 
 
 ### Description
 This function generates a hard stitched image.
 
 ### Arguments
 ```
-python src/01_hard_stitching/hard_stitching.py --input_tiles <path_to_tiles/> --input_metadata <path_to_metadata/> --output_folder <path_to_output/> --conversion_factor <conversion_factor/> --skip_existing <skip_existing/> --only_dapi <do_only_dapi/> 
+python src/03_hard_stitching/hard_stitching.py --input_tiles <path_to_tiles/> --input_metadata <path_to_metadata/> --output_folder <path_to_output/> --conversion_factor <conversion_factor/> --skip_existing <skip_existing/> --only_dapi <do_only_dapi/> 
 ```
 
 | Argument           | Description                                                                                                                                                                                                                                                   |
@@ -56,15 +56,15 @@ python src/01_hard_stitching/hard_stitching.py --input_tiles <path_to_tiles/> --
 
 ---
 
-**Script:** [run_hs.py](src/01_hard_stitching/run_hs.py) 
+**Script:** [run_hs.py](src/03_hard_stitching/run_hs.py) 
 
 ### Description
-It orchestrates coarse stitching. It requires the output CSV file of [hard_stitching_list_jobs.R](src/01_hard_stitching/hard_stitching_list_jobs.R) and [hard_stitching.py](src/01_hard_stitching/hard_stitching.py) script  as positional arguments
+It orchestrates coarse stitching. It requires the output CSV file of [hard_stitching_list_jobs.R](src/03_hard_stitching/hard_stitching_list_jobs.R) and [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) script  as positional arguments
 
 
 ### Arguments
 ```
-python src/01_hard_stitching/run_hs.py <csv_path/> src/01_hard_stitching/hard_stitching.py
+python src/03_hard_stitching/run_hs.py <csv_path/> src/03_hard_stitching/hard_stitching.py
 ```
 
 | Argument                 | Description                                                                                                                          |
