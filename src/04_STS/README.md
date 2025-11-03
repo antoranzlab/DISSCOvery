@@ -13,7 +13,7 @@
 [4. Evaluate concordance](#4-evaluate-concordance-)
 
 <pre> 
-02_STS 
+04_STS 
 ├── MILAN
     ├── 1. coarse_registration_list_jobs.R
     ├── 2. run_sts_coarse_reg.py
@@ -36,14 +36,14 @@
 
 ---
 
-**Script:** [coarse_registration_list_jobs.R](src/02_STS/coarse_registration_list_jobs.R)
+**Script:** [coarse_registration_list_jobs.R](src/04_STS/coarse_registration_list_jobs.R)
 
 
 ### Description
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Coarse Registration.
 ### Arguments
 ```
-Rscript src/02_STS/coarse_registration_list_jobs.R --input_path_images <path_to_hard_stitching_images/> --output_path_images <path_to_output_images/> --output_path_tm <path_to_output_transformation_matrices/> --ref_channel <reference_channel/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/>  
+Rscript src/04_STS/coarse_registration_list_jobs.R --input_path_images <path_to_hard_stitching_images/> --output_path_images <path_to_output_images/> --output_path_tm <path_to_output_transformation_matrices/> --ref_channel <reference_channel/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/>  
 ```
 | Argument           | Description                                                                                                                            |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------------------|
@@ -57,7 +57,7 @@ Rscript src/02_STS/coarse_registration_list_jobs.R --input_path_images <path_to_
 
 ---
 
-**Script:** [STS_coarse_registration_imreg.py](src/02_STS/STS_coarse_registration_imreg.py)
+**Script:** [STS_coarse_registration_imreg.py](src/04_STS/STS_coarse_registration_imreg.py)
 
 ### Description
 The script performs coarse registration with Imreg. 
@@ -65,7 +65,7 @@ The script performs coarse registration with Imreg.
 
 ### Arguments
 ```
-python src/02_STS/STS_coarse_registration_imreg.py --path_fixed_image <path_to_fixed_image/> --path_query_image <path_to_query_image/> --path_query_registered <path_to_output_registered_image/> --path_transformation_matrix <path_to_transformation_matrix/>
+python src/04_STS/STS_coarse_registration_imreg.py --path_fixed_image <path_to_fixed_image/> --path_query_image <path_to_query_image/> --path_query_registered <path_to_output_registered_image/> --path_transformation_matrix <path_to_transformation_matrix/>
 ```
 
 | Argument                  | Description                                                                                                          |
@@ -77,15 +77,15 @@ python src/02_STS/STS_coarse_registration_imreg.py --path_fixed_image <path_to_f
 
 ---
 
-**Script:** [run_sts_coarse_reg.py](src/02_STS/run_sts_coarse_reg.py) 
+**Script:** [run_sts_coarse_reg.py](src/04_STS/run_sts_coarse_reg.py) 
 
 ### Description
-It orchestrates coarse stitching. It requires the output CSV file of [coarse_registration_list_jobs.R](src/02_STS/coarse_registration_list_jobs.R) and [STS_coarse_registration_imreg.py](src/02_STS/STS_coarse_registration_imreg.py) script  as positional arguments
+It orchestrates coarse stitching. It requires the output CSV file of [coarse_registration_list_jobs.R](src/04_STS/coarse_registration_list_jobs.R) and [STS_coarse_registration_imreg.py](src/04_STS/STS_coarse_registration_imreg.py) script  as positional arguments
 
 
 ### Arguments
 ```
-python src/02_STS/run_sts_coarse_reg.py <csv_path/> src/02_STS/STS_coarse_registration_imreg.py
+python src/04_STS/run_sts_coarse_reg.py <csv_path/> src/04_STS/STS_coarse_registration_imreg.py
 ```
 
 | Argument                 | Description                                                                                                                          |
@@ -99,7 +99,7 @@ python src/02_STS/run_sts_coarse_reg.py <csv_path/> src/02_STS/STS_coarse_regist
 
 ---
 
-**Script:** [mask_generation_list_jobs.R](src/02_STS/mask_generation_list_jobs.R)
+**Script:** [mask_generation_list_jobs.R](src/04_STS/mask_generation_list_jobs.R)
 
 ### Description
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Mask Generation.
@@ -107,46 +107,46 @@ This function lists all the paths for input and output files and generates a csv
 ### Arguments
 
 ```
-Rscript src/02_STS/mask_generation_list_jobs.R --input_path_images <path_to_hard_registered_images/> --output_path_images <path_to_output_masks/> --path_model <path_to_model/> --output_path_csv <path_to_output_csv/> --ref_channel <reference_channel/> 
+Rscript src/04_STS/mask_generation_list_jobs.R --input_path_images <path_to_hard_registered_images/> --output_path_images <path_to_output_masks/> --path_model <path_to_model/> --output_path_csv <path_to_output_csv/> --ref_channel <reference_channel/> 
 ```
 
 | Argument            | Description                                                                                                                                                                                                                   |
 |---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_path_images` | Path to the registered hard stitching images directory (dir). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images` (for STS) or  `/path/to/project_directory/hard_stitching_FFC` (for FFC Kask) |
 | `output_path_images` | Path to the output masks directory (dir). Example: `/path/to/project_directory/output_STS/output_masks` (for STS) or `/path/to/project_directory/output_FFC_kask_masks ` (for FFC Kask)                                       |
-| `path_model`        | Path to the segmentation model file (`.h5`). Example: `models/02_uNet_simple_best.h5`                                                                                                                                     |
+| `path_model`        | Path to the segmentation model file (`.h5`). Example: `models/04_uNet_simple_best.h5`                                                                                                                                         |
 | `output_path_csv`   | Path to the output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/generate_mask_job_list.csv` (for STS) or `/path/to/project_directory/generate_mask_job_list_ffc.csv` (for FFC Kask)  |
 | `ref_channel`       | Reference channel (string). Example: `DAPI`                                                                                                                                                                                   |
 
 
 ---
 
-**Script:** [STS_generate_mask.py](src/02_STS/STS_generate_mask.py)
+**Script:** [STS_generate_mask.py](src/04_STS/STS_generate_mask.py)
 
 ### Description
 The script creates tissue masks. 
 
 ### Arguments
 ```
-python src/02_STS/STS_generate_mask.py --input_image_path <path_to_registered_hard_stitching/> -- output_image_path <path_to_output_mask/> --model_path <path_to_pretrained_model/> 
+python src/04_STS/STS_generate_mask.py --input_image_path <path_to_registered_hard_stitching/> -- output_image_path <path_to_output_mask/> --model_path <path_to_pretrained_model/> 
 ```
 | Argument           | Description                                                                                                                                                                                                     |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_image_path`  | Full path to the image file where the registered hard stitched image is stored (.tiff). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images/BM/BM_R00_V01_BENCHMARK_ND_DAPI.tiff` |
 | `output_image_path` | Full path to the output file where the mask will be stored (.tiff). Example: `/path/to/project_directory/output_STS/output_masks/BM/BM_R00_V01_BENCHMARK_ND_DAPI.tiff`                                          |
-| `model_path`        | Path to the output directory where the AI model is saved (.h5). Example: `models/02_uNet_simple_best.h5`                                                                                |
+| `model_path`        | Path to the output directory where the AI model is saved (.h5). Example: `models/04_uNet_simple_best.h5`                                                                                                        |
 
 ---
 
-**Script:** [run_STS_mask.py](src/02_STS/run_STS_mask.py) 
+**Script:** [run_STS_mask.py](src/04_STS/run_STS_mask.py) 
 
 ### Description
-It orchestrates coarse stitching. It requires the output CSV file of [mask_generation_list_jobs.R](src/02_STS/mask_generation_list_jobs.R) and [STS_generate_mask.py](src/02_STS/STS_generate_mask.py) script  as positional arguments
+It orchestrates coarse stitching. It requires the output CSV file of [mask_generation_list_jobs.R](src/04_STS/mask_generation_list_jobs.R) and [STS_generate_mask.py](src/04_STS/STS_generate_mask.py) script  as positional arguments
 
 
 ### Arguments
 ```
-python src/02_STS/run_STS_mask.py <csv_path/> src/02_STS/STS_generate_mask.py
+python src/04_STS/run_STS_mask.py <csv_path/> src/04_STS/STS_generate_mask.py
 ```
 
 | Argument                 | Description                                                                                                                          |
@@ -160,7 +160,7 @@ python src/02_STS/run_STS_mask.py <csv_path/> src/02_STS/STS_generate_mask.py
 
 ---
 
-**Script:** [02_STS/BB_estimation_list_jobs.R](src/02_STS/BB_estimation_list_jobs.R) 
+**Script:** [04_STS/BB_estimation_list_jobs.R](src/04_STS/BB_estimation_list_jobs.R) 
 
 ### Description
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Bounding Boxes Estimation.
@@ -169,7 +169,7 @@ This function lists all the paths for input and output files and generates a csv
 ### Arguments
 
 ```
-Rscript src/02_STS/BB_estimation_list_jobs.R --input_path_images <path_to_STS_masks/> --output_path_bbs <path_to_output_bbs/> --filter_small <filter_small_objects/> --output_path_csv <path_to_output_csv/>
+Rscript src/04_STS/BB_estimation_list_jobs.R --input_path_images <path_to_STS_masks/> --output_path_bbs <path_to_output_bbs/> --filter_small <filter_small_objects/> --output_path_csv <path_to_output_csv/>
 ```
 
 | Argument          | Description                                                                                                                                                                                |
@@ -181,7 +181,7 @@ Rscript src/02_STS/BB_estimation_list_jobs.R --input_path_images <path_to_STS_ma
 
 ---
 
-**Script:** [02_STS/STS_generate_BB.py](src/02_STS/STS_generate_BB.py) 
+**Script:** [04_STS/STS_generate_BB.py](src/04_STS/STS_generate_BB.py) 
 
 ### Description
 The script creates csv files that contains bounding boxes coordinates for each scene
@@ -189,7 +189,7 @@ The script creates csv files that contains bounding boxes coordinates for each s
 ### Arguments
 
 ```
-python src/02_STS/STS_generate_BB.py --input_image_path <path_to_mask/> --bbox_tile_path <path_to_output_BB_csv/> --filter_small <filter_small_annotations/> 
+python src/04_STS/STS_generate_BB.py --input_image_path <path_to_mask/> --bbox_tile_path <path_to_output_BB_csv/> --filter_small <filter_small_annotations/> 
 ```
 | Argument           | Description                                                                                                                                                           |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -200,15 +200,15 @@ python src/02_STS/STS_generate_BB.py --input_image_path <path_to_mask/> --bbox_t
 
 ---
 
-**Script:** [run_STS_BB.py](src/02_STS/run_STS_BB.py) 
+**Script:** [run_STS_BB.py](src/04_STS/run_STS_BB.py) 
 
 ### Description
-It orchestrates Bound Boxes estimation. It requires the output CSV file of [BB_estimation_list_jobs.R](src/02_STS/BB_estimation_list_jobs.R) and [STS_generate_BB.py](src/02_STS/STS_generate_BB.py) script  as positional arguments
+It orchestrates Bound Boxes estimation. It requires the output CSV file of [BB_estimation_list_jobs.R](src/04_STS/BB_estimation_list_jobs.R) and [STS_generate_BB.py](src/04_STS/STS_generate_BB.py) script  as positional arguments
 
 
 ### Arguments
 ```
-python src/02_STS/run_STS_BB.py <csv_path/> src/02_STS/STS_generate_BB.py
+python src/04_STS/run_STS_BB.py <csv_path/> src/04_STS/STS_generate_BB.py
 ```
 
 | Argument                 | Description                                                                                                                          |
@@ -222,14 +222,14 @@ python src/02_STS/run_STS_BB.py <csv_path/> src/02_STS/STS_generate_BB.py
 
 ---
 
-**Script:** [02_STS/bb_concordance_list_jobs.R](src/02_STS/bb_concordance_list_jobs.R) 
+**Script:** [04_STS/bb_concordance_list_jobs.R](src/04_STS/bb_concordance_list_jobs.R) 
 
 
 ### Description
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for concordance evaluation 
 
 ```
-Rscript src/02_STS/bb_concordance_list_jobs.R --input_path_BB <path_to_BB/> --output_path_html <path_to_heatmap/> --output_path_json <path_to_json/> --ref_round <reference_round/> --ref_version <reference_version/> --path_output_csv <path_to_job_list/>
+Rscript src/04_STS/bb_concordance_list_jobs.R --input_path_BB <path_to_BB/> --output_path_html <path_to_heatmap/> --output_path_json <path_to_json/> --ref_round <reference_round/> --ref_version <reference_version/> --path_output_csv <path_to_job_list/>
 ```
 
 ### Arguments 
@@ -245,13 +245,13 @@ Rscript src/02_STS/bb_concordance_list_jobs.R --input_path_BB <path_to_BB/> --ou
 
 ---
 
-**Script:** [02_STS/STS_evaluate_concordance.R](src/02_STS/STS_evaluate_concordance.R)
+**Script:** [04_STS/STS_evaluate_concordance.R](src/04_STS/STS_evaluate_concordance.R)
 
 ### Description
 This script performs concordance evaluation. 
 
 ```
-Rscript src/02_STS/bb_concordance_list_jobs.R --input_path_BB <path_to_BB/> --output_heatmap_path_html <path_to_heatmap/> --output_heatmap_path_json <path_to_json/> --reference_round <reference_round/> --reference_version <reference_version/> --path_output_csv <path_to_job_list/>
+Rscript src/04_STS/bb_concordance_list_jobs.R --input_path_BB <path_to_BB/> --output_heatmap_path_html <path_to_heatmap/> --output_heatmap_path_json <path_to_json/> --reference_round <reference_round/> --reference_version <reference_version/> --path_output_csv <path_to_job_list/>
 ```
 
 ### Arguments 
@@ -266,15 +266,15 @@ Rscript src/02_STS/bb_concordance_list_jobs.R --input_path_BB <path_to_BB/> --ou
 
 ---
 
-**Script:** [run_STS_concordance.py](src/02_STS/run_STS_concordance.py) 
+**Script:** [run_STS_concordance.py](src/04_STS/run_STS_concordance.py) 
 
 ### Description
-It orchestrates coarse stitching. It requires the output CSV file of [bb_concordance_list_jobs.R](src/02_STS/bb_concordance_list_jobs.R) and [STS_evaluate_concordance.R](src/02_STS/STS_evaluate_concordance.R) script  as positional arguments
+It orchestrates coarse stitching. It requires the output CSV file of [bb_concordance_list_jobs.R](src/04_STS/bb_concordance_list_jobs.R) and [STS_evaluate_concordance.R](src/04_STS/STS_evaluate_concordance.R) script  as positional arguments
 
 
 ### Arguments
 ```
-python src/02_STS/run_STS_mask.py <csv_path/> src/02_STS/STS_evaluate_concordance.R
+python src/04_STS/run_STS_mask.py <csv_path/> src/04_STS/STS_evaluate_concordance.R
 ```
 
 | Argument                 | Description                                                                                                                         |
