@@ -25,7 +25,7 @@
 [3. Data parsing](#3-data-parsing-2)
 
 <pre> 
-00_file_parser 
+01_file_parser 
 ├── MILAN
 │   ├── 1. czi_files_qc.py
 │   ├── 2. czi_extract_channel_metadata.py
@@ -61,7 +61,7 @@
 ## 1. Raw tiles QC
 
 ---
- **Script:** [czi_files_qc.py](src/00_file_parser/czi_files_qc.py)
+ **Script:** [czi_files_qc.py](src/01_file_parser/czi_files_qc.py)
 
 
 ### Description
@@ -79,13 +79,13 @@ The script ensures the correctness of the input data. It checks if:
 
 ### Arguments
 ```
-python src/00_file_parser/czi_files_qc.py --directory <directory> --output_txt <output_txt>
+python src/01_file_parser/czi_files_qc.py --directory <directory> --output_txt <output_txt>
 ```
 
-| Argument       | Description                                                                                                           |
-|----------------|-----------------------------------------------------------------------------------------------------------------------|
-| `--directory`  | Path to the parent directory where the raw czi files are stored (dir). Example: `/path/to/czi_data_files_folder`      |
-| `--output_txt` | Path to the output txt where the QC file will be stored (.txt). Example: `/path/to/project_directory/czi_qc_file.txt` |
+| Argument     | Description                                                                                                           |
+|--------------|-----------------------------------------------------------------------------------------------------------------------|
+| `directory`  | Path to the parent directory where the raw czi files are stored (dir). Example: `/path/to/czi_data_files_folder`      |
+| `output_txt` | Path to the output txt where the QC file will be stored (.txt). Example: `/path/to/project_directory/czi_qc_file.txt` |
 
 
 ### Output
@@ -112,13 +112,13 @@ Check3 - File tabulation mismatch: /benchmarking_MILAN/R06/file_name.czi
 
 ---
 
- **Script:** [czi_extract_channel_metadata.py](src/00_file_parser/czi_extract_channel_metadata.py)
+ **Script:** [czi_extract_channel_metadata.py](src/01_file_parser/czi_extract_channel_metadata.py)
 
 ### Description
 This function reads all the .czi files in the input directory (folder and subfolders) and generates a map from channel numbers (C0, C1, C2, etc.) to channel names (DAPI, FITC, AF, etc.). 
 ### Arguments
 ```
-python src/00_file_parser/czi_extract_channel_metadata.py --directory <path_to_czis/> --output_csv_channels <path_to_output_csv/> --output_csv_slides <path_to_output_csv_slides/>
+python src/01_file_parser/czi_extract_channel_metadata.py --directory <path_to_czis/> --output_csv_channels <path_to_output_csv/> --output_csv_slides <path_to_output_csv_slides/>
 ```
 | Argument              | Description                                                                                                                                             |
 |-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -146,14 +146,14 @@ Output_csv_slides has the following columns:
 
 ---
 
- **Script:** [czi_generate_csv_joblist.R](src/00_file_parser/czi_generate_csv_joblist.R)
+ **Script:** [czi_generate_csv_joblist.R](src/01_file_parser/czi_generate_csv_joblist.R)
 
 ### Description
 Czi files are processed to extract individual tiles and the corresponding metadata. 
 `czi_generate_csv_joblist.R` lists all the czi files in the project’s folder and generates a csv file listing all the jobs that need to be run in the next step. 
 ### Arguments
 ```
-Rscript src/00_file_parser/czi_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.input.channel.dictionary <path_to_input_channel_dictionary/> --path.output.folder <path_to_output_tiles/> --path.output.csv <path_to_output_csv_joblist/>
+Rscript src/01_file_parser/czi_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.input.channel.dictionary <path_to_input_channel_dictionary/> --path.output.folder <path_to_output_tiles/> --path.output.csv <path_to_output_csv_joblist/>
 ```
 
 | Argument                  | Description                                                                                                                                                      |
@@ -166,7 +166,7 @@ Rscript src/00_file_parser/czi_generate_csv_joblist.R --path.input.folder <path_
 
 ---
 
- **Script:** [czi_reader.py](src/00_file_parser/czi_reader.py)
+ **Script:** [czi_reader.py](src/01_file_parser/czi_reader.py)
 
 
 ### Description
@@ -174,7 +174,7 @@ Rscript src/00_file_parser/czi_generate_csv_joblist.R --path.input.folder <path_
 
 ### Arguments
 ```
-Rscript src/00_file_parser/czi_generate_csv_joblist.R --imfilename <path_to_input_data/> --channel_names_dictionary <path_to_channel_dictionary/> --output_folder <path_to_output_tiles/> 
+Rscript src/01_file_parser/czi_generate_csv_joblist.R --imfilename <path_to_input_data/> --channel_names_dictionary <path_to_channel_dictionary/> --output_folder <path_to_output_tiles/> 
 ```
 | Argument        | Description                                                                                                                                                      |
 |-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -185,14 +185,14 @@ Rscript src/00_file_parser/czi_generate_csv_joblist.R --imfilename <path_to_inpu
 
 ---
 
-**Script:** [run_czi_extraction.py](src/00_file_parser/run_czi_extraction.py)
+**Script:** [run_czi_extraction.py](src/01_file_parser/run_czi_extraction.py)
 
 ### Description
-It orchestrates the data parsing. It requires the output CSV file of [czi_generate_csv_joblist.R](src/00_file_parser/czi_generate_csv_joblist.R) and [czi_reader.py](src/00_file_parser/czi_reader.py) script  as positional arguments
+It orchestrates the data parsing. It requires the output CSV file of [czi_generate_csv_joblist.R](src/01_file_parser/czi_generate_csv_joblist.R) and [czi_reader.py](src/01_file_parser/czi_reader.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/00_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> czi_reader.py
+python src/01_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> czi_reader.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -208,7 +208,7 @@ python src/00_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> cz
 ## 1. Tiles QC
 
 ---
- **Script:** [comet_files_qc_processed.R](src/00_file_parser/comet_files_qc_processed.R)
+ **Script:** [comet_files_qc_processed.R](src/01_file_parser/comet_files_qc_processed.R)
 
 
 ### Description
@@ -226,7 +226,7 @@ The script ensures the correctness of the input data. It checks if:
 
 ### Arguments
 ```
-Rscript src/00_file_parser/comet_files_qc_processed.R --input_path <directory> --output_txt <output_txt>
+Rscript src/01_file_parser/comet_files_qc_processed.R --input_path <directory> --output_txt <output_txt>
 ```
 
 | Argument      | Description                                                                                                       |
@@ -267,13 +267,13 @@ Condition: missing metadata in: 2025-BM-fin
 
 ---
 
-**Script:** [exp_design_comet.R](src/00_file_parser/exp_design_comet.R)
+**Script:** [exp_design_comet.R](src/01_file_parser/exp_design_comet.R)
 
 ### Description
 This function reads all the input files and generates a map from channel numbers (C0, C1, C2, etc.) to channel names (DAPI, FITC, AF, etc.). 
 ### Arguments
 ```
-Rscript src/00_file_parser/exp_design_comet.R --input_path <path_to_files/> --exp_design_rounds <path_to_output_csv/> --exp_design_slides <path_to_output_csv_slides/>
+Rscript src/01_file_parser/exp_design_comet.R --input_path <path_to_files/> --exp_design_rounds <path_to_output_csv/> --exp_design_slides <path_to_output_csv_slides/>
 ```
 | Argument            | Description                                                                                                                                                                |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -284,7 +284,7 @@ Rscript src/00_file_parser/exp_design_comet.R --input_path <path_to_files/> --ex
 
 ---
 
-**Script:** [parse_slide_names.R](src/00_file_parser/parse_slide_names.R)
+**Script:** [parse_slide_names.R](src/01_file_parser/parse_slide_names.R)
 
 ### Description
 
@@ -292,7 +292,7 @@ Combines information from experimental design files (rounds and slides) into one
 
 ### Arguments
 ```
-Rscript src/00_file_parser/parse_slide_names.R --path_input_exp_design_rounds <path_to_input_csv/> --path_input_exp_design_slides <path_to_input_csv_slides/> --path_output_exp_design_merged <path_to_output_csv/>
+Rscript src/01_file_parser/parse_slide_names.R --path_input_exp_design_rounds <path_to_input_csv/> --path_input_exp_design_slides <path_to_input_csv_slides/> --path_output_exp_design_merged <path_to_output_csv/>
 ```
 | Argument              | Description                                                                                                                                            |
 |-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -306,14 +306,14 @@ Rscript src/00_file_parser/parse_slide_names.R --path_input_exp_design_rounds <p
 
 ---
 
- **Script:** [comet_generate_csv_joblist.R](src/00_file_parser/comet_generate_csv_joblist.R)
+ **Script:** [comet_generate_csv_joblist.R](src/01_file_parser/comet_generate_csv_joblist.R)
 
 ### Description
 `comet_generate_csv_joblist.R` lists all the czi files in the project’s folder and generates a csv file with all the jobs that need to be run in the next step. 
 
 ### Arguments
 ```
-Rscript src/00_file_parser/comet_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.output.folder <path_to_output_tiles/> --path.input.slide.dictionary <path_to_input_slides_dictionary/> --path.exp.design.rounds.file <path_to_input_channel_dictionary/> --user.id <user_id/> --project_id <project_id/> --path.output.csv<path_to_output_csv/>
+Rscript src/01_file_parser/comet_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.output.folder <path_to_output_tiles/> --path.input.slide.dictionary <path_to_input_slides_dictionary/> --path.exp.design.rounds.file <path_to_input_channel_dictionary/> --user.id <user_id/> --project_id <project_id/> --path.output.csv<path_to_output_csv/>
 ```
 
 | Argument                  | Description                                                                                                                                                    |
@@ -328,7 +328,7 @@ Rscript src/00_file_parser/comet_generate_csv_joblist.R --path.input.folder <pat
 
 ---
 
-**Script:** [extract_lunaphore_ometiff_processed.py](src/00_file_parser/extract_lunaphore_ometiff_processed.py)
+**Script:** [extract_lunaphore_ometiff_processed.py](src/01_file_parser/extract_lunaphore_ometiff_processed.py)
 
 
 ### Description
@@ -336,7 +336,7 @@ Rscript src/00_file_parser/comet_generate_csv_joblist.R --path.input.folder <pat
 
 ### Arguments
 ```
-python src/00_file_parser/extract_lunaphore_ometiff_processed.py --input_directory <path_to_input_data/> --output_directory <path_to_output_tiles/> --slide_dictionary_file <path_to_slide_dictionary/> --exp_design_rounds_file <path_to_channel_dictionary/> --user_id <user_id/> --project_id <project_id/>
+python src/01_file_parser/extract_lunaphore_ometiff_processed.py --input_directory <path_to_input_data/> --output_directory <path_to_output_tiles/> --slide_dictionary_file <path_to_slide_dictionary/> --exp_design_rounds_file <path_to_channel_dictionary/> --user_id <user_id/> --project_id <project_id/>
 ```
 | Argument                 | Description                                                                                                                      |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -350,14 +350,14 @@ python src/00_file_parser/extract_lunaphore_ometiff_processed.py --input_directo
 
 ---
 
-**Script:** [run_harmonization_comet_processed.py](src/00_file_parser/run_harmonization_comet_processed.py)
+**Script:** [run_harmonization_comet_processed.py](src/01_file_parser/run_harmonization_comet_processed.py)
 
 ### Description
-It orchestrates the data parsing. It requires the output CSV file of [comet_generate_csv_joblist.R](src/00_file_parser/comet_generate_csv_joblist.R) and [extract_lunaphore_ometiff_processed.py](src/00_file_parser/extract_lunaphore_ometiff_processed.py) script  as positional arguments
+It orchestrates the data parsing. It requires the output CSV file of [comet_generate_csv_joblist.R](src/01_file_parser/comet_generate_csv_joblist.R) and [extract_lunaphore_ometiff_processed.py](src/01_file_parser/extract_lunaphore_ometiff_processed.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/00_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> extract_lunaphore_ometiff_processed.py
+python src/01_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> extract_lunaphore_ometiff_processed.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -373,7 +373,7 @@ python src/00_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> ex
 ## 1. Tiles QC
 
 ---
- **Script:** [qc_input_files_akoya_raw.py](src/00_file_parser/qc_input_files_akoya_raw.py)
+ **Script:** [qc_input_files_akoya_raw.py](src/01_file_parser/qc_input_files_akoya_raw.py)
 
 
 ### Description
@@ -391,7 +391,7 @@ The script ensures the correctness of the input data. It checks if:
 
 ### Arguments
 ```
-python src/00_file_parser/qc_input_files_akoya_raw.py --input_path <directory> --output_txt <output_txt>
+python src/01_file_parser/qc_input_files_akoya_raw.py --input_path <directory> --output_txt <output_txt>
 ```
 
 | Argument     | Description                                                                                                       |
@@ -420,13 +420,13 @@ If there is a problem at specific checkpoint (e.g. file is incorrectly named), t
 
 ---
 
-**Script:** [exp_design_akoya.R](src/00_file_parser/exp_design_akoya.R)
+**Script:** [exp_design_akoya.R](src/01_file_parser/exp_design_akoya.R)
 
 ### Description
 This function reads all the input files and generates a map from channel numbers (C0, C1, C2, etc.) to channel names (DAPI, FITC, AF, etc.). 
 ### Arguments
 ```
-Rscript src/00_file_parser/exp_design_akoya.R --input_path <path_to_files/> --exp_design_rounds <path_to_output_csv/> --exp_design_slides <path_to_output_csv_slides/>
+Rscript src/01_file_parser/exp_design_akoya.R --input_path <path_to_files/> --exp_design_rounds <path_to_output_csv/> --exp_design_slides <path_to_output_csv_slides/>
 ```
 | Argument              | Description                                                                                                                                                                |
 |-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -437,7 +437,7 @@ Rscript src/00_file_parser/exp_design_akoya.R --input_path <path_to_files/> --ex
 
 ---
 
- **Script:** [parse_slide_names.R](src/00_file_parser/parse_slide_names.R)
+ **Script:** [parse_slide_names.R](src/01_file_parser/parse_slide_names.R)
 
 ### Description
 
@@ -445,7 +445,7 @@ Combines information from experimental design files (rounds and slides) into one
 
 ### Arguments
 ```
-Rscript src/00_file_parser/parse_slide_names.R --path_input_exp_design_rounds <path_to_input_csv/> --path_input_exp_design_slides <path_to_input_csv_slides/> --path_output_exp_design_merged <path_to_output_csv/>
+Rscript src/01_file_parser/parse_slide_names.R --path_input_exp_design_rounds <path_to_input_csv/> --path_input_exp_design_slides <path_to_input_csv_slides/> --path_output_exp_design_merged <path_to_output_csv/>
 ```
 | Argument              | Description                                                                                                                                            |
 |-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -459,13 +459,13 @@ Rscript src/00_file_parser/parse_slide_names.R --path_input_exp_design_rounds <p
 
 ---
 
-**Script:** [akoya_generate_csv_joblist.R](src/00_file_parser/akoya_generate_csv_joblist.R)
+**Script:** [akoya_generate_csv_joblist.R](src/01_file_parser/akoya_generate_csv_joblist.R)
 
 ### Description
 `akoya_generate_csv_joblist.R` lists all the czi files in the project’s folder and generates a csv file listing all the jobs that need to be run in the next step. 
 ### Arguments
 ```
-Rscript src/00_file_parser/akoya_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.output.folder <path_to_output_tiles/> --path.input.slide.dictionary <path_to_input_slides_dictionary/> --path.exp.design.rounds.file <path_to_input_channel_dictionary/> --user.id <user_id/> --project_id <project_id/> --path.output.csv <path_to_output_csv/>
+Rscript src/01_file_parser/akoya_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.output.folder <path_to_output_tiles/> --path.input.slide.dictionary <path_to_input_slides_dictionary/> --path.exp.design.rounds.file <path_to_input_channel_dictionary/> --user.id <user_id/> --project_id <project_id/> --path.output.csv <path_to_output_csv/>
 ```
 
 | Argument                  | Description                                                                                                                                                    |
@@ -480,14 +480,14 @@ Rscript src/00_file_parser/akoya_generate_csv_joblist.R --path.input.folder <pat
 
 ---
 
-**Script:** [extract_images_qptiff_akoya_raw.py](src/00_file_parser/extract_images_qptiff_akoya_raw.py)
+**Script:** [extract_images_qptiff_akoya_raw.py](src/01_file_parser/extract_images_qptiff_akoya_raw.py)
 
 ### Description
 `extract_images_qptiff_akoya_raw.py` reads an input czi given a full path and extracts all the tiles and metadata in a predefined output directory. 
 
 ### Arguments
 ```
-Rscript src/00_file_parser/extract_images_qptiff_akoya_raw.py --input_directory <path_to_input_data/> --output_directory <path_to_output_tiles/> --slide_dictionary_file <path_to_slide_dictionary/> --exp_design_rounds_file <path_to_channel_dictionary/> --user_id <user_id/> --project_id <project_id/>
+Rscript src/01_file_parser/extract_images_qptiff_akoya_raw.py --input_directory <path_to_input_data/> --output_directory <path_to_output_tiles/> --slide_dictionary_file <path_to_slide_dictionary/> --exp_design_rounds_file <path_to_channel_dictionary/> --user_id <user_id/> --project_id <project_id/>
 ```
 | Argument                 | Description                                                                                                                      |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -500,14 +500,14 @@ Rscript src/00_file_parser/extract_images_qptiff_akoya_raw.py --input_directory 
 
 ---
 
-**Script:** [run_harmonization_comet_processed.py](src/00_file_parser/run_harmonization_comet_processed.py)
+**Script:** [run_harmonization_comet_processed.py](src/01_file_parser/run_harmonization_comet_processed.py)
 
 ### Description
-It orchestrates the data parsing. It requires the output CSV file of [akoya_generate_csv_joblist.R](src/00_file_parser/akoya_generate_csv_joblist.R) and [extract_images_qptiff_akoya_raw.py](src/00_file_parser/extract_images_qptiff_akoya_raw.py) script  as positional arguments
+It orchestrates the data parsing. It requires the output CSV file of [akoya_generate_csv_joblist.R](src/01_file_parser/akoya_generate_csv_joblist.R) and [extract_images_qptiff_akoya_raw.py](src/01_file_parser/extract_images_qptiff_akoya_raw.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/00_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> extract_images_qptiff_akoya_raw.py
+python src/01_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> extract_images_qptiff_akoya_raw.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
