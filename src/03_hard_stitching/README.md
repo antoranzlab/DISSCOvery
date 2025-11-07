@@ -5,9 +5,14 @@
 <pre> 
 03_hard_stitching 
 ├── MILAN
-    ├── 1. hard_stitching_list_jobs.R
-    └── 2. run_hs.py
-        └── hard_stitching.py
+│   ├── 1. hard_stitching_list_jobs.R
+│   └── 2. run_hs.py
+│       └── hard_stitching.py
+│
+└── AKOYA (TO DO)
+    ├── 1. resize_images_list_jobs.R
+    └── 2. run_resizing.py (TO DO )
+        └── 01_resize_processed.py
 
 </pre>
 
