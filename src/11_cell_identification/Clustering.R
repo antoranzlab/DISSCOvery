@@ -89,6 +89,7 @@ Clustering <- function(marker.list, # Path to input exp design for the rounds (c
   print(paste0('### output csv: ', output.csv, ' ###')) 
   print(paste0('### clustering method: ', cl.method, ' ###')) 
   print(paste0('### number of clusters: ', n.clusters, ' ###')) 
+  n.clusters <- as.integer(n.clusters)
 
 
   if(!(dir.exists(dirname(output.csv)))){

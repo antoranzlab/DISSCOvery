@@ -88,6 +88,9 @@ DataSampling <- function(input.csv, # Path to input csv file with the normalized
     print(paste('### creating folder: ', dirname(output.csv), ' ###'))
     dir.create(dirname(output.csv), recursive = TRUE)
   }
+  sampling.yes.no <- as.integer(sampling.yes.no)
+  n.cells <- as.integer(n.cells)
+  selected.seed <- as.integer(selected.seed)
   
   # Load norm data ------------------------------------------------------------------
   

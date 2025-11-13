@@ -12,22 +12,13 @@ list.of.packages <- c('RSpectra', 'RcppEigen', "tidyverse", "EBImage", "argparse
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org")
 
-list.of.bioconductor.packages <- c('EBImage', 'FlowSOM')
+list.of.bioconductor.packages <- c('EBImage')
 new.packages <- list.of.bioconductor.packages[!(list.of.bioconductor.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)){
   if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
   BiocManager::install(new.packages)
 }
-
-list.of.github.packages <- c('Rphenograph')
-new.packages <- list.of.github.packages[!(list.of.github.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)){
-  if(!require(devtools)){
-    install.packages("devtools") # If not already installed
-  }
-  devtools::install_github("JinmiaoChenLab/Rphenograph")
-} 
 
 library(tidyverse)
 library(umap)
@@ -38,6 +29,7 @@ library(reticulate)
 library(RColorBrewer)
 library(corrplot)
 library(argparser, quietly = TRUE)
+library(plotly) 
 
 # Parser ------------------------------------------------------------------
 
@@ -120,6 +112,9 @@ MapFingerprints_training <- function(marker.list, # List of markers (csv).
   print(paste0('### number of cores: ', n.cores, ' ###')) 
   print(paste0('### number of sampled cells per category: ', n.cells, ' ###')) 
   print(paste0('### selected seed: ', selected.seed, ' ###')) 
+  n.cores <- as.integer(n.cores)
+  n.cells <- as.integer(n.cells)
+  selected.seed <- as.integer(selected.seed)
 
   if(!(dir.exists(output.folder))){
     print(paste('### creating folder: ', output.folder, ' ###'))
@@ -204,9 +199,9 @@ MapFingerprints_training <- function(marker.list, # List of markers (csv).
   tmp_umap <- umap(tmp_matrix, n_components = 3)
   
   tmp_plot <- tmp_reduced %>% mutate(uMap1 = tmp_umap$layout[,1], uMap2 = tmp_umap$layout[,2], uMap3 = tmp_umap$layout[,3])
-  tmp_centroids <- tmp_plot %>% group_by(CellType) %>% summarise(uMap1 = median(uMap1), uMap2 = median(uMap2), uMap3 = median(uMap3)) %>% ungroup()
-  
-  library(plotly) 
+  # tmp_centroids <- tmp_plot %>% group_by(CellType) %>% summarise(uMap1 = median(uMap1), uMap2 = median(uMap2), uMap3 = median(uMap3)) %>% ungroup()
+  tmp_training_centroid <- tmp_plot %>% group_by(CellType) %>% summarise(uMap1 = median(uMap1), uMap2 = median(uMap2), uMap3 = median(uMap3)) %>%
+    ungroup() %>% rename(predicted.celltype = CellType)
   
   fig <-  plot_ly(data = tmp_plot, x = ~uMap1, y = ~uMap2, z = ~uMap3, color = ~CellType) %>% add_markers(size = 8)
   Sys.setenv(RSTUDIO_PANDOC="/usr/lib/R/bin/pandoc")
@@ -226,7 +221,8 @@ MapFingerprints_training <- function(marker.list, # List of markers (csv).
       group_by(CellType) %>% summarise(N = n(), .groups = 'keep') %>% ungroup() %>% filter(N == max(N)) %>% sample_n(1) %>% ungroup() %>%
       rename(predicted.celltype = CellType)
     tmp_training <- tmp_training_knn %>% 
-      cbind(tmp_training_centroid %>% rename(predicted.celltype_centroid = predicted.celltype) %>% select(-N, -M)) %>% 
+      cbind(tmp_training_centroid %>% rename(predicted.celltype_centroid = predicted.celltype)) %>%
+      # cbind(tmp_training_centroid %>% rename(predicted.celltype_centroid = celltype) %>% select(-N, -M)) %>% 
       mutate(predicted.celltype = ifelse(predicted.celltype == predicted.celltype_centroid, predicted.celltype, NA)) %>% 
       select(predicted.celltype)
     return(tmp_cell %>% mutate(predicted.celltype = tmp_training_knn$predicted.celltype))
@@ -293,7 +289,7 @@ MapFingerprints_training <- function(marker.list, # List of markers (csv).
 
 # Parser check -------------------------------------------------------------------
 required_args <- c("input.marker.list", "path.input.csv.annotated", "path.input.csv.complete", "path.output.folder", "path.output.partitions", "path.output.tmp.results",
-                   "number.of.cores", "number.of.cells", "selected.seed")
+                   "number.of.cores")
 missing_args <- required_args[sapply(required_args, function(x) is.null(argv[[x]]) || is.na(argv[[x]]))]
 
 if (length(missing_args) > 0) {
@@ -314,3 +310,13 @@ MapFingerprints_training(marker.list = argv$input.marker.list, # Path to the csv
                          n.cells = argv$number.of.cells, # Number of cells from each category sampled to generate the umap template (integer). Example: 2500
                          selected.seed = argv$selected.seed # Seed for reproducibility (integer). Example: 1234
 )
+
+marker.list = '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/output_cell_identification/phenotypic_markers_n01_v01.csv'
+input.csv.annotated = '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/output_cell_identification/n01/v01/df_data_consensus.csv'
+input.csv.complete = '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/output_cell_identification/n01/df_data_norm.csv'
+output.folder = '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/output_cell_identification/n01/v01/'
+output.partitions = '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/output_cell_identification/n01/v01/tmp_partitions'
+output.tmp.results = '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/output_cell_identification/n01/v01/tmp_results'
+n.cores = '2'
+n.cells = '100'
+selected.seed = '1234'

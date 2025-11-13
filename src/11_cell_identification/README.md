@@ -1,10 +1,8 @@
-<h1 align="center"> Smart Tissue Selection (STS) </h1>
+<h1 align="center"> Cell identification </h1>
 
 ---
 
 ## Table of content
-
-TO DO 
 
 <pre> 
 11_cell_identification 
@@ -43,12 +41,12 @@ Rscript src/11_cell_identification/MergeData.R --path.input.folder <path.input.f
 |--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `path.input.folder` | Path to the input folder where the csvs from feature extraction are located (dir). Example: `/path/to/project_directory/output_feature_extraction/feature_extraction.csv` |
 | `path.input.exp.design.scenes`| Path to the input excel where the experimental design for the scenes is stored (.xlsx). Example: `/path/to/project_directory/experimental_design/exp_design_scenes.xlsx` |
-| `path.output.qc`    | Path to output QC file (.csv). Example: `/path/to/project_directory/output_coarse_registration/tm`                                                                       |
+| `path.output.qc`    | Path to output QC file (.csv). Example: `/path/to/project_directory/output_cell_identification/df_data_qc.csv`                                                                       |
 | `path.output.csv`      | Path to the output csv where the merged cell data will be stored (.csv). Example: `/path/to/project_directory/output_cell_identification/df_data_merged.csv`  |
 
 ---
 
-*Script:** [DataNormalization.R](src/11_cell_identification/DataNormalization.R)
+**Script:** [DataNormalization.R](src/11_cell_identification/DataNormalization.R)
 
 
 ### Description
@@ -68,7 +66,7 @@ Rscript src/11_cell_identification/DataNormalization.R --path.input.csv <path.in
 
 ---
 
-*Script:** [DataSampling.R](src/11_cell_identification/DataSampling.R)
+**Script:** [DataSampling.R](src/11_cell_identification/DataSampling.R)
 
 
 ### Description
@@ -102,13 +100,24 @@ This function is executed 3 times, once per DR method.
 Rscript src/11_cell_identification/DimensionalityReduction.R --input.marker.list <marker_list/> --path.input.csv <path.input.csv/> --path.output.csv <path.output.csv/> --path.output.model <path_to_output_model/> --dimensionality.reduction.method <DR_method_name/>
 ```
 
-| Argument           | Description                                                                                                                             |
-|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| `input.marker.list` | Path to input csv where the markers selected for the clustering are saved (.csv). Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv`                       |
-| `path.input.csv`| Path to input csv with sampled data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/df_data_sampled.csv` |
-| `path.output.csv`    | Path to output csv where the results from the DR will be stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/uMap.csv`  |
-| `path.output.model`    | Path to output model where the DR model will be stored (.rds). Example: `/path/to/project_directory/output_cell_identification/n01/v01/uMap.rds`          |
-| `dimensionality.reduction.method`    | DR method to be used (string). Example: `uMap`                |
+| Argument           | Description                                                                                                                                                                       |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input.marker.list` | Path to input csv where the markers selected for the clustering are saved (.csv). Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv` |
+| `path.input.csv`| Path to input csv with sampled data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/df_data_sampled.csv`                                              |
+| `path.output.csv`    | Path to output csv where the results from the DR will be stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/uMap.csv`                         |
+| `path.output.model`    | Path to output model where the DR model will be stored (.rds). Example: `/path/to/project_directory/output_cell_identification/n01/v01/uMap.rds`                                  |
+| `dimensionality.reduction.method`    | DR method to be used (string). Example: `uMap`, `tsne` or `PCA`                                                                                                                    |
+
+The `phenotypic_markers.csv` file contains one column, `marker_id`, with the list of markers that will be used for the clustering. Example:
+
+```
+marker_id
+SOX2
+CD4
+CD3
+CD8
+PANCK
+```
 
 ---
 
@@ -124,13 +133,13 @@ This function is executed 3 times, once per clustering method.
 Rscript src/11_cell_identification/Clustering.R --input.marker.list <marker_list/> --path.input.csv <path.input.csv/> --path.output.csv <path.output.csv/> --clustering.method <clustering_method/> --number.of.clusters <number_of_clusters/>
 ```
 
-| Argument           | Description                                                                                                                            |
-|--------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| `input.marker.list` | Path to input csv where the markers selected for the clustering are saved  (.csv). Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv`                    |
-| `path.input.csv`| Path to input csv with sampled data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/df_data_sampled.csv` |
-| `path.output.csv`    | Path to output folder where the results from the clustering will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/phenograph.csv` |
-| `clustering.method`    | Clustering method to be applied (string). Example: `phenograph`        |
-| `number.of.clusters`    | Number of clusters (integer). Example: `30`               |
+| Argument           | Description                                                                                                                                                                        |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input.marker.list` | Path to input csv where the markers selected for the clustering are saved  (.csv). Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv` |
+| `path.input.csv`| Path to input csv with sampled data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/df_data_sampled.csv`                                               |
+| `path.output.csv`    | Path to output folder where the results from the clustering will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/phenograph.csv`          |
+| `clustering.method`    | Clustering method to be applied (string). Example: `phenograph`, `flowsom` or `kmeans`                                                                                                     |
+| `number.of.clusters`    | Number of clusters (integer). Example: `30`                                                                                                                                        |
 
 ---
 
@@ -142,22 +151,22 @@ The results from DimensionalityReduction.R and Clustering.R are evaluated and se
 
 ### Arguments
 ```
-Rscript src/11_cell_identification/ClusteringAnalysis.R --input.marker.list <marker_list/> --path.input.csv <path.input.csv/> --path.input.pca <path.input.pca/> --path.input.tsne <path.input.tsne/> --path.input.umap <number_of_clusters/> --path.input.phenograph <path.input.phenograph/> --path.input.kmeans <path.input.kmeans/> --path.input.flowsom <path.input.flowsom/> --path.annotation.dictionary <path.annotation.dictionary/> --generate.marker.plots <generate.marker.plots/> --ath.output.folder <ath.output.folder/>
+Rscript src/11_cell_identification/ClusteringAnalysis.R --input.marker.list <marker_list/> --path.input.csv <path.input.csv/> --path.input.pca <path.input.pca/> --path.input.tsne <path.input.tsne/> --path.input.umap <number_of_clusters/> --path.input.phenograph <path.input.phenograph/> --path.input.kmeans <path.input.kmeans/> --path.input.flowsom <path.input.flowsom/> --path.annotation.dictionary <path.annotation.dictionary/> --generate.marker.plots <generate.marker.plots/> --path.output.folder <ath.output.folder/>
 ```
 
-| Argument           | Description                                                                                                                                                   |
-|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input.marker.list` | Path to input csv where the markers selected for the clustering are saved (.csv).Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv`               |
-| `path.input.csv`| Path to input csv with sampled data (.csv).Example: `/path/to/project_directory/output_cell_identification/n01/df_data_sampled.csv`                           |
-| `path.input.pca`    | Path to input csv with PCA data, if existing (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/pca.csv`                         |
-| `path.input.tsne`    | Path to input csv with tSNE data, if existing (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tsne.csv`                       |
-| `path.input.umap`    | Path to input csv with uMap data, if existing (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/uMap.csv`                       |
-| `path.input.phenograph`    | Path to input csv with PhenoGraph data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/phenograph.csv`                        |
-| `path.input.kmeans`    | Path to input csv with KMeans data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/kmeans.csv`                                |
-| `path.input.flowsom`    | Path to input csv with FlowSom data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/flowsom.csv`                              |
-| `path.annotation.dictionary`    | Path to input csv where the annotations are stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/annotation_dictionary.csv` |
-| `generate.marker.plots`    | Binary describing if marker plots need to be generated (binary). Example: `1`                                                                                |
-| `ath.output.folder`    | Path to output folder where plots will be saved (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01`                               |
+| Argument                     | Description                                                                                                                                                   |
+|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input.marker.list`          | Path to input csv where the markers selected for the clustering are saved (.csv).Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv`               |
+| `path.input.csv`             | Path to input csv with sampled data (.csv).Example: `/path/to/project_directory/output_cell_identification/n01/df_data_sampled.csv`                           |
+| `path.input.pca`             | Path to input csv with PCA data, if existing (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/pca.csv`                         |
+| `path.input.tsne`            | Path to input csv with tSNE data, if existing (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tsne.csv`                       |
+| `path.input.umap`            | Path to input csv with uMap data, if existing (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/uMap.csv`                       |
+| `path.input.phenograph`      | Path to input csv with PhenoGraph data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/phenograph.csv`                        |
+| `path.input.kmeans`          | Path to input csv with KMeans data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/kmeans.csv`                                |
+| `path.input.flowsom`         | Path to input csv with FlowSom data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/flowsom.csv`                              |
+| `path.annotation.dictionary` | Path to input csv where the annotations are stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/annotation_dictionary.csv` |
+| `generate.marker.plots`      | Binary describing if marker plots need to be generated (binary). Example: `1`                                                                                |
+| `path.output.folder`         | Path to output folder where plots will be saved (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01`                               |
 
 ---
 
@@ -195,15 +204,15 @@ Rscript src/11_cell_identification/MapFingerprints_training.R --input.marker.lis
 
 | Argument           | Description                                                                                                                                                              |
 |--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input.marker.list` | Path to the csv where the markers used for clustering are defined (.csv). Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv`                          |
-| `path.input.csv.annotated`| PPath to the csv with the annotated data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/df_data_consensus.csv`                                  |
-| `path.input.csv.complete`    | Path to input csv with complete data (normalized data). Example: `/path/to/project_directory/output_cell_identification/n01/df_data_norm.csv`    |
-| `path.output.folder`    | Path to output folder with some temporal data will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01`      |
-| `path.output.partitions`    | Path to output directory where partition data will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions`    |
-| `path.output.tmp.results`| Path to output directory where the intermediate results will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_results`                                  |
-| `number.of.cores`    |  Number of cores for the training (integer). Example: `10`      |
-| `number.of.cells`    | Number of cells from each category sampled to generate the umap template (integer). Example: `2500`      |
-| `selected.seed`    | Seed for reproducibility (integer). Example: `1234`    |
+| `input.marker.list` | Path to the csv where the markers used for clustering are defined (.csv). Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv` |
+| `path.input.csv.annotated`| PPath to the csv with the annotated data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/df_data_consensus.csv`                          |
+| `path.input.csv.complete`    | Path to input csv with complete data (normalized data). Example: `/path/to/project_directory/output_cell_identification/n01/df_data_norm.csv`                            |
+| `path.output.folder`    | Path to output folder with some temporal data will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01`                             |
+| `path.output.partitions`    | Path to output directory where partition data will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions`              |
+| `path.output.tmp.results`| Path to output directory where the intermediate results will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_results`       |
+| `number.of.cores`    | Number of cores for the training (integer). Example: `10`                                                                                                                |
+| `number.of.cells`    | Number of cells from each category sampled to generate the umap template. Maximum is equal to 500 (integer). Example: `500`                                              |
+| `selected.seed`    | Seed for reproducibility (integer). Example: `1234`                                                                                                                      |
 
 ---
 
