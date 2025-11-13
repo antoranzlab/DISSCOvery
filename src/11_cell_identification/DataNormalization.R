@@ -75,7 +75,8 @@ DataNormalization <- function(input.csv, # Path to input csv with merged data (c
     print('Normalizing Intensity Values (z-scores)')
     
     df_data <- df_data %>% 
-      gather(marker, value, -slide_id, -scene_id, -OID, -X, -Y, -s.area) %>% 
+      # gather(marker, value, -slide_id, -scene_id, -OID, -X, -Y, -s.area) %>% 
+      gather(marker, value, -slide_id, -scene_id, -OID, -X, -Y, -s.area, -scan_region) %>% 
       mutate(value = ifelse(is.na(value), 0, value))
     
     df_data <- df_data %>% 

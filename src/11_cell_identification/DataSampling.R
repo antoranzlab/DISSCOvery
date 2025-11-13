@@ -126,7 +126,7 @@ DataSampling <- function(input.csv, # Path to input csv file with the normalized
 
 
 # Parser check -------------------------------------------------------------------
-required_args <- c("path.input.csv", "path.output.csv", "sampling.yes.no", "number.of.cells", "selected.seed")
+required_args <- c("path.input.csv", "path.output.csv")
 missing_args <- required_args[sapply(required_args, function(x) is.null(argv[[x]]) || is.na(argv[[x]]))]
 
 if (length(missing_args) > 0) {

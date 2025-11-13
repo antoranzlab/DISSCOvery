@@ -8,26 +8,17 @@
 ### sudo apt install liblapack-dev libopenblas-dev
 ### sudo apt-get install gfortran
 list.of.packages <- c('RSpectra', 'RcppEigen', "tidyverse", "EBImage", "argparser", 'doSNOW', 'readxl', 'pastecs', 'graphics', 'pbapply', 'parallel', 'reticulate', 'RColorBrewer', 
-                      'corrplot', 'umap', 'Rtsne', 'devtools', 'igraph')
+                      'corrplot', 'devtools', 'igraph')
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org")
 
-list.of.bioconductor.packages <- c('EBImage', 'FlowSOM')
+list.of.bioconductor.packages <- c('EBImage')
 new.packages <- list.of.bioconductor.packages[!(list.of.bioconductor.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)){
   if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
   BiocManager::install(new.packages)
 }
-
-list.of.github.packages <- c('Rphenograph')
-new.packages <- list.of.github.packages[!(list.of.github.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)){
-  if(!require(devtools)){
-    install.packages("devtools") # If not already installed
-  }
-  devtools::install_github("JinmiaoChenLab/Rphenograph")
-} 
 
 library(tidyverse)
 library(pbapply)
@@ -279,7 +270,7 @@ ClusteringStability <- function(input.phenograph, # Path to input csv where the 
 
 
 # Parser check -------------------------------------------------------------------
-required_args <- c("path.input.phenograph", "path.input.kmeans", "path.input.flowsom", "path.annotation.dictionary", "path.output.folder")
+required_args <- c("path.annotation.dictionary", "path.output.folder")
 missing_args <- required_args[sapply(required_args, function(x) is.null(argv[[x]]) || is.na(argv[[x]]))]
 
 if (length(missing_args) > 0) {

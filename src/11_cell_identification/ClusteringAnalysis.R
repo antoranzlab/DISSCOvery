@@ -7,27 +7,18 @@
 
 ### sudo apt install liblapack-dev libopenblas-dev
 ### sudo apt-get install gfortran
-list.of.packages <- c('RSpectra', 'RcppEigen', "tidyverse", "EBImage", "argparser", 'doSNOW', 'readxl', 'pastecs', 'graphics', 'pbapply', 'parallel', 'reticulate', 'RColorBrewer', 
-                      'corrplot', 'umap', 'Rtsne', 'devtools', 'igraph')
+list.of.packages <- c('RSpectra', 'RcppEigen', "tidyverse", "EBImage", "argparser", 'doSNOW', 'readxl', 'pastecs', 'graphics', 'pbapply', 'parallel', 'reticulate', 'RColorBrewer',
+                      'corrplot', 'devtools', 'igraph')
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org")
 
-list.of.bioconductor.packages <- c('EBImage', 'FlowSOM')
+list.of.bioconductor.packages <- c('EBImage')
 new.packages <- list.of.bioconductor.packages[!(list.of.bioconductor.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)){
   if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
   BiocManager::install(new.packages)
 }
-
-list.of.github.packages <- c('Rphenograph')
-new.packages <- list.of.github.packages[!(list.of.github.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)){
-  if(!require(devtools)){
-    install.packages("devtools") # If not already installed
-  }
-  devtools::install_github("JinmiaoChenLab/Rphenograph")
-} 
 
 library(tidyverse)
 library(pbapply)
@@ -136,7 +127,6 @@ ClusteringAnalysis <- function(marker.list, # Path to input exp design for the r
   if(missing(annotation.dictionary)) {
     annotation.dictionary <- 'not included'
   }
-  
   print(paste0('### list of markers: ', marker.list, ' ###')) 
   print(paste0('### input csv: ', input.csv, ' ###')) 
   print(paste0('### input pca: ', input.pca, ' ###')) 
@@ -154,6 +144,7 @@ ClusteringAnalysis <- function(marker.list, # Path to input exp design for the r
     dir.create(output.folder, recursive = TRUE)
   }
   
+  marker.plots <- as.integer(marker.plots)
   range.x1_q <- function(x, q){
     tmp_q_high <- quantile(x, q)
     tmp_q_low <- quantile(x, 1-q)
@@ -394,8 +385,7 @@ ClusteringAnalysis <- function(marker.list, # Path to input exp design for the r
 
 
 # Parser check -------------------------------------------------------------------
-required_args <- c("input.marker.list", "path.input.csv", "path.input.pca", "path.input.tsne", "path.input.umap",
-                   "path.input.phenograph", "path.input.kmeans", "path.input.flowsom", "path.annotation.dictionary",
+required_args <- c("input.marker.list", "path.input.csv",  
                    "generate.marker.plots", "path.output.folder")
 missing_args <- required_args[sapply(required_args, function(x) is.null(argv[[x]]) || is.na(argv[[x]]))]
 
@@ -418,4 +408,3 @@ ClusteringAnalysis(marker.list = argv$input.marker.list, # Path to input csv whe
                    marker.plots = argv$generate.marker.plots, # Binary describing if marker plots need to be generated (binary). Example: 1
                    output.folder = argv$path.output.folder # Path to output folder where plots will be saved (.csv). Example: /path/to/project_directory/output_cell_identification/n01/v01
 )
-

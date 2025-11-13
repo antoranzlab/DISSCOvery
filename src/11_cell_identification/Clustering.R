@@ -5,10 +5,10 @@
 # install.packages('https://cran.r-project.org/src/contrib/Archive/ff/ff_2.2-14.tar.gz', repos=NULL)
 # https://community.rstudio.com/t/unable-to-install-bioconductor-package/75223
 
-### sudo apt install liblapack-dev libopenblas-dev
-### sudo apt-get install gfortran
-list.of.packages <- c('RSpectra', 'RcppEigen', "tidyverse", "EBImage", "argparser", 'doSNOW', 'readxl', 'pastecs', 'graphics', 'pbapply', 'parallel', 'reticulate', 'RColorBrewer', 
-                      'corrplot', 'umap', 'Rtsne', 'devtools', 'factoextra')
+## sudo apt install liblapack-dev libopenblas-dev
+## sudo apt-get install gfortran
+list.of.packages <- c('RSpectra', 'RcppEigen', "tidyverse", "EBImage", "argparser", 'doSNOW', 'readxl', 'pastecs', 'graphics', 'pbapply', 'parallel', 'reticulate', 'RColorBrewer',
+                      'corrplot', 'devtools', 'factoextra')
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org")
 
@@ -27,7 +27,7 @@ if(length(new.packages)){
     install.packages("devtools") # If not already installed
   }
   devtools::install_github("JinmiaoChenLab/Rphenograph")
-} 
+}
 
 library(tidyverse)
 library(pbapply)
@@ -156,7 +156,7 @@ Clustering <- function(marker.list, # Path to input exp design for the rounds (c
 
 
 # Parser check -------------------------------------------------------------------
-required_args <- c("input.marker.list", "path.input.csv", "path.output.csv", "clustering.method", "number.of.clusters")
+required_args <- c("input.marker.list", "path.input.csv", "path.output.csv", "clustering.method")
 missing_args <- required_args[sapply(required_args, function(x) is.null(argv[[x]]) || is.na(argv[[x]]))]
 
 if (length(missing_args) > 0) {
