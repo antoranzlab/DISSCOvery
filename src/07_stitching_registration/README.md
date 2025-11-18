@@ -96,31 +96,6 @@ Rscript src/07_stitching_registration/algnqc_list_jobs.R --input_path_images <pa
 
 ---
 
-**Script:** [algnqc_list_jobs.R](src/007_stitching_registration/algnqc_list_jobs.R) 
-
-### Description
-
-This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for QC evaluation
-
-### Arguments
-```
-Rscript src/07_stitching_registration/algnqc_list_jobs.R --input_path_images <path_to_input_images/> --output_folder_csv <path_to_output_directory_csv/> --output_folder_html <path_to_output_directory_html/> --output_folder_json <path_to_output_directory_json/> --path_model <path_to_algnqc_model/> --ref_round <reference_round/> --ref_version <reference_version/> --ref_channel <reference_channel/> --output_path_csv <path_csv/>
-```
-
-| Argument     | Description                                                                                                     |
-|--------------|-----------------------------------------------------------------------------------------------------------------|
-| `input_path_images` | Path to input images (dir). Example: `/path/to/project_directory/output_registration/output_registration`.      |
-| `output_folder_csv` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/csv`.        |
-| `output_folder_html` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/html`.       |
-| `output_folder_json` | Path to output path to save csv (dir). Example: `/path/to/project_directory/output_registration_qc/json`.       |
-| `path_model` | Path to the classification model (h5). Example: `/models/07_classification_network.h5`.                         |
-| `ref_round` | Reference round (str).  Example: `R01`.                                                                         |
-| `ref_version` | Reference version (str). Example: `V01`.                                                                        |
-| `ref_channel` | Reference channel (str). Example: `DAPI`.                                                                       |
-| `output_path_csv` | Path to output csv where to save the joblist (.csv). Example: `/path/to/project_directory/algnqc_job_list.csv`. |
-
----
-
 **Script:** [evaluate_registration_algnqc.py](src/07_stitching_registration/evaluate_registration_algnqc.py) 
 
 ### Description
