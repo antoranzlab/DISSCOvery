@@ -199,8 +199,8 @@ def qc_akoya_input_raw(input_path, output_txt):
         f.write(message)
 
 parser = argparse.ArgumentParser(description="QC input data AKOYA: raw data. type qc_input_files_akoya_raw.py -h for positional and optional inputs description")
-parser.add_argument("input_path", type=str, help=" full path to the slide folder, e.g. /path/to/input_data_files_folder ")
-parser.add_argument("output_txt", type=str, help="path to the output txt where the qc report is saved, e.g. /path/to/project_directory/qc_input_files.txt ")
+parser.add_argument("--input_path", type=str, help=" full path to the slide folder, e.g. /path/to/input_data_files_folder ")
+parser.add_argument("--output_txt", type=str, help="path to the output txt where the qc report is saved, e.g. /path/to/project_directory/qc_input_files.txt ")
 
 # If no arguments are provided, show help and exit
 if len(sys.argv) == 1:

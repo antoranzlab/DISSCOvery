@@ -192,7 +192,7 @@ It orchestrates the data parsing. It requires the output CSV file of [czi_genera
 
 ### Arguments
 ```
-python src/01_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> czi_reader.py
+python src/01_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> src/01_file_parser/czi_reader.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -357,7 +357,7 @@ It orchestrates the data parsing. It requires the output CSV file of [comet_gene
 
 ### Arguments
 ```
-python src/01_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> extract_lunaphore_ometiff_processed.py
+python src/01_file_parser/run_harmonization_comet_processed.py <path_to_output_csv_joblist/> src/01_file_parser/extract_lunaphore_ometiff_processed.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -406,13 +406,13 @@ The output file is a report thst contains the following information:
 ```
 Check1 - xpd file QC: PASSED.
 Check2 - metadata channel names QC: PASSED.
-Check3 - qptiff files QC: PASSED.
-Check4 - cycle consistency QC: PASSED.
-Check5 - marker consistency QC: PASSED.
-Check6 - concordance image and metadata QC: PASSED.
+Check3 - raw data QC: PASSED.
+Check4 - matching rounds QC: PASSED.
+Check5 - cycle consistency QC: PASSED.
+Check6 - marker consistency QC: PASSED.
 ```
 
-If there is a problem at specific checkpoint (e.g. file is incorrectly named), the programme will stop and provide the information about the encountered issue. Example:
+If there is a problem at specific checkpoint (e.g. file is incorrectly named), the programme will stop and provide the information about the encountered issue. 
 
 ---
 
@@ -487,7 +487,7 @@ Rscript src/01_file_parser/akoya_generate_csv_joblist.R --path.input.folder <pat
 
 ### Arguments
 ```
-Rscript src/01_file_parser/extract_images_qptiff_akoya_raw.py --input_directory <path_to_input_data/> --output_directory <path_to_output_tiles/> --slide_dictionary_file <path_to_slide_dictionary/> --exp_design_rounds_file <path_to_channel_dictionary/> --user_id <user_id/> --project_id <project_id/>
+python src/01_file_parser/extract_images_qptiff_akoya_raw.py --input_directory <path_to_input_data/> --output_directory <path_to_output_tiles/> --slide_dictionary_file <path_to_slide_dictionary/> --exp_design_rounds_file <path_to_channel_dictionary/> --user_id <user_id/> --project_id <project_id/>
 ```
 | Argument                 | Description                                                                                                                      |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -500,14 +500,14 @@ Rscript src/01_file_parser/extract_images_qptiff_akoya_raw.py --input_directory 
 
 ---
 
-**Script:** [run_harmonization_comet_processed.py](src/01_file_parser/run_harmonization_comet_processed.py)
+**Script:** [run_harmonization_akoya_raw.py](src/01_file_parser/run_harmonization_akoya_raw.py)
 
 ### Description
 It orchestrates the data parsing. It requires the output CSV file of [akoya_generate_csv_joblist.R](src/01_file_parser/akoya_generate_csv_joblist.R) and [extract_images_qptiff_akoya_raw.py](src/01_file_parser/extract_images_qptiff_akoya_raw.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/01_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> extract_images_qptiff_akoya_raw.py
+python src/01_file_parser/run_harmonization_akoya_raw.py <path_to_output_csv_joblist/> src/01_file_parser/extract_images_qptiff_akoya_raw.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|

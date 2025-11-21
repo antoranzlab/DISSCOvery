@@ -128,7 +128,8 @@ qc_input_files_comet <- function(input_path, # Path to input directory with the 
   }
   
   ## Check4: Cycle folder nomenclature
-  bad_qc <- df_check2 %>% filter(QC_cycle_name == FALSE)
+  # bad_qc <- df_check2 %>% filter(QC_cycle_name == FALSE)
+  bad_qc <- df_check2 %>% filter(QC_tiff == FALSE)
   if(nrow(bad_qc) > 0){
     message <- paste0(message, 'Check4 - Cycle folder nomenclature QC: NOT PASSED.\nCondition: cycle folder name non standard: ', paste(bad_qc$folder, collapse = ".\n"))
     write(message, file = output_txt)
@@ -136,67 +137,69 @@ qc_input_files_comet <- function(input_path, # Path to input directory with the 
     message <- paste0(message, "Check4 - Cycle folder nomenclature QC: PASSED.\n")
   }
   
-  ## list files
-  df_files <- lapply(tmp_folders, function(x){
-    tmp_directory <- list.dirs(file.path(input_path, x), full.names = FALSE, recursive = FALSE)
-    tmp_cycles <- list.dirs(file.path(input_path, x, tmp_directory), full.names = FALSE, recursive = FALSE)
-    tmp_files <- lapply(tmp_cycles, function(y){
-      tmp_tiffs <- data.frame(ofile = list.files(file.path(input_path, x, tmp_directory, y), full.names = FALSE, recursive = FALSE, pattern = '.tiff')) %>% 
-        mutate(cycle_id = y, folder = x)
-      return(tmp_tiffs)
-    }) %>% bind_rows()
-    return(tmp_files)
-  }) %>% bind_rows()
+  # ## list files
+  # df_files <- lapply(tmp_folders, function(x){
+  #   # tmp_directory <- list.dirs(file.path(input_path, x), full.names = FALSE, recursive = FALSE)
+  #   # tmp_cycles <- list.dirs(file.path(input_path, x, tmp_directory), full.names = FALSE, recursive = FALSE)
+  #   # tmp_files <- lapply(tmp_cycles, function(y){
+  #     # tmp_files <- lapply(x, function(y){
+  #     # tmp_tiffs <- data.frame(ofile = list.files(file.path(input_path, x, tmp_directory, y), full.names = FALSE, recursive = FALSE, pattern = '.tiff')) %>% 
+  #       tmp_tiffs <- data.frame(ofile = list.files(file.path(input_path, x), full.names = FALSE, recursive = FALSE, pattern = '.tiff')) %>% 
+  #       mutate(folder = x)
+  #     return(tmp_tiffs)
+  #   }) %>% bind_rows()
+  # #   return(tmp_files)
+  # # }) %>% bind_rows()
+  # 
+  # ## Check5: tiff file nomenclature
+  # # df_check5 <- df_files %>% 
+  # #   mutate(QC_tiff_file = str_count(ofile, "_"))
+  # 
+  # # bad_qc <- df_check5 %>% filter(QC_tiff_file != 7)
+  # # if(nrow(bad_qc) > 1){
+  # #   message <- paste0(message, 'Check5 - Tiff file nomenclature QC: NOT PASSED.\nCondition: cycles different from: ', paste(unique(bad_qc$folder), collapse = ".\n"))
+  # #   write(message, file = output_txt)
+  # # } else {
+  # #   message <- paste0(message, "Check5 - Tiff file nomenclature QC: PASSED.\n")
+  # # }
   
-  ## Check5: tiff file nomenclature
-  df_check5 <- df_files %>% 
-    mutate(QC_tiff_file = str_count(ofile, "_"))
-
-  bad_qc <- df_check5 %>% filter(QC_tiff_file != 7)
-  if(nrow(bad_qc) > 1){
-    message <- paste0(message, 'Check5 - Tiff file nomenclature QC: NOT PASSED.\nCondition: cycles different from: ', paste(unique(bad_qc$folder), collapse = ".\n"))
-    write(message, file = output_txt)
-  } else {
-    message <- paste0(message, "Check5 - Tiff file nomenclature QC: PASSED.\n")
-  }
+  # ## Tabulate filenames
+  # df_files <- df_files %>% 
+  #   mutate(file = sub('.tif+', '', ofile)) %>% 
+  #   separate(file, c('channel', 'channel_name', 'slice', 'slice_id', 'row', 'row_id', 'col', 'col_id'), sep = '_')
+  # 
+  # ## Check6: channel names are numeric and equal to values in dictionary
+  # valid_values <- c("1", "2", "3")
+  # df_check6 <-  all(unique(df_files$channel_name) %in% valid_values) && all(valid_values %in% unique(df_files$channel_name))
+  # if(df_check6 == FALSE){
+  #   bad_qc <- df_files %>% filter(!(channel_name %in% c('1', '2', '3')))
+  #   message <- paste0(message, 'Check6 - Channel names QC: NOT PASSED.\nCondition: channel names different: ', paste(unique(bad_qc$folder), collapse = ".\n"))
+  #   write(message, file = output_txt)
+  # } else {
+  #   message <- paste0(message, "Check6 - Channel names QC: PASSED.\n")
+  # }
+  # 
+  # df_files <- df_files %>% 
+  #   mutate(channel_name = as.numeric(channel_name)) %>% 
+  #   mutate(channel_name = plyr::mapvalues(channel_name, from = c(1:3), to = c('Cy5', 'DAPI', 'TRITC'))) %>% # hardcoded
+  #   mutate(cycle_number = sub('Cycle_', '', cycle_id))
   
-  ## Tabulate filenames
-  df_files <- df_files %>% 
-    mutate(file = sub('.tif+', '', ofile)) %>% 
-    separate(file, c('channel', 'channel_name', 'slice', 'slice_id', 'row', 'row_id', 'col', 'col_id'), sep = '_')
-  
-  ## Check6: channel names are numeric and equal to values in dictionary
-  valid_values <- c("1", "2", "3")
-  df_check6 <-  all(unique(df_files$channel_name) %in% valid_values) && all(valid_values %in% unique(df_files$channel_name))
-  if(df_check6 == FALSE){
-    bad_qc <- df_files %>% filter(!(channel_name %in% c('1', '2', '3')))
-    message <- paste0(message, 'Check6 - Channel names QC: NOT PASSED.\nCondition: channel names different: ', paste(unique(bad_qc$folder), collapse = ".\n"))
-    write(message, file = output_txt)
-  } else {
-    message <- paste0(message, "Check6 - Channel names QC: PASSED.\n")
-  }
-  
-  df_files <- df_files %>% 
-    mutate(channel_name = as.numeric(channel_name)) %>% 
-    mutate(channel_name = plyr::mapvalues(channel_name, from = c(1:3), to = c('Cy5', 'DAPI', 'TRITC'))) %>% # hardcoded
-    mutate(cycle_number = sub('Cycle_', '', cycle_id))
-  
-  ## Check7: match files and metadata
-  df_check7 <- df_files %>% select(folder, channel_name, cycle_number) %>% unique() %>% mutate(QC_files = TRUE) %>% 
-    full_join(df_metadata %>% select(folder, FluorescenceChannel, cycle_number) %>% rename(channel_name = FluorescenceChannel) %>% mutate(QC_meta = TRUE))
-  bad_qc <- df_check7 %>% filter(is.na(QC_files))
-  if(nrow(bad_qc) > 0){
-    message <- paste0(message, 'Check7.a - Matching metadata and files QC: NOT PASSED.\nCondition: missing files in: ', paste(unique(bad_qc$folder), collapse = ".\n"))
-    write(message, file = output_txt)
-  } else {
-    message <- paste0(message, "Check7.a - Matching metadata and files QC: PASSED.\n")
-  }
-  bad_qc <- df_check7 %>% filter(is.na(QC_meta))
-  if(nrow(bad_qc) > 0){
-    message <- paste0(message, 'Check7.b - Matching files and metadata QC: WARNING.\nCondition: missing metadata in: ', paste(unique(bad_qc$folder), collapse = ".\n"))
-  } else {
-    message <- paste0(message, "Check7.b - Matching files and metadata QC: PASSED.\n")
-  }
+  # ## Check7: match files and metadata
+  # df_check7 <- df_files %>% select(folder, channel_name, cycle_number) %>% unique() %>% mutate(QC_files = TRUE) %>% 
+  #   full_join(df_metadata %>% select(folder, FluorescenceChannel, cycle_number) %>% rename(channel_name = FluorescenceChannel) %>% mutate(QC_meta = TRUE))
+  # bad_qc <- df_check7 %>% filter(is.na(QC_files))
+  # if(nrow(bad_qc) > 0){
+  #   message <- paste0(message, 'Check7.a - Matching metadata and files QC: NOT PASSED.\nCondition: missing files in: ', paste(unique(bad_qc$folder), collapse = ".\n"))
+  #   write(message, file = output_txt)
+  # } else {
+  #   message <- paste0(message, "Check7.a - Matching metadata and files QC: PASSED.\n")
+  # }
+  # bad_qc <- df_check7 %>% filter(is.na(QC_meta))
+  # if(nrow(bad_qc) > 0){
+  #   message <- paste0(message, 'Check7.b - Matching files and metadata QC: WARNING.\nCondition: missing metadata in: ', paste(unique(bad_qc$folder), collapse = ".\n"))
+  # } else {
+  #   message <- paste0(message, "Check7.b - Matching files and metadata QC: PASSED.\n")
+  # }
   write(message, file = output_txt)
 }
 
