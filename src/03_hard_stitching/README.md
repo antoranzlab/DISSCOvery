@@ -9,12 +9,21 @@
 │   └── 2. run_hs.py
 │       └── hard_stitching.py
 │
-└── AKOYA (TO DO)
-    ├── 1. resize_images_list_jobs.R
-    └── 2. run_resizing.py (TO DO )
-        └── 01_resize_processed.py
+├── COMET/AKOYA (resizing)
+│   ├── 1. resize_images_list_jobs.R
+│   └── 2. run_resize.py
+│       └── 01_resize_processed.py
+│
+└── AKOYA
+    ├── 1. rebuild_preprocessed_ffc_akoya_list_jobs.R
+    └── 2. run_rebuild.py
+        └── 01_rebuild_after_ffc.py
 
 </pre>
+
+----
+
+# MILAN
 
 ----
 
@@ -77,3 +86,122 @@ python src/03_hard_stitching/run_hs.py <csv_path/> src/03_hard_stitching/hard_st
 | `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/hard_stitching_job_list.csv` |
 
 
+----
+
+# COMET/AKOYA (resizing)
+
+----
+
+**Script:** [resize_images_list_jobs.R](src/03_hard_stitching/resize_images_list_jobs.R) 
+
+### Description
+This function lists all the folders in the input directory and generates a csv with the list of jobs that have to be run for coarse stitching.
+
+### Arguments
+```
+python src/03_hard_stitching/hard_stitching.py --input_path_images <input_path_images/> --output_folder <output_folder/> --input_pixel_size <input_pixel_size/> --output_pixel_size <output_pixel_size/> --output_path_csv <output_path_csv/>  
+```
+
+| Argument           | Description                                                                                                                   |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_images`      | Path to input tiles (dir). Example:  `path/to/project_directory/output_processed`.                                            |
+| `output_folder`   | Path to output path to save images (dir). Example:  `path/to/project_directory/hard_stitching`.                               |
+| `input_pixel_size`    | Pixel size input images (numeric). Example: `0.17`, `0.5` or `0.28`.                                                          |
+| `output_pixel_size`| Pixel size input images (numeric). Example: `2.6` or `0.65`.                                                                  |
+| `output_path_csv`    | Path to output csv where the job list will be saved (.csv). Example:  `path/to/project_directory/hard_stitching_job_list.csv` |
+
+---
+
+**Script:** [01_resize_processed.py](src/03_hard_stitching/01_resize_processed.py) 
+
+### Description
+This function generates a rescaled, renomalized, 8-bit image.
+
+### Arguments
+```
+python src/03_hard_stitching/01_resize_processed.py --input_path_image <input_path_image/> --output_path_image <output_path_image/> --conversion_factor <conversion_factor/> --skip_existing <skip_existing/> 
+```
+
+| Argument           | Description                                                                                                       |
+|--------------------|-------------------------------------------------------------------------------------------------------------------|
+| `input_path_image`      | Path to the image (.tiff). Example:  `path/to/project_directory/output_processed/bmark01_R01_V01_COMET_Cy5.tiff`. |
+| `output_path_image`   | Path to the output image (.tiff). Example:  `path/to/project_directory/hard_stitching/bmark01/bmark01_R01_V01_COMET_Cy5.tiff`.                  |
+| `conversion_factor`    | Conversion factor for downscaling. For example, `4`.                                                              |
+| `skip_existing`| Boolean to define whether to skip already existing results. For example, `TRUE`                                   |
+
+---
+
+**Script:** [run_resize.py](src/03_hard_stitching/run_resize.py) 
+
+### Description
+It orchestrates coarse stitching.
+
+### Arguments
+```
+python src/03_hard_stitching/run_resize.py <csv_path/> src/03_hard_stitching/01_resize_processed.py
+```
+
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `path/to/project_directory/hard_stitching_job_list.csv` |
+
+---
+
+# AKOYA
+
+----
+**Script:** [rebuild_preprocessed_ffc_akoya_list_jobs.R](src/03_hard_stitching/rebuild_preprocessed_ffc_akoya_list_jobs.R) 
+
+### Description
+This function lists all the folders in the input directory and generates a csv with the list of jobs that have to be run for coarse stitching.
+
+### Arguments
+```
+Rscript src/03_hard_stitching/rebuild_preprocessed_ffc_akoya_list_jobs.R --input_path_tiles <input_path_tiles/> --output_path_meta <nput_path_meta/> --output_folder <output_folder/> --output_path_csv <output_path_csv/> --output_pixel_size <output_pixel_size/>  
+```
+
+| Argument           | Description                                                                                                                   |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_tiles`      | Path to input tiles (dir). Example:  `path/to/project_directory/output_FFC_corrected`                                           |
+| `nput_path_meta`   | Path to input metadata files (dir). Example:  `path/to/project_directory/output_FFC_corrected`                               |
+| `output_folder`    | Path to output path to save images (dir). Example:  `path/to/project_directory/output_processed`                                                         |
+| `output_path_csv`| Path to output csv where the job list will be saved (.csv). Example:  `path/to/project_directory/rebuild_processed_job_list.csv`                                                                |
+| `output_pixel_size`    | Output pixel size (numeric). Example:  `2.6`, `0.65` or `0.5` |
+
+---
+
+**Script:** [01_rebuild_after_ffc.py](src/03_hard_stitching/01_rebuild_after_ffc.py) 
+
+### Description
+This function generates a hard stitched image
+
+### Arguments
+```
+python src/03_hard_stitching/01_rebuild_after_ffc.py --input_tiles <input_tiles/> --input_metadata <input_metadata/> --output_folder <output_folder/> --conversion_factor <conversion_factor/> --skip_existing <skip_existing/>  
+```
+
+| Argument           | Description                                                                                                                                    |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_tiles`      | Path to input tiles (dir). Example:  `path/to/project_directory/output_FFC_corrected/bmark01_R01_V01_Akoya`                                    |
+| `input_metadata`   | Path to input metadata files (dir). Example:  `path/to/project_directory/output_FFC_corrected/bmark01_R02_V01_Akoya/bmark01_R02_V01_Akoya.csv` |
+| `output_folder`    | Path to output path to save images (dir). Example:  `path/to/project_directory/output_processed/bmark01_R01_V01_Akoya`                         |
+| `conversion_factor`| Path to output csv where the job list will be saved (.csv). Example:  `1`                                                                      |
+| `skip_existing`    | Output pixel size (numeric). Example:  `False`                                                                                                 |
+
+---
+
+**Script:** [run_rebuild.py](src/03_hard_stitching/run_rebuild.py) 
+
+### Description
+It orchestrates coarse stitching.
+
+### Arguments
+```
+python src/03_hard_stitching/run_rebuild.py <csv_path/> src/03_hard_stitching/01_rebuild_after_ffc.py
+```
+
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `path/to/project_directory/rebuild_processed_job_list.csv` |
+
+---
