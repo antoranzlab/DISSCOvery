@@ -3,8 +3,7 @@
 ---
 
 <pre> 
-05_QC 
-├── MILAN
+05_QC
     ├── 1. qualifai_list_jobs_multiclass.R
     └── 2. run_QC.py
         └── QUALIFAI.py

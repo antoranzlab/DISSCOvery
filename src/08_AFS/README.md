@@ -4,10 +4,9 @@
 
 <pre> 
 08_AFS
-├── MILAN
-    ├── 1. AFS_list_jobs.R
-    └── 2. run_AFS.py
-        └── AutofluorescenceSubtraction.py
+├── 1. AFS_list_jobs.R
+└── 2. run_AFS.py
+    └── AutofluorescenceSubtraction.py
 </pre>
 
 ---

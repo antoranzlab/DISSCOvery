@@ -15,18 +15,34 @@
 <pre> 
 04_STS 
 ├── MILAN
-    ├── 1. coarse_registration_list_jobs.R
-    ├── 2. run_sts_coarse_reg.py
-    │   └── STS_coarse_registration_imreg.py
-    ├── 3. mask_generation_list_jobs.R
-    ├── 4. run_STS_mask.py
-    │   └── STS_generate_mask.py
-    ├── 5. BB_estimation_list_jobs.R
-    ├── 6. run_STS_BB.py
-    │   └── STS_generate_BB.py
-    ├── 7. bb_concordance_list_jobs.R
-    └── 8. run_STS_concordance.py
-        └── STS_evaluate_concordance.R
+│   ├── 1. coarse_registration_list_jobs.R
+│   ├── 2. run_sts_coarse_reg.py
+│   │   └── STS_coarse_registration_imreg.py
+│   ├── 3. mask_generation_list_jobs.R
+│   ├── 4. run_STS_mask.py
+│   │   └── STS_generate_mask.py
+│   ├── 5. BB_estimation_list_jobs.R
+│   ├── 6. run_STS_BB.py
+│   │   └── STS_generate_BB.py
+│   ├── 7. bb_concordance_list_jobs.R
+│   └── 8. run_STS_concordance.py
+│        └── STS_evaluate_concordance.R
+│
+├── COMET
+│   ├── 1. mask_generation_list_jobs.R
+│   ├── 2. run_STS_mask.py
+│   │   └── STS_generate_mask.py
+│   ├── 3. BB_estimation_list_jobs.R
+│   └── 4. run_STS_bb.py
+│      └── STS_generate_BB.py
+│ 
+└── AKOYA
+    ├── 1. BB_estimation_list_jobs.R
+    └── 2. run_STS_bb.py
+        └── STS_generate_BB.py
+
+
+
 
 </pre>
 

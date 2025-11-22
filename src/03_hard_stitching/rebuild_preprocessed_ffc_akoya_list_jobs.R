@@ -116,6 +116,17 @@ HardStitchingJobList <- function(input_path_tiles, # Path to input tiles (path).
   write.csv(job_list, output_path_csv, row.names = FALSE)
 }
 
+# Parser check -------------------------------------------------------------------
+required_args <- c("input_path_tiles", "input_path_meta", "output_folder", "output_path_csv", "output_pixel_size")
+missing_args <- required_args[sapply(required_args, function(x) is.null(argv[[x]]) || is.na(argv[[x]]))]
+
+if (length(missing_args) > 0) {
+  cat("Missing required arguments:", paste(missing_args, collapse = ", "), "\n\n")
+  print(tmp_parser)
+  quit(status = 1)
+}
+
+
 # Function call ------------------------------------------------------------------
 HardStitchingJobList(input_path_tiles = argv$input_path_tiles, # Path to input tiles (dir). Example:  path/to/project_directory/output_FFC_corrected
                      input_path_meta = argv$input_path_meta, # Path to input metadata files (dir). Example:  path/to/project_directory/output_FFC_corrected

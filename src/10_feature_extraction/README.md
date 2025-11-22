@@ -4,8 +4,7 @@
 
 <pre> 
 11_feature_extraction
-├── MILAN
-    ├── 1. FeatureExtraction.py
+    └──  1. FeatureExtraction.py
 
 </pre>
 

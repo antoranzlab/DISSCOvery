@@ -3,10 +3,10 @@
 ---
 <pre> 
 09_segmentation
-├── MILAN
-    ├── 1. segmentation_list_jobs.R
-    └── 2. run_segmentation.py
-        └── segmentation.py
+├── 1. segmentation_list_jobs.R
+└── 2. run_segmentation.py
+    └── segmentation.py
+
 </pre>
 ---
 
