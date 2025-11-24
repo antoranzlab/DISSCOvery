@@ -6,15 +6,17 @@
 
 [1. Rename files](#1-rename-files)
 
-[2. Undo renaming](#2-undo-renaming)
+[2. COLLAGE](#2-collage)
 
-[3. Evaluate registration performance (AlgnQC)](#3-evaluate-registration-performance-algnqc)
+[3. Undo renaming](#2-undo-renaming)
+
+[4. Evaluate registration performance (AlgnQC)](#3-evaluate-registration-performance-algnqc)
 
 <pre> 
 07_stitching_registration
-├── MILAN
+└── MILAN
     ├── 1. rename_round_versions.R
-    ├── 2. COLLAGE (docker)
+    ├── 2. COLLAGE
     ├── 3. undo_rename_round_versions.R
     ├── 4. algnqc_list_jobs.R
     └── 5. run_algnqc.py
@@ -27,7 +29,7 @@
 
 ---
 
- **Script:** [rename_round_versions.R](src/07_stitching_registration/rename_round_versions.R) 
+**Script:** [rename_round_versions.R](src/07_stitching_registration/rename_round_versions.R) 
 
 ### Description
 
@@ -45,7 +47,15 @@ Rscript src/07_stitching_registration/rename_round_versions.R --input_path_tiles
 
 ---
 
-# 2. Undo renaming
+# 2. COLLAGE
+
+Registration for MILAN is conducted using COLLAGE. More information can be found here:
+https://www.biorxiv.org/content/10.1101/2024.07.15.603557v1
+
+
+---
+
+# 3. Undo renaming
 
 ---
 **Script:** [undo_rename_round_versions.R](src/07_stitching_registration/undo_rename_round_versions.R) 
@@ -67,7 +77,7 @@ Rscript src/07_stitching_registration/undo_rename_round_versions.R --input_path_
 
 ---
 
-# 3. Evaluate registration performance (AlgnQC)
+# 4. Evaluate registration performance (AlgnQC)
 
 ---
 
@@ -96,6 +106,23 @@ Rscript src/07_stitching_registration/algnqc_list_jobs.R --input_path_images <pa
 
 ---
 
+**Script:** [run_algnqc.py](src/07_stitching_registration/run_algnqc.py) 
+
+### Description
+It orchestrates QC evaluation. It requires the output CSV file of [algnqc_list_jobs.R](src/07_stitching_registration/algnqc_list_jobs.R) and [evaluate_registration_algnqc.py](src/07_stitching_registration/evaluate_registration_algnqc.py) script  as positional arguments
+
+### Arguments
+
+```
+python src/07_stitching_registration/run_algnqc.py <csv_path/> src/07_stitching_registration/evaluate_registration_algnqc.py
+```
+
+| Argument                 | Description                                                                                                                         |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/algnqc_job_list.csv` |
+
+---
+
 **Script:** [evaluate_registration_algnqc.py](src/07_stitching_registration/evaluate_registration_algnqc.py) 
 
 ### Description
@@ -118,19 +145,3 @@ Rscript src/07_stitching_registration/evaluate_registration_algnqc.py --path_ref
 
 ---
 
-**Script:** [run_algnqc.py](src/07_stitching_registration/run_algnqc.py) 
-
-### Description
-It orchestrates QC evaluation. It requires the output CSV file of [algnqc_list_jobs.R](src/07_stitching_registration/algnqc_list_jobs.R) and [evaluate_registration_algnqc.py](src/07_stitching_registration/evaluate_registration_algnqc.py) script  as positional arguments
-
-### Arguments
-
-```
-python src/07_stitching_registration/run_algnqc.py <csv_path/> src/07_stitching_registration/evaluate_registration_algnqc.py
-```
-
-| Argument                 | Description                                                                                                                         |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/algnqc_job_list.csv` |
-
----

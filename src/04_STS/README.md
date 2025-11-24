@@ -72,6 +72,23 @@ Rscript src/04_STS/coarse_registration_list_jobs.R --input_path_images <path_to_
 | `output_path_csv`  | Path to output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/coarse_registration_job_list.csv` |
 
 ---
+**Script:** [run_sts_coarse_reg.py](src/04_STS/run_sts_coarse_reg.py) 
+
+### Description
+It orchestrates coarse stitching. It requires the output CSV file of [coarse_registration_list_jobs.R](src/04_STS/coarse_registration_list_jobs.R) and [STS_coarse_registration_imreg.py](src/04_STS/STS_coarse_registration_imreg.py) script  as positional arguments
+
+
+### Arguments
+```
+python src/04_STS/run_sts_coarse_reg.py <csv_path/> src/04_STS/STS_coarse_registration_imreg.py
+```
+
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/coarse_registration_job_list.csv` |
+
+
+---
 
 **Script:** [STS_coarse_registration_imreg.py](src/04_STS/STS_coarse_registration_imreg.py)
 
@@ -90,24 +107,6 @@ python src/04_STS/STS_coarse_registration_imreg.py --path_fixed_image <path_to_f
 | `path_query_image`        | Full path to the query/moving image (.tiff). Example: `/path/to/project_directory/hard_stitching/BM/BM_R02_V01_BENCHMARK_ND_DAPI.tiff`   |
 | `path_query_registered`   | Full path to the registered query/moving image (.tiff). Example: `/path/to/project_directory/output_coarse_registration/images/BM/BM_R02_V01_BENCHMARK_ND_DAPI.tiff` |
 | `path_transformation_matrix` | Full path to the transformation matrix (.npy). Example: `/path/to/project_directory/output_coarse_registration/tm/BM/BM_R02_V01_BENCHMARK_ND_DAPI.npy` |
-
----
-
-**Script:** [run_sts_coarse_reg.py](src/04_STS/run_sts_coarse_reg.py) 
-
-### Description
-It orchestrates coarse stitching. It requires the output CSV file of [coarse_registration_list_jobs.R](src/04_STS/coarse_registration_list_jobs.R) and [STS_coarse_registration_imreg.py](src/04_STS/STS_coarse_registration_imreg.py) script  as positional arguments
-
-
-### Arguments
-```
-python src/04_STS/run_sts_coarse_reg.py <csv_path/> src/04_STS/STS_coarse_registration_imreg.py
-```
-
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/coarse_registration_job_list.csv` |
-
 
 ---
 
@@ -136,24 +135,6 @@ Rscript src/04_STS/mask_generation_list_jobs.R --input_path_images <path_to_hard
 
 
 ---
-
-**Script:** [STS_generate_mask.py](src/04_STS/STS_generate_mask.py)
-
-### Description
-The script creates tissue masks. 
-
-### Arguments
-```
-python src/04_STS/STS_generate_mask.py --input_image_path <path_to_registered_hard_stitching/> -- output_image_path <path_to_output_mask/> --model_path <path_to_pretrained_model/> 
-```
-| Argument           | Description                                                                                                                                                                                                     |
-|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input_image_path`  | Full path to the image file where the registered hard stitched image is stored (.tiff). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images/BM/BM_R00_V01_BENCHMARK_ND_DAPI.tiff` |
-| `output_image_path` | Full path to the output file where the mask will be stored (.tiff). Example: `/path/to/project_directory/output_STS/output_masks/BM/BM_R00_V01_BENCHMARK_ND_DAPI.tiff`                                          |
-| `model_path`        | Path to the output directory where the AI model is saved (.h5). Example: `models/04_uNet_simple_best.h5`                                                                                                        |
-
----
-
 **Script:** [run_STS_mask.py](src/04_STS/run_STS_mask.py) 
 
 ### Description
@@ -169,6 +150,23 @@ python src/04_STS/run_STS_mask.py <csv_path/> src/04_STS/STS_generate_mask.py
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/generate_mask_job_list.csv` |
 
+
+---
+
+**Script:** [STS_generate_mask.py](src/04_STS/STS_generate_mask.py)
+
+### Description
+The script creates tissue masks. 
+
+### Arguments
+```
+python src/04_STS/STS_generate_mask.py --input_image_path <path_to_registered_hard_stitching/> -- output_image_path <path_to_output_mask/> --model_path <path_to_pretrained_model/> 
+```
+| Argument           | Description                                                                                                                                                                                                     |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_image_path`  | Full path to the image file where the registered hard stitched image is stored (.tiff). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images/BM/BM_R00_V01_BENCHMARK_ND_DAPI.tiff` |
+| `output_image_path` | Full path to the output file where the mask will be stored (.tiff). Example: `/path/to/project_directory/output_STS/output_masks/BM/BM_R00_V01_BENCHMARK_ND_DAPI.tiff`                                          |
+| `model_path`        | Path to the output directory where the AI model is saved (.h5). Example: `models/04_uNet_simple_best.h5`                                                                                                        |
 
 ---
 
@@ -196,6 +194,23 @@ Rscript src/04_STS/BB_estimation_list_jobs.R --input_path_images <path_to_STS_ma
 | `output_path_csv`  | Path to output csv where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/BB_estimation_job_list.csv`                                                           |
 
 ---
+**Script:** [run_STS_BB.py](src/04_STS/run_STS_BB.py) 
+
+### Description
+It orchestrates Bound Boxes estimation. It requires the output CSV file of [BB_estimation_list_jobs.R](src/04_STS/BB_estimation_list_jobs.R) and [STS_generate_BB.py](src/04_STS/STS_generate_BB.py) script  as positional arguments
+
+
+### Arguments
+```
+python src/04_STS/run_STS_BB.py <csv_path/> src/04_STS/STS_generate_BB.py
+```
+
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/BB_estimation_job_list.csv` |
+
+
+---
 
 **Script:** [04_STS/STS_generate_BB.py](src/04_STS/STS_generate_BB.py) 
 
@@ -216,23 +231,7 @@ python src/04_STS/STS_generate_BB.py --input_image_path <path_to_mask/> --bbox_t
 
 ---
 
-**Script:** [run_STS_BB.py](src/04_STS/run_STS_BB.py) 
 
-### Description
-It orchestrates Bound Boxes estimation. It requires the output CSV file of [BB_estimation_list_jobs.R](src/04_STS/BB_estimation_list_jobs.R) and [STS_generate_BB.py](src/04_STS/STS_generate_BB.py) script  as positional arguments
-
-
-### Arguments
-```
-python src/04_STS/run_STS_BB.py <csv_path/> src/04_STS/STS_generate_BB.py
-```
-
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/BB_estimation_job_list.csv` |
-
-
----
 
 # 4. Evaluate concordance 
 
@@ -260,6 +259,22 @@ Rscript src/04_STS/bb_concordance_list_jobs.R --input_path_BB <path_to_BB/> --ou
 | `path_output_csv`   | Path to output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/bb_concordance_job_list.csv`               |
 
 ---
+**Script:** [run_STS_concordance.py](src/04_STS/run_STS_concordance.py) 
+
+### Description
+It orchestrates coarse stitching. It requires the output CSV file of [bb_concordance_list_jobs.R](src/04_STS/bb_concordance_list_jobs.R) and [STS_evaluate_concordance.R](src/04_STS/STS_evaluate_concordance.R) script  as positional arguments
+
+
+### Arguments
+```
+python src/04_STS/run_STS_mask.py <csv_path/> src/04_STS/STS_evaluate_concordance.R
+```
+
+| Argument                 | Description                                                                                                                         |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/bb_concordance_job_list.csv` |
+
+---
 
 **Script:** [04_STS/STS_evaluate_concordance.R](src/04_STS/STS_evaluate_concordance.R)
 
@@ -281,18 +296,3 @@ Rscript src/04_STS/bb_concordance_list_jobs.R --input_path_BB <path_to_BB/> --ou
 | `ref_version`       | Version to be used as a reference (str). Example: `V02`                                                             |
 
 ---
-
-**Script:** [run_STS_concordance.py](src/04_STS/run_STS_concordance.py) 
-
-### Description
-It orchestrates coarse stitching. It requires the output CSV file of [bb_concordance_list_jobs.R](src/04_STS/bb_concordance_list_jobs.R) and [STS_evaluate_concordance.R](src/04_STS/STS_evaluate_concordance.R) script  as positional arguments
-
-
-### Arguments
-```
-python src/04_STS/run_STS_mask.py <csv_path/> src/04_STS/STS_evaluate_concordance.R
-```
-
-| Argument                 | Description                                                                                                                         |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/bb_concordance_job_list.csv` |

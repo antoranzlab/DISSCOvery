@@ -29,7 +29,22 @@ Rscript src/05_QC/qualifai_list_jobs_multiclass.R --input_folder_path <path_to_i
 | `output_path_csv`    | Path to the CSV where the list of jobs will be saved (.csv). Example:  `/path/to/project_directory/qualifai_list_jobs.csv`           |
 
 ---
+**Script:** [run_QC.py](src/05_QC/run_QC.py) 
 
+### Description
+It orchestrates quality checking. It requires the output CSV file of [qualifai_list_jobs_multiclass.R](src/05_QC/qualifai_list_jobs_multiclass.R) and [QUALIFAI.py](src/05_QC/QUALIFAI.py) script  as positional arguments
+
+
+### Arguments
+```
+python src/05_QC/run_QC.py <csv_path/> src/05_QC/QUALIFAI.py
+```
+
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/qualifai_list_jobs.csv` |
+
+---
 **Script:** [QUALIFAI.py](src/05_QC/QUALIFAI.py) 
 
 ### Description
@@ -47,20 +62,4 @@ python src/05_QC/QUALIFAI.py --input_image_path <path_to_the_input_image/> --out
 | `model_path`        | Path to the output directory where the AI model is saved (.pth). Example: `models/05_unetpp_best.pth`                                                  |
 
 ---
-
-**Script:** [run_QC.py](src/05_QC/run_QC.py) 
-
-### Description
-It orchestrates quality checking. It requires the output CSV file of [qualifai_list_jobs_multiclass.R](src/05_QC/qualifai_list_jobs_multiclass.R) and [QUALIFAI.py](src/05_QC/QUALIFAI.py) script  as positional arguments
-
-
-### Arguments
-```
-python src/05_QC/run_QC.py <csv_path/> src/05_QC/QUALIFAI.py
-```
-
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/qualifai_list_jobs.csv` |
-
 

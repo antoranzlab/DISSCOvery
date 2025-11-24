@@ -32,6 +32,22 @@ Rscript src/08_AFS/AFS_list_jobs.R --input_path_images <path_to_input_images/> -
 | `output_path_csv`        | Path to output csv where the job list will be saved (.csv). Example: `/path/to/project_directory/afs_job_list.csv`         |
 
 ---
+**Script:** [run_AFS.py](src/08_AFS/run_AFS.py) 
+
+### Description
+It orchestrates AFS. It requires the output CSV file of [AFS_list_jobs.R](src/08_AFS/AFS_list_jobs.R) and [AutofluorescenceSubtraction.py](src/08_AFS/AutofluorescenceSubtraction.py) script  as positional arguments
+
+### Arguments
+
+```
+python src/08_AFS/run_AFS.py <csv_path/> src/08_AFS/AutofluorescenceSubtraction.py
+```
+
+| Argument                 | Description                                                                                                                         |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/afs_job_list.csv` |
+
+---
 
 **Script:** [AutofluorescenceSubtraction.py](src/08_AFS/AutofluorescenceSubtraction.py) 
 
@@ -51,22 +67,5 @@ python src/08_AFS/AutofluorescenceSubtraction.py --input_path_medoids <path_to_i
 | `input_path_AF`  | Path to input AF image (.tiff). Example: `output_registration/BM_R01_V01_BENCHMARK/BM_R01_V01_BENCHMARK_FITC.tiff`.                                       |
 | `output_path_TS`   | Path to output TS image (.tiff). Example: `/path/to/project_directory/output_AFS_images/BM_R02_V01_BENCHMARK/BM_R02_V01_BENCHMARK_FITC.tiff`.             |
 | `output_path_QC` | Path to output QC image (.tiff). Example: `/path/to/project_directory/output_AFS_QC/marker_name/BM_R02_V01_BENCHMARK_FITC.tiff`.                          |
-
----
-
-**Script:** [run_AFS.py](src/08_AFS/run_AFS.py) 
-
-### Description
-It orchestrates AFS. It requires the output CSV file of [AFS_list_jobs.R](src/08_AFS/AFS_list_jobs.R) and [AutofluorescenceSubtraction.py](src/08_AFS/AutofluorescenceSubtraction.py) script  as positional arguments
-
-### Arguments
-
-```
-python src/08_AFS/run_AFS.py <csv_path/> src/08_AFS/AutofluorescenceSubtraction.py
-```
-
-| Argument                 | Description                                                                                                                         |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/afs_job_list.csv` |
 
 ---

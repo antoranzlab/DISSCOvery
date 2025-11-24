@@ -48,7 +48,22 @@ Rscript src/03_hard_stitching/03_hard_stitching_list_jobs.R --input_path_tiles <
 | `only_dapi`          | Boolean indicating whether to process only DAPI (str). Example: `True`.                                                                                                                                                                                          |
 
 ---
+**Script:** [run_hs.py](src/03_hard_stitching/run_hs.py) 
 
+### Description
+It orchestrates coarse stitching. It requires the output CSV file of [hard_stitching_list_jobs.R](src/03_hard_stitching/hard_stitching_list_jobs.R) and [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) script  as positional arguments
+
+
+### Arguments
+```
+python src/03_hard_stitching/run_hs.py <csv_path/> src/03_hard_stitching/hard_stitching.py
+```
+
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/hard_stitching_job_list.csv` |
+
+----
 **Script:** [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) 
 
 ### Description
@@ -69,24 +84,6 @@ python src/03_hard_stitching/hard_stitching.py --input_tiles <path_to_tiles/> --
 | `only_dapi`        | Boolean indicating whether to perform hard stitching only on DAPI (string). Example: `True`.                                                                                                                                                                  |
 
 ---
-
-**Script:** [run_hs.py](src/03_hard_stitching/run_hs.py) 
-
-### Description
-It orchestrates coarse stitching. It requires the output CSV file of [hard_stitching_list_jobs.R](src/03_hard_stitching/hard_stitching_list_jobs.R) and [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) script  as positional arguments
-
-
-### Arguments
-```
-python src/03_hard_stitching/run_hs.py <csv_path/> src/03_hard_stitching/hard_stitching.py
-```
-
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/hard_stitching_job_list.csv` |
-
-
-----
 
 # COMET/AKOYA (resizing)
 
@@ -111,6 +108,21 @@ python src/03_hard_stitching/hard_stitching.py --input_path_images <input_path_i
 | `output_path_csv`    | Path to output csv where the job list will be saved (.csv). Example:  `path/to/project_directory/hard_stitching_job_list.csv` |
 
 ---
+**Script:** [run_resize.py](src/03_hard_stitching/run_resize.py) 
+
+### Description
+It orchestrates coarse stitching.
+
+### Arguments
+```
+python src/03_hard_stitching/run_resize.py <csv_path/> src/03_hard_stitching/01_resize_processed.py
+```
+
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `path/to/project_directory/hard_stitching_job_list.csv` |
+
+---
 
 **Script:** [01_resize_processed.py](src/03_hard_stitching/01_resize_processed.py) 
 
@@ -128,22 +140,6 @@ python src/03_hard_stitching/01_resize_processed.py --input_path_image <input_pa
 | `output_path_image`   | Path to the output image (.tiff). Example:  `path/to/project_directory/hard_stitching/bmark01/bmark01_R01_V01_COMET_Cy5.tiff`.                  |
 | `conversion_factor`    | Conversion factor for downscaling. For example, `4`.                                                              |
 | `skip_existing`| Boolean to define whether to skip already existing results. For example, `TRUE`                                   |
-
----
-
-**Script:** [run_resize.py](src/03_hard_stitching/run_resize.py) 
-
-### Description
-It orchestrates coarse stitching.
-
-### Arguments
-```
-python src/03_hard_stitching/run_resize.py <csv_path/> src/03_hard_stitching/01_resize_processed.py
-```
-
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `path/to/project_directory/hard_stitching_job_list.csv` |
 
 ---
 
@@ -169,6 +165,21 @@ Rscript src/03_hard_stitching/rebuild_preprocessed_ffc_akoya_list_jobs.R --input
 | `output_pixel_size`    | Output pixel size (numeric). Example:  `2.6`, `0.65` or `0.5` |
 
 ---
+**Script:** [run_rebuild.py](src/03_hard_stitching/run_rebuild.py) 
+
+### Description
+It orchestrates coarse stitching.
+
+### Arguments
+```
+python src/03_hard_stitching/run_rebuild.py <csv_path/> src/03_hard_stitching/01_rebuild_after_ffc.py
+```
+
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `path/to/project_directory/rebuild_processed_job_list.csv` |
+
+---
 
 **Script:** [01_rebuild_after_ffc.py](src/03_hard_stitching/01_rebuild_after_ffc.py) 
 
@@ -187,21 +198,5 @@ python src/03_hard_stitching/01_rebuild_after_ffc.py --input_tiles <input_tiles/
 | `output_folder`    | Path to output path to save images (dir). Example:  `path/to/project_directory/output_processed/bmark01_R01_V01_Akoya`                         |
 | `conversion_factor`| Path to output csv where the job list will be saved (.csv). Example:  `1`                                                                      |
 | `skip_existing`    | Output pixel size (numeric). Example:  `False`                                                                                                 |
-
----
-
-**Script:** [run_rebuild.py](src/03_hard_stitching/run_rebuild.py) 
-
-### Description
-It orchestrates coarse stitching.
-
-### Arguments
-```
-python src/03_hard_stitching/run_rebuild.py <csv_path/> src/03_hard_stitching/01_rebuild_after_ffc.py
-```
-
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `path/to/project_directory/rebuild_processed_job_list.csv` |
 
 ---

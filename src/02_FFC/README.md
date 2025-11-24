@@ -16,7 +16,7 @@
 
 <pre> 
 02_FFC 
-├── MILAN/AKOYA
+└── MILAN/AKOYA
     ├── 1. FFC_list_jobs.R
     │   ├── 1.1 01_hard_stitching*
     │   │   ├── 1.1.1 hard_stitching_list_jobs.R
@@ -33,9 +33,7 @@
     ├── 4. run_ffc_raw.py
     │   └── FFC_raw.py
     └── 5. run_ffc_metadata.py
-       └── FFC_metadata.py
-
-
+        └── FFC_metadata.py
 
 * preparation of the input data for FFC Kask
 </pre>
@@ -100,6 +98,20 @@ Rscript src/02_FFC//FFC_list_jobs.R --input_path_tiles <path_to_tiles/> --input_
 # 2. FFC BaSiC
 
 ---
+**Script:** [run_ffc_basic.py](src/02_FFC/run_ffc_basic.py)
+
+### Description
+It orchestrates BaSiC FFC. It requires the output CSV file of [FFC_list_jobs.R ](src/02_FFC/FFC_list_jobs.R) and [FFC_BaSiC.py](src/02_FFC/FFC_BaSiC.py) script  as positional arguments
+
+### Arguments
+```
+python src/02_FFC/run_ffc_basic.py <path_to_output_csv_joblist/> src/02_FFC/FFC_BaSiC.py
+```
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/FFC_job_list.csv` |
+
+---
 
 **Script:** [FFC_BaSiC.py](src/02_FFC/FFC_BaSiC.py)  
 
@@ -124,22 +136,6 @@ python src/02_FFC/02_FFC_BaSiC.py --in_path <path_to_raw_tiles/> --channel <chan
 
 ---
 
-**Script:** [run_ffc_basic.py](src/02_FFC/run_ffc_basic.py)
-
-### Description
-It orchestrates BaSiC FFC. It requires the output CSV file of [FFC_list_jobs.R ](src/02_FFC/FFC_list_jobs.R) and [FFC_BaSiC.py](src/02_FFC/FFC_BaSiC.py) script  as positional arguments
-
-### Arguments
-```
-python src/02_FFC/run_ffc_basic.py <path_to_output_csv_joblist/> src/02_FFC/FFC_BaSiC.py
-```
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/FFC_job_list.csv` |
-
-
----
-
 # 3. FFC Kask
 
 ### Description
@@ -156,9 +152,24 @@ Therefore, first the course stitching and tissue masks have to be generated.
    - [mask_generation_list_jobs.R](src/04_STS/mask_generation_list_jobs.R) 
    - [STS_generate_mask.py](src/04_STS/STS_generate_mask.py)
 
-**Main script:** 
 
-[FFC_Kask.py](src/02_FFC/FFC_Kask.py)
+---
+**Script:** [run_ffc_kask.py](src/02_FFC/run_ffc_kask.py)
+
+### Description
+It orchestrates Kask FFC. It requires the output CSV file of [FFC_list_jobs.R](src/02_FFC/FFC_list_jobs.R) and [FFC_Kask.py](src/02_FFC/FFC_Kask.py) script  as positional arguments
+
+### Arguments
+```
+python src/02_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> src/02_FFC/FFC_Kask.py
+```
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/FFC_job_list.csv` |
+
+---
+
+**Script:** [FFC_Kask.py](src/02_FFC/FFC_Kask.py)
 
 ### Arguments for main script
 
@@ -180,14 +191,16 @@ python src/02_FFC/FFC_Kask.py --input_images <path_to_tiles/> --input_metadata <
 
 ---
 
-**Script:** [run_ffc_kask.py](src/02_FFC/run_ffc_kask.py)
+
+# 4. FFC Raw
+**Script:** [run_ffc_raw.py](src/02_FFC/run_ffc_raw.py)
 
 ### Description
-It orchestrates Kask FFC. It requires the output CSV file of [FFC_list_jobs.R](src/02_FFC/FFC_list_jobs.R) and [FFC_Kask.py](src/02_FFC/FFC_Kask.py) script  as positional arguments
+It orchestrates FFC raw. It requires the output CSV file of [FFC_list_jobs.R](src/02_FFC/FFC_list_jobs.R) and [FFC_raw.py](src/02_FFC/FFC_raw.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/02_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> src/02_FFC/FFC_Kask.py
+python src/02_FFC/run_ffc_raw.py <path_to_output_csv_joblist/> src/02_FFC/FFC_raw.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -195,9 +208,6 @@ python src/02_FFC/run_ffc_kask.py <path_to_output_csv_joblist/> src/02_FFC/FFC_K
 
 
 ---
-
-
-# 4. FFC Raw
 **Script:** [FFC_raw.py](src/02_FFC/FFC_raw.py) 
 
 ### Description
@@ -217,23 +227,23 @@ python src/02_FFC/FFC_raw.py --input_images <path_to_tiles/> --channel <channel_
 | `skip_existing`         | Whether to skip already existing results (boolean). For example: `False`.                                                                        |
 
 ---
-**Script:** [run_ffc_raw.py](src/02_FFC/run_ffc_raw.py)
+
+# 5. FFC metadata
+**Script:** [run_ffc_metadata.py](src/02_FFC/run_ffc_metadata.py)
 
 ### Description
-It orchestrates FFC raw. It requires the output CSV file of [FFC_list_jobs.R](src/02_FFC/FFC_list_jobs.R) and [FFC_raw.py](src/02_FFC/FFC_raw.py) script  as positional arguments
+It orchestrates copying the metadata after FFC. It requires the output CSV file of [FFC_job_list_metadata.csv](src/02_FFC/FFC_job_list_metadata.csv) and [FFC_metadata.py](src/02_FFC/FFC_metadata.py) script  as positional arguments
 
 ### Arguments
 ```
-python src/02_FFC/run_ffc_raw.py <path_to_output_csv_joblist/> src/02_FFC/FFC_raw.py
+python src/02_FFC/run_ffc_metadata.py <path_to_output_csv_joblist/> src/02_FFC/FFC_metadata.py
 ```
 | Argument                 | Description                                                                                                                          |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/FFC_job_list.csv` |
-
+| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/FFC_job_list_metadata.csv` |
 
 ---
 
-# 5. FFC metadata
 **Script:** [FFC_metadata.py](src/02_FFC/FFC_metadata.py)
 
 ### Description
@@ -249,20 +259,5 @@ python src/02_FFC/FFC_metadata.py --input_metadata <path_to_input_metadata/> --o
 |------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_metadata` | Path to the input CSV file with the metadata. For example: `path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND/BM_R00_V01_BENCHMARK_ND.csv`. |
 | `output_metadata`| Path to the output CSV file with the metadata. For example: `path/to/project_directory/output_FFC_corrected/BM_R00_V01_BENCHMARK_ND/BM_R00_V01_BENCHMARK_ND.csv`.      |
-
----
-**Script:** [run_ffc_metadata.py](src/02_FFC/run_ffc_metadata.py)
-
-### Description
-It orchestrates copying the metadata after FFC. It requires the output CSV file of [FFC_job_list_metadata.csv](src/02_FFC/FFC_job_list_metadata.csv) and [FFC_metadata.py](src/02_FFC/FFC_metadata.py) script  as positional arguments
-
-### Arguments
-```
-python src/02_FFC/run_ffc_metadata.py <path_to_output_csv_joblist/> src/02_FFC/FFC_metadata.py
-```
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/FFC_job_list_metadata.csv` |
-
 
 ---

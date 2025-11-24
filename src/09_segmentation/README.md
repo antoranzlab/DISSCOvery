@@ -34,8 +34,24 @@ Rscript src/09_segmentation/segmentation_list_jobs.R --input_path_images <path_t
 | `output_path_csv`  | Path to output csv where the job list will be saved (.csv). Example: `/path/to/project_directory/cell_segmentation_joblist.csv` |
 
 ---
+**Script:** [run_segmentation.py](src/09_segmentation/run_segmentation.py) 
+
+### Description
+
+It orchestrates cell segmentation. It requires the output CSV file of [segmentation_list_jobs.R](src/09_segmentation/segmentation_list_jobs), and [segmentation.py](src/09_segmentation/segmentation.py) script  as positional arguments
+
+### Arguments
+
+```
+python src/09_segmentation/run_segmentation.py <csv_path/>  src/09_segmentation/segmentation.py
+```
 
 
+| Argument                 | Description                                                                                                                         |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/cell_segmentation_joblist.csv` |
+
+---
 **Script:** [segmentation.py](src/09_segmentation/segmentation.py) 
 
 
@@ -60,20 +76,3 @@ python src/09_segmentation/segmentation.py --path_to_the_image <path_to_input_im
 
 ---
 
-**Script:** [run_segmentation.py](src/09_segmentation/run_segmentation.py) 
-
-### Description
-
-It orchestrates cell segmentation. It requires the output CSV file of [segmentation_list_jobs.R](src/09_segmentation/segmentation_list_jobs), and [segmentation.py](src/09_segmentation/segmentation.py) script  as positional arguments
-
-### Arguments
-
-```
-python src/09_segmentation/run_segmentation.py <csv_path/>  src/09_segmentation/segmentation.py
-```
-
-
-| Argument                 | Description                                                                                                                         |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/cell_segmentation_joblist.csv` |
----

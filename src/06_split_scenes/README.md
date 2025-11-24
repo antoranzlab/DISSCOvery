@@ -85,6 +85,21 @@ Rscript src/06_split_scenes/reverse_transformation_list_jobs.R --input_path_tm <
 | `output_path_csv`      | Path to output csv where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/output_STS/reverse_transformation_job_list.csv`.                                                     |
 
 ---
+**Script:** [run_reverse_transformation.py](src/06_split_scenes/run_reverse_transformation.py) 
+
+### Description
+It orchestrates reverse transformation. It requires the output CSV file of [reverse_transformation_list_jobs.R](src/06_split_scenes/reverse_transformation_list_jobs.R) and [reverse_transformation.py](src/06_split_scenes/reverse_transformation.py) script  as positional arguments
+
+### Arguments
+```
+python src/06_split_scenes/run_reverse_transformation.py <csv_path/> src/06_split_scenes/reverse_transformation.py
+```
+
+| Argument                 | Description                                                                                                                         |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/reverse_transformation_job_list.csv` |
+
+---
 
 **Script:** [reverse_transformation.py](src/06_split_scenes/reverse_transformation.py) 
 
@@ -105,22 +120,6 @@ python src/06_split_scenes/reverse_transformation.py --input_path_tm <path_to_in
 | `output_path_masks`| Path to the foreground mask output (dir). Example: `/path/to/project_directory/output_STS/output_masks_reverse`.                        |
 | `output_path_bb` | Path to the bounding boxes output (dir). Example: `/path/to/project_directory/output_STS/BBs_reverse`.                                  |
 
-
----
-
-**Script:** [run_reverse_transformation.py](src/06_split_scenes/run_reverse_transformation.py) 
-
-### Description
-It orchestrates reverse transformation. It requires the output CSV file of [reverse_transformation_list_jobs.R](src/06_split_scenes/reverse_transformation_list_jobs.R) and [reverse_transformation.py](src/06_split_scenes/reverse_transformation.py) script  as positional arguments
-
-### Arguments
-```
-python src/06_split_scenes/run_reverse_transformation.py <csv_path/> src/06_split_scenes/reverse_transformation.py
-```
-
-| Argument                 | Description                                                                                                                         |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/reverse_transformation_job_list.csv` |
 
 ---
 
@@ -154,6 +153,22 @@ Rscript src/06_split_scenes/split_scenes_list_jobs.R --input_path_tiles <path_to
 | `skip_existing`               | Boolean to skip already existing results (boolean). Example: `False`.                                                                         |
 
 ---
+**Script:** [run_split_scenes.py](src/06_split_scenes/run_split_scenes.py) 
+
+### Description
+It orchestrates reverse transformation. It requires the output CSV file of [split_scenes_list_jobs.R](src/06_split_scenes/split_scenes_list_jobs.R) and [split_scenes.R](src/06_split_scenes/split_scenes.R) script  as positional arguments
+
+### Arguments
+
+```
+python src/06_split_scenes/run_split_scenes.py <csv_path/> src/06_split_scenes/split_scenes.R
+```
+
+| Argument                 | Description                                                                                                                         |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/split_scenes_job_list.csv` |
+
+---
 
 **Script:** [split_scenes.R](src/06_split_scenes/split_scenes.R) 
 
@@ -178,23 +193,6 @@ Rscript src/06_split_scenes/split_scenes.R --input_path_tiles <path_to_input_til
 | `conversion_factor_qc`        | Conversion factor for STS (numeric). Example: `1`.                                                              |
 | `channel_id`     | Channel ID (str). Example: `DAPI`.                                                                              |
 | `skip_existing`               | Boolean to skip already existing results (boolean). Example: `False`.                                             |
-
----
-
-**Script:** [run_split_scenes.py](src/06_split_scenes/run_split_scenes.py) 
-
-### Description
-It orchestrates reverse transformation. It requires the output CSV file of [split_scenes_list_jobs.R](src/06_split_scenes/split_scenes_list_jobs.R) and [split_scenes.R](src/06_split_scenes/split_scenes.R) script  as positional arguments
-
-### Arguments
-
-```
-python src/06_split_scenes/run_split_scenes.py <csv_path/> src/06_split_scenes/split_scenes.R
-```
-
-| Argument                 | Description                                                                                                                         |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/split_scenes_job_list.csv` |
 
 ---
 
@@ -244,31 +242,6 @@ Rscript src/06_split_scenes//01_split_scenes_processed_list_jobs.R --input_tiles
 | `skip_existing` | Boolean to skip already existing results (boolean). Example: `TRUE`                                                                      |
 
 ---
-
-**Script:** [split_scenes_processed.py](src/06_split_scenes/split_scenes_processed.py) 
-
-### Description
-
-Splits the slides into scenes
-
-### Arguments
-```
-python src/06_split_scenes//split_scenes_processed.py --input_path_image <input_path_image/> --input_path_bb <input_path_bb/> --input_path_foreground <input_path_foreground/> --input_path_qc <input_path_qc/> --output_path_image <output_path_image/> --conversion_factor_qc <conversion_factor_qc/>  --conversion_factor_hs <conversion_factor_hs/> --skip_existing <skip_existing/>
-```
-
-| Argument       | Description                                                                                                                             |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_image` | Path to input tiles (tiff). Example: `path/to/project_directory/output_processed/BMARK01_R01_V01_COMET/BMARK01_R01_V01_COMET_DAPI.tiff` |
-| `input_path_bb`   | Path to bounding boxes (csv). Example: `path/to/project_directory/output_STS/BBs/BMARK01/BMARK01_R01_V01_COMET_DAPI.csv`                |
-| `input_path_foreground` | Path to foreground mask (.tiff). Example: `path/to/project_directory/output_STS/output_masks/BMARK01/BMARK01_R01_V01_COMET_DAPI.tiff`   |                   |
-| `input_path_qc` | Path to qualifai mask (dir)). Example: `path/to/project_directory/output_QC/BMARK01/BMARK01_R01_V01_COMET_DAPI.tiff`                    |
-| `output_path_image`  | Path to output path to save images (tiff). Example: `path/to/project_directory/split_scenes/bmark01/BMARK01_R01_V01_COMET_DAPI.tiff`    |                   |
-| `conversion_factor_qc` | Conversion factor for downscaling (numeric). Example: `2.32142857142857`                                                                |
-| `conversion_factor_hs` | Boolean to skip already existing results (boolean). Example: `9.28571428571428`                                                                     |
-| `skip_existing` | Boolean to skip already existing results (boolean). Example: `True`                                                                     |
-
----
-
 **Script:** [run_split_scenes_processed.py](src/06_split_scenes/run_split_scenes_processed.py) 
 
 ### Description
@@ -283,5 +256,29 @@ python src/06_split_scenes/run_split_scenes.py <csv_path/> src/06_split_scenes/s
 | Argument                 | Description                                                                                                                         |
 |--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | `csv_path`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/split_scenes_job_list.csv` |
+
+---
+
+**Script:** [split_scenes_processed.py](src/06_split_scenes/split_scenes_processed.py) 
+
+### Description
+
+Splits the slides into scenes
+
+### Arguments
+```
+python src/06_split_scenes/split_scenes_processed.py --input_path_image <input_path_image/> --input_path_bb <input_path_bb/> --input_path_foreground <input_path_foreground/> --input_path_qc <input_path_qc/> --output_path_image <output_path_image/> --conversion_factor_qc <conversion_factor_qc/>  --conversion_factor_hs <conversion_factor_hs/> --skip_existing <skip_existing/>
+```
+
+| Argument       | Description                                                                                                                             |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_image` | Path to input tiles (tiff). Example: `path/to/project_directory/output_processed/BMARK01_R01_V01_COMET/BMARK01_R01_V01_COMET_DAPI.tiff` |
+| `input_path_bb`   | Path to bounding boxes (csv). Example: `path/to/project_directory/output_STS/BBs/BMARK01/BMARK01_R01_V01_COMET_DAPI.csv`                |
+| `input_path_foreground` | Path to foreground mask (.tiff). Example: `path/to/project_directory/output_STS/output_masks/BMARK01/BMARK01_R01_V01_COMET_DAPI.tiff`   |                   |
+| `input_path_qc` | Path to qualifai mask (dir)). Example: `path/to/project_directory/output_QC/BMARK01/BMARK01_R01_V01_COMET_DAPI.tiff`                    |
+| `output_path_image`  | Path to output path to save images (tiff). Example: `path/to/project_directory/split_scenes/bmark01/BMARK01_R01_V01_COMET_DAPI.tiff`    |                   |
+| `conversion_factor_qc` | Conversion factor for downscaling (numeric). Example: `2.32142857142857`                                                                |
+| `conversion_factor_hs` | Boolean to skip already existing results (boolean). Example: `9.28571428571428`                                                                     |
+| `skip_existing` | Boolean to skip already existing results (boolean). Example: `True`                                                                     |
 
 ---

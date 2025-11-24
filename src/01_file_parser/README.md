@@ -166,6 +166,22 @@ Rscript src/01_file_parser/czi_generate_csv_joblist.R --path.input.folder <path_
 
 ---
 
+**Script:** [run_czi_extraction.py](src/01_file_parser/run_czi_extraction.py)
+
+### Description
+It orchestrates the data parsing. It requires the output CSV file of [czi_generate_csv_joblist.R](src/01_file_parser/czi_generate_csv_joblist.R) and [czi_reader.py](src/01_file_parser/czi_reader.py) script  as positional arguments
+
+### Arguments
+```
+python src/01_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> src/01_file_parser/czi_reader.py
+```
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/czi_extraction_csv.csv` |
+
+
+---
+
  **Script:** [czi_reader.py](src/01_file_parser/czi_reader.py)
 
 
@@ -181,22 +197,6 @@ Rscript src/01_file_parser/czi_generate_csv_joblist.R --imfilename <path_to_inpu
 | `imfilename`    | Path to the CZI file for the project/experiment (.czi). Example: `/path/to/data_files/subfolder/czi_file.czi`                                                    |
 | `channel_names_dictionary`             | Path to the CSV file mapping numeric (C0, C1, ...) to alphabetic (DAPI, FITC, ...) channel names (.csv). Example: `/path/to/project_directory/channel_names.csv` |
 | `output_folder` | Path to the output directory where the raw tiles will be saved (.tiff). Example: `/path/to/project_directory/output_tiles_tiffs`                                 |
-
-
----
-
-**Script:** [run_czi_extraction.py](src/01_file_parser/run_czi_extraction.py)
-
-### Description
-It orchestrates the data parsing. It requires the output CSV file of [czi_generate_csv_joblist.R](src/01_file_parser/czi_generate_csv_joblist.R) and [czi_reader.py](src/01_file_parser/czi_reader.py) script  as positional arguments
-
-### Arguments
-```
-python src/01_file_parser/run_czi_extraction.py <path_to_output_csv_joblist/> src/01_file_parser/czi_reader.py
-```
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/czi_extraction_csv.csv` |
 
 
 ---
@@ -480,6 +480,22 @@ Rscript src/01_file_parser/akoya_generate_csv_joblist.R --path.input.folder <pat
 
 ---
 
+**Script:** [run_harmonization_akoya_raw.py](src/01_file_parser/run_harmonization_akoya_raw.py)
+
+### Description
+It orchestrates the data parsing. It requires the output CSV file of [akoya_generate_csv_joblist.R](src/01_file_parser/akoya_generate_csv_joblist.R) and [extract_images_qptiff_akoya_raw.py](src/01_file_parser/extract_images_qptiff_akoya_raw.py) script  as positional arguments
+
+### Arguments
+```
+python src/01_file_parser/run_harmonization_akoya_raw.py <path_to_output_csv_joblist/> src/01_file_parser/extract_images_qptiff_akoya_raw.py
+```
+| Argument                 | Description                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/data_parsing.csv` |
+
+
+---
+
 **Script:** [extract_images_qptiff_akoya_raw.py](src/01_file_parser/extract_images_qptiff_akoya_raw.py)
 
 ### Description
@@ -499,18 +515,4 @@ python src/01_file_parser/extract_images_qptiff_akoya_raw.py --input_directory <
 | `project_id`             | Project identifier (str). `Example: PROJECT_COMET` |
 
 ---
-
-**Script:** [run_harmonization_akoya_raw.py](src/01_file_parser/run_harmonization_akoya_raw.py)
-
-### Description
-It orchestrates the data parsing. It requires the output CSV file of [akoya_generate_csv_joblist.R](src/01_file_parser/akoya_generate_csv_joblist.R) and [extract_images_qptiff_akoya_raw.py](src/01_file_parser/extract_images_qptiff_akoya_raw.py) script  as positional arguments
-
-### Arguments
-```
-python src/01_file_parser/run_harmonization_akoya_raw.py <path_to_output_csv_joblist/> src/01_file_parser/extract_images_qptiff_akoya_raw.py
-```
-| Argument                 | Description                                                                                                                          |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `path_to_output_csv_joblist`              | Path to the output CSV file where the list of jobs is stored (.csv). Example: `/path/to/project_directory/data_parsing.csv` |
-
 
