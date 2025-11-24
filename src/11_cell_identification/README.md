@@ -25,6 +25,16 @@
 </pre>
 
 ---
+The user should note that in the cell identification level we can have different versions and different nodes. 
+Different nodes refer to the hierarchical definition of cell types (the parent node could be the main cell types, whereas a child node could be the different Tcy subtypes within previously identified Tcys). 
+Parallel parent nodes can also be defined to use different normalization/sampling approaches. Different versions are runs of the node with different sets of markers or annotations. 
+Therefore, the same node can have different versions. The scheme below summaraize the entire process.
+
+<p align="center">
+  <img src="images/cell_identification_schema.png" alt="My Plot" width="600"/>
+</p>
+
+---
 
 # 1. Merge Data
 
