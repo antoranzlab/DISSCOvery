@@ -5,7 +5,8 @@ DISSCOvery is prepared to analyze the data coming from MILAN, LunaPhore (COMET) 
 Especially the first steps differs between the technologies, depending on the platform of choice.  
 
 Some steps are not self-contained and use the scripts related to other steps, or required re-running some modules. 
-For that reason, we present below the graph overview of the workflow, to show how the modules are related, together with the linear representation of the workflow, to help the user to navigate through the whole pipeline. 
+
+[//]: # (For that reason, we present below the graph overview of the workflow, to show how the modules are related, together with the linear representation of the workflow, to help the user to navigate through the whole pipeline. )
 
 [1. MILAN](#milan)
 
@@ -19,12 +20,8 @@ For that reason, we present below the graph overview of the workflow, to show ho
 
 ---
 
-#### Linear work tree
-Some modules use also scripts from other modules (see the image above) to prepare the input files. 
-For more details, see description of a particular modules
-
-
-1. [File parsing](src/00_file_parser) 
+#### Work tree
+1. [File parsing](src/01_file_parser) 
 2. [Flat Field Correction(FFC)](src/02_FFC) 
 3. [Hard stitching](src/03_hard_stitching)
 4. [Smart Tissue Selection (STS)](src/04_STS) 
@@ -36,6 +33,8 @@ For more details, see description of a particular modules
 10. [Feature extraction](src/10_feature_extraction)
 11. [Cell identification](src/11_cell_identification)
 
+Some modules use also scripts from other modules to prepare the input files. 
+For more details, see description of a particular modules
 ---
 
 ---
@@ -44,23 +43,26 @@ For more details, see description of a particular modules
 
 ---
 
-#### Linear work tree
+#### Work tree
 In the contrary to other technologies, the data coming from LunaPhore are already partially preprocessed. 
 Therefore, some of the data preparation steps are not necessary.
+
+
+1. [Quality control and file parsing](src/01_file_parser)
+2. [Resize images](src/03_hard_stitching)
+3. [Smart Tissue Selection (STS)](src/04_STS) 
+4. [Artifact detection](src/05_artifacts_detection)
+5. [Split scenes](src/06_split_scenes)
+6. [Autofluorescence subtraction](src/08_AFS)
+7. [Cell segmentation](src/09_segmentation)
+8. [Feature extraction](src/10_feature_extraction)
+9. [Cell identification](src/11_cell_identification)
 
 Some modules use also scripts from other modules (see the image above) to prepare the input files. 
 For more details, see description of a particular modules
 
 
-1. [Quality control and file parsing](src/00_file_parser)
-2. [Artifact detection](src/05_artifacts_detection)
-3. [Smart Tissue Selection (STS)](src/04_STS) 
-4. [Split scenes](src/06_split_scenes)
-5. [Stitching and registration](src/07_stitching_registration)
-6. [Autofluorescence subtraction](src/08_AFS)
-7. [Cell segmentation](src/09_segmentation)
-8. [Feature extraction](src/10_feature_extraction)
-9. [Cell identification](src/11_cell_identification)
+
 
 ---
 
@@ -68,16 +70,18 @@ For more details, see description of a particular modules
 
 ---
 
-#### Linear work tree
+#### Work tree
 
-1. [File parsing](src/00_file_parser) 
+1. [Quality control and file parsing](src/01_file_parser) 
 2. [Flat Field Correction(FFC)](src/02_FFC) 
-3. [Resize images](src/03_hard_stitching)
+3. [Rebuild a db resize images after FFC](src/03_hard_stitching)
 4. [Smart Tissue Selection (STS)](src/04_STS) 
 5. [Artifact detection](src/05_artifacts_detection)
 6. [Split scenes](src/06_split_scenes)
-7. [Stitching and registration](src/07_stitching_registration)
-8. [Autofluorescence subtraction](src/08_AFS)
-9. [Cell segmentation](src/09_segmentation)
-10. [Feature extraction](src/10_feature_extraction)
-11. [Cell identification](src/11_cell_identification)
+7. [Autofluorescence subtraction](src/08_AFS)
+8. [Cell segmentation](src/09_segmentation)
+9. [Feature extraction](src/10_feature_extraction)
+10. [Cell identification](src/11_cell_identification)
+
+Some modules use also scripts from other modules (see the image above) to prepare the input files. 
+For more details, see description of a particular modules
