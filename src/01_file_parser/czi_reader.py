@@ -32,7 +32,8 @@ def extract_tiles_from_czi(imfilename, channel_names_dictionary, output_folder):
     """Main function that processes provided data and creates tiff files"""
     ## create output directory
     os.makedirs(output_folder, exist_ok=True)
-    
+
+    imfilename = os.path.normpath(imfilename)
     ## read czi
     tmp_czi = aicspylibczi.CziFile(imfilename)
     metadata_root = tmp_czi.meta
