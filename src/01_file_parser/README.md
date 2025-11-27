@@ -316,14 +316,14 @@ Rscript src/01_file_parser/parse_slide_names.R --path_input_exp_design_rounds <p
 Rscript src/01_file_parser/comet_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.output.folder <path_to_output_tiles/> --path.input.slide.dictionary <path_to_input_slides_dictionary/> --path.exp.design.rounds.file <path_to_input_channel_dictionary/> --user.id <user_id/> --project_id <project_id/> --path.output.csv<path_to_output_csv/>
 ```
 
-| Argument                  | Description                                                                                                                                                    |
-|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Argument                  | Description                                                                                                                                                   |
+|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `path.input.folder`            | Path to the parent directory where the input files are stored (dir). Example: `/path/to/data_files` |
 | `path.output.folder`| Path to the output directory where the processed tiles will be saved (dir). Example: `/path/to/project_directory/output_tiles_tiffs` |
 | `path.input.slide.dictionary`           | Path to input file with experimetnal design slides (.csv). Example: `/path/to/project_directory/experimental_design/exp_design_slides.csv` |
 | `path.exp.design.rounds.file`              | Path to input file with experimetnal design rounds (.csv). Example: `/path/to/project_directory/experimental_design/exp_design_rounds.csv` |
 | `user.id`           | # User identifier (str). Example: `JM` |
-| `project.id`              | # Project identifier (str). Example: `PROJECT_COMET` |
+| `project.id`              | # Project identifier (str). Example: `PROJECTCOMET` |
 | `path.output.csv`              | # Path to output csv (csv). Example: `/path/to/project_directory/data_parsing.csv` |
 
 ---

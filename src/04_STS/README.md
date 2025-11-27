@@ -125,15 +125,15 @@ This function lists all the paths for input and output files and generates a csv
 Rscript src/04_STS/mask_generation_list_jobs.R --input_path_images <path_to_hard_registered_images/> --output_path_images <path_to_output_masks/> --path_model <path_to_model/> --output_path_csv <path_to_output_csv/> --ref_channel <reference_channel/> 
 ```
 
-| Argument            | Description                                                                                                                                                                                                                   |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_images` | Path to the registered hard stitching images directory (dir). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images` (for STS) or  `/path/to/project_directory/hard_stitching_FFC` (for FFC Kask) |
-| `output_path_images` | Path to the output masks directory (dir). Example: `/path/to/project_directory/output_STS/output_masks` (for STS) or `/path/to/project_directory/output_FFC_kask_masks ` (for FFC Kask)                                       |
-| `path_model`        | Path to the segmentation model file (`.h5`). Example: `models/04_uNet_simple_best.h5`                                                                                                                                         |
-| `output_path_csv`   | Path to the output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/generate_mask_job_list.csv` (for STS) or `/path/to/project_directory/generate_mask_job_list_ffc.csv` (for FFC Kask)  |
-| `ref_channel`       | Reference channel (string). Example: `DAPI`                                                                                                                                                                                   |
+| Argument            | Description                                                                                                                                                                                                                                                                                      |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_images` | Path to the registered hard stitching images directory (dir). Example: `/path/to/project_directory/output_STS/output_coarse_registration/images` (for STS MILAN), `/path/to/project_directory/resized_images` (for STS COMET) or  `/path/to/project_directory/hard_stitching_FFC` (for FFC Kask) | 
+| `output_path_images` | Path to the output masks directory (dir). Example: `/path/to/project_directory/output_STS/output_masks` (for STS) or `/path/to/project_directory/output_FFC_kask_masks ` (for FFC Kask)                                                                                                          |
+| `path_model`        | Path to the segmentation model file (`.h5`). Example: `models/04_uNet_simple_best.h5`                                                                                                                                                                                                            |
+| `output_path_csv`   | Path to the output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/generate_mask_job_list.csv` (for STS) or `/path/to/project_directory/generate_mask_job_list_ffc.csv` (for FFC Kask)                                                                     |
+| `ref_channel`       | Reference channel (string). Example: `DAPI`                                                                                                                                                                                                                                                      |
 
-
+[//]: # (| `input_path_images` | Path to the registered hard stitching images directory &#40;dir&#41;. Example: `/path/to/project_directory/output_STS/output_coarse_registration/images` &#40;for STS&#41; or  `/path/to/project_directory/hard_stitching_FFC` &#40;for FFC Kask&#41; | )
 ---
 **Script:** [run_STS_mask.py](src/04_STS/run_STS_mask.py) 
 
@@ -194,7 +194,7 @@ Rscript src/04_STS/BB_estimation_list_jobs.R --input_path_images <path_to_STS_ma
 | `output_path_csv`  | Path to output csv where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/BB_estimation_job_list.csv`                                                           |
 
 ---
-**Script:** [run_STS_BB.py](src/04_STS/run_STS_BB.py) 
+**Script:** [run_STS_BBs.py](src/04_STS/run_STS_BBs.py) 
 
 ### Description
 It orchestrates Bound Boxes estimation. It requires the output CSV file of [BB_estimation_list_jobs.R](src/04_STS/BB_estimation_list_jobs.R) and [STS_generate_BB.py](src/04_STS/STS_generate_BB.py) script  as positional arguments

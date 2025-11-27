@@ -96,16 +96,18 @@ This function lists all the folders in the input directory and generates a csv w
 
 ### Arguments
 ```
-python src/03_hard_stitching/hard_stitching.py --input_path_images <input_path_images/> --output_folder <output_folder/> --input_pixel_size <input_pixel_size/> --output_pixel_size <output_pixel_size/> --output_path_csv <output_path_csv/>  
+Rscript src/03_hard_stitching/resize_images_list_jobs.R --input_path_images <input_path_images/> --output_folder <output_folder/> --input_pixel_size <input_pixel_size/> --output_pixel_size <output_pixel_size/> --output_path_csv <output_path_csv/>  
 ```
 
-| Argument           | Description                                                                                                                   |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_images`      | Path to input tiles (dir). Example:  `path/to/project_directory/output_processed`.                                            |
-| `output_folder`   | Path to output path to save images (dir). Example:  `path/to/project_directory/hard_stitching`.                               |
-| `input_pixel_size`    | Pixel size input images (numeric). Example: `0.17`, `0.5` or `0.28`.                                                          |
-| `output_pixel_size`| Pixel size input images (numeric). Example: `2.6` or `0.65`.                                                                  |
-| `output_path_csv`    | Path to output csv where the job list will be saved (.csv). Example:  `path/to/project_directory/hard_stitching_job_list.csv` |
+| Argument           | Description                                                                                                                                                                       |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_images`      | Path to input tiles (dir). Example:  `path/to/project_directory/output_processed` or `path/to/project_directory/output_tiles_tiffs`.                                              |
+| `output_folder`   | Path to output path to save images (dir). Example:  `path/to/project_directory/hard_stitching` or `path/to/project_directory/resized_images`.                                     |
+| `input_pixel_size`    | Pixel size input images (numeric). Example: `0.5` (AKOYA) or `0.28` (COMET).                                                                                                      |
+| `output_pixel_size`| Pixel size input images (numeric). Example: `2.6` (for STS) or `0.65` (for QUALIFAI).                                                                                             |
+| `output_path_csv`    | Path to output csv where the job list will be saved (.csv). Example:  `path/to/project_directory/hard_stitching_job_list.csv`  or `path/to/project_directory/resize_job_list.csv` |
+
+[//]: # (0.17) - MACSIMA
 
 ---
 **Script:** [run_resize.py](src/03_hard_stitching/run_resize.py) 
