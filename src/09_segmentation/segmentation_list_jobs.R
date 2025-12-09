@@ -168,21 +168,3 @@ CellSegJobList(input_path_images = argv$input_path_images,# Path to input tiles 
                output_path_csv = argv$output_path_csv, # Path to output csv where the job list will be saved (.csv). Example: /path/to/project_directory/cell_segmentation_joblist.csv
                pp = argv$pp # Indicator for the preprocessing. Example: False
 )
-
-CellSegJobList('/media/Share1/bencharked_datasets/P10_benchmarking_MILAN_V01/output_registration', 
-               '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/output_segmentation',
-               'R01',
-               1,
-               '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/code/models/06_models/',
-               'stardist',
-               '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/cell_segmentation_joblist.csv',
-               'False')
-
-CellSegJobList('/media/Share1/bencharked_datasets/P10_benchmarking_MILAN_V01/output_registration', 
-               '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/output_segmentation_cellpose',
-               'R01',
-               1,
-               '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/code/models/06_models/',
-               'cellpose',
-               '/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_MILAN_September/cell_segmentation_joblist_cellpose.csv',
-               'False')
