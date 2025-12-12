@@ -32,7 +32,7 @@ tmp_parser <- add_argument(tmp_parser,
                            type = "character")
 
 tmp_parser <- add_argument(tmp_parser,
-                           arg = "--path_moddel",
+                           arg = "--path_model",
                            help = "Path to segmentation models (path).",
                            type = "character")
 
