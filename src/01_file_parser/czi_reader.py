@@ -63,9 +63,6 @@ def extract_tiles_from_czi(imfilename, channel_names_dictionary, output_folder):
         tile = tmp_czi.read_image(S = int(tile_meta['S']), C = int(tile_meta['C']), M = int(tile_meta['M']))[0]
         tile = np.squeeze(tile)
         tifffile.imwrite(os.path.join(output_folder, tile_meta['tile_filename']), tile, compression='lzma', dtype=tile.dtype)
-
-        tile = np.squeeze(tile)
-        tifffile.imwrite(os.path.join(output_folder, tile_meta['tile_filename']), tile, compression='lzma', dtype=tile.dtype)
     
     return True
 
