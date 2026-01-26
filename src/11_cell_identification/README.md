@@ -14,9 +14,9 @@
     ├── 6. ClusteringAnalysis.R
     ├── 7. ClusteringStability.R
     ├── 8. MapFingerprints_training.R
-    ├── 9. MapFingerprints_testing.R
-    ├── 10. MapFingerprints_post.R
-    ├── 11. DataFiltering.R
+    ├── 9. MapFingerprints_testing.py
+    ├── 10. MapFingerprints_post.py
+    ├── 11. DataFiltering.py
     ├── 12. PreProcessingForDigitalReconstruction.R
     ├── 13. DigitalReconstruction_generate_csv.R
     ├── 14. DigitalReconstructionAux.R
@@ -229,7 +229,7 @@ Rscript src/11_cell_identification/MapFingerprints_training.R --input.marker.lis
 
 ---
 
-**Script:** [MapFingerprints_testing.R](src/11_cell_identification/MapFingerprints_testing.R)
+**Script:** [MapFingerprints_testing.py](src/11_cell_identification/MapFingerprints_testing.py)
 
 
 ### Description
@@ -237,40 +237,40 @@ This function takes all the partitions saved in the previous step and projects t
 Then, it  applies a knn approach to assign a new label to the cells based on the annotated data. The function only executes one job at once, therefore it needs to be orchestrated from outside
 ### Arguments
 ```
-Rscript src/11_cell_identification/MapFingerprints_testing.R --input.marker.list <input.marker.list/> --path.input.csv.training <path.input.csv.training/> --path.input.csv.testing <path.input.csv.testing/> --path.input.model <path.input.model/> --path.output.folder <path.output.folder/>
+python src/11_cell_identification/MapFingerprints_testing.py --input_marker_list <input_marker_list/> --path_input_csv_training <path_input_csv_training/> --path_input_csv_testing <path_input_csv_testing/> --path_input_model <path_input_model/> --path_output_folder <path_output_folder/>
 ```
 
 | Argument          | Description                                                                                                                                                              |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input.marker.list` | Path to the csv where the markers used for clustering are defined (.csv). Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv`                        |
-| `path.input.csv.training`| Path to the csv with the training data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_results/training_data.csv`                                  |
-| `path.input.csv.testing`   | Path to the input csv where the training data is stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions/iter_1.csv`    |
-| `path.input.model`    | Path to input csv where the complete data is stored (.rds). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_results/tmp_umap.rds`      |
-| `path.output.folder`   | Path to the output directory where the results will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions_annotated`    |
+| `input_marker_list` | Path to the csv where the markers used for clustering are defined (.csv). Example: `/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv`                        |
+| `path_input_csv_training`| Path to the csv with the training data (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_results/training_data.csv`                                  |
+| `path_input_csv_testing`   | Path to the input csv where the training data is stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions/iter_1.csv`    |
+| `path_input_model`    | Path to input csv where the complete data is stored (.rds). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_results/tmp_umap.rds`      |
+| `path_output_folder`   | Path to the output directory where the results will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions_annotated`    |
 
 ---
 
-**Script:** [MapFingerprints_post.R](src/11_cell_identification/MapFingerprints_post.R)
+**Script:** [MapFingerprints_post.py](src/11_cell_identification/MapFingerprints_post.py)
 
 ### Description
 This function lumps the partitions and saves a csv per identifier (combination of slide and scene). It also keeps track of the annotations of each cell at each level.
 ### Arguments
 ```
-Rscript src/11_cell_identification/MapFingerprints_post.R --path.input.folder <path.input.folder/> --path.output.folder <path.output.folder/> --path.annotation.log <path.annotation.log/> --path.celltypes <path.celltypes/> --node.id <node.id/> --version.id <version.id/>
+python src/11_cell_identification/MapFingerprints_post.py --path_input_folder <path_input_folder/> --path_output_folder <path_output_folder/> --path_annotation_log <path_annotation_log/> --path_celltypes <path_celltypes/> --node_id <node_id/> --version_id <version_id/>
 ```
 
-| Argument          | Description                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `path.input.folder` | Path to input directory where partitions have been stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions_annotated`                       |
-| `path.output.folder`| Path to output directory where csvs will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/data_annotated`                             |
-| `path.annotation.log`   | Path to csv to keep track of cell labels (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/annotation_log.csv`  |
-| `path.celltypes`    | Path to output csv where the cell types for split selection are stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/unique_celltypes.csv`     |
-| `node.id`   | Identifier for the level at which the annotations will be stored (.string). Example: `n01`  |
-| `version.id`   | Version performed clustering (string). Example: `v01`   |
+| Argument         | Description                                                                                                                                                             |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `path_input_folder` | Path to input directory where partitions have been stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions_annotated`                       |
+| `path_output_folder`| Path to output directory where csvs will be stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/data_annotated`                             |
+| `path_annotation_log`  | Path to csv to keep track of cell labels (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/annotation_log.csv`  |
+| `path_celltypes`   | Path to output csv where the cell types for split selection are stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/v01/unique_celltypes.csv`     |
+| `node_id`  | Identifier for the level at which the annotations will be stored (.string). Example: `n01`  |
+| `version_id`   | Version performed clustering (string). Example: `v01`   |
 
 ---
 
-**Script:** [DataFiltering.R](src/11_cell_identification/DataFiltering.R)
+**Script:** [DataFiltering.py](src/11_cell_identification/DataFiltering.py)
 
 
 ### Description
@@ -279,14 +279,14 @@ The normalization is performed per scene. Z-scores are later trimmed into the [-
 
 ### Arguments
 ```
-Rscript src/11_cell_identification/DataFiltering.R --path.input.folder <path.input.folder/> --path.split.celltype <path.split.celltype/> --path.output.csv <path.output.csv/> 
+python src/11_cell_identification/DataFiltering.py --path_input_folder <path_input_folder/> --path_split_celltypes <path_split_celltypes/> --path_output_csv <path_output_csv/> 
 ```
 
 | Argument          | Description                                                                                                                                                             |
 |-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `path.input.folder` | Path to input directory where the annotated data is stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/data_annotated`                       |
-| `path.split.celltype`| Path to input directory where the selected celltypes are listed (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/selected_celltypes_c01.csv`                            |
-| `path.output.csv`   | Path to output csv where the split data will be stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/c01/merged_data_c01.csv` |
+| `path_input_folder` | Path to input directory where the annotated data is stored (dir). Example: `/path/to/project_directory/output_cell_identification/n01/v01/data_annotated`                       |
+| `path_split_celltypes`| Path to input directory where the selected celltypes are listed (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/selected_celltypes_c01.csv`                            |
+| `path_output_csv`   | Path to output csv where the split data will be stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/c01/merged_data_c01.csv` |
 
 ---
 
