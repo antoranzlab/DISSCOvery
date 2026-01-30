@@ -36,10 +36,6 @@ Therefore, the same node can have different versions. The scheme below summaraiz
 
 ---
 
-# 1. Merge Data
-
----
-
 **Script:** [MergeData.R](src/11_cell_identification/MergeData.R)
 
 
