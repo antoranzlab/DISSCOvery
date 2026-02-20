@@ -8,7 +8,7 @@
 
 [2.  Mask generation](#2-mask-generation)
 
-[3.  Bounding Box Generation ](#3-bounding-box-generation-)
+[3.  Bounding Box Generation ](#3-bounding-box-generation)
 
 [4. Evaluate concordance](#4-evaluate-concordance-)
 
