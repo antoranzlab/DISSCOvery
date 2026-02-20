@@ -112,6 +112,7 @@ AFSJobList <- function(input_path_images, # Path to input images (path).
   for(i in c(1:nrow(df_files))){
     tmp_file <- df_files[i,]
     
+    if(tmp_file$QC_include != 1) next
     if(is.na(tmp_file$marker_id)) next
     if(tmp_file$marker_id == 'NA') next
     if(toupper(tmp_file$marker_id) == toupper(tmp_file$channel_id)) next
