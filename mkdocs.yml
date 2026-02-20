@@ -1,0 +1,18 @@
+site_name: DISSCOvery
+theme: 
+  # logo: "../images/logo.png"
+  name: readthedocs
+  titles_only: False
+nav:
+  - 'index.md'
+  - 'General': 
+    - 'main.md'
+  - 'Backend: Modules':
+    - 'Data exctraction': 
+      - '01_file_parser.md'
+      - 'MILAN': 
+        - 'MILAN_parser.md'
+  
+plugins:
+    - search
+    - mermaid2
