@@ -21,12 +21,12 @@ This function takes as an input the directory of a hard stitched, full resolutio
 ```
 Rscript src/05_artifacts_detection/qualifai_list_jobs_multiclass.R --input_folder_path <path_to_input_images/> --output_folder_path <path_to_output_images/> --model_path <loaded_mode/> --output_path_csv <path_to_output_csv/> 
 ```
-| Argument             | Description                                                                                                                          |
-|----------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `input_folder_path`   | Path to the parent directory where the input images are stored (dir). Example: `/path/to/project_directory/hard_stitching_full_res`. |
-| `output_folder`    | Path to the directory where the output masks will be stored (dir). Example: `/path/to/project_directory/output_QC`                   |
-| `model_path`      | Path to the model to identify artifacts (pth). Example: `models/05_unetpp_best.pth`                                                  |
-| `output_path_csv`    | Path to the CSV where the list of jobs will be saved (.csv). Example:  `/path/to/project_directory/qualifai_list_jobs.csv`           |
+| Argument             | Description                                                                                                                                                                                                                                                               |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_folder_path`   | Path to the parent directory where the input images are stored (dir). Example: `/path/to/project_directory/hard_stitching_full_res` (for MILAN), `/path/to/project_directory/resized_images_QC` (for COMET), `/path/to/project_directory/output_processed_QC` (for AKOYA) |
+| `output_folder`    | Path to the directory where the output masks will be stored (dir). Example: `/path/to/project_directory/output_QC`                                                                                                                                                        |
+| `model_path`      | Path to the model to identify artifacts (pth). Example: `models/05_unetpp_best.pth`                                                                                                                                                                                       |
+| `output_path_csv`    | Path to the CSV where the list of jobs will be saved (.csv). Example:  `/path/to/project_directory/qualifai_list_jobs.csv`                                                                                                                                                |
 
 ---
 **Script:** [run_QC.py](src/05_artifacts_detection/run_QC.py) 

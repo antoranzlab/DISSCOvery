@@ -22,7 +22,7 @@
 │   ├── 4. run_STS_mask.py
 │   │   └── STS_generate_mask.py
 │   ├── 5. BB_estimation_list_jobs.R
-│   ├── 6. run_STS_BB.py
+│   ├── 6. run_STS_BBs.py
 │   │   └── STS_generate_BB.py
 │   ├── 7. bb_concordance_list_jobs.R
 │   └── 8. run_STS_concordance.py
@@ -33,12 +33,12 @@
 │   ├── 2. run_STS_mask.py
 │   │   └── STS_generate_mask.py
 │   ├── 3. BB_estimation_list_jobs.R
-│   └── 4. run_STS_bb.py
+│   └── 4. run_STS_BBs.py
 │      └── STS_generate_BB.py
 │ 
 └── AKOYA
     ├── 1. BB_estimation_list_jobs.R
-    └── 2. run_STS_bb.py
+    └── 2. run_STS_BBs.py
         └── STS_generate_BB.py
 
 
@@ -202,7 +202,7 @@ It orchestrates Bound Boxes estimation. It requires the output CSV file of [BB_e
 
 ### Arguments
 ```
-python src/04_STS/run_STS_BB.py <csv_path/> src/04_STS/STS_generate_BB.py
+python src/04_STS/run_STS_BBs.py.py <csv_path/> src/04_STS/STS_generate_BB.py
 ```
 
 | Argument                 | Description                                                                                                                          |

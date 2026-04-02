@@ -73,7 +73,8 @@ MergeData <- function(input.folder, # Path to input folder with csv files (direc
   
   print('Loading experimental design')
   
-  tmp_exp_design_scenes <- readxl::read_excel(input.exp.design.scenes) %>%
+  # tmp_exp_design_scenes <- readxl::read_excel(input.exp.design.scenes) %>%
+  tmp_exp_design_scenes <- read_csv(input.exp.design.scenes) %>%
     filter(QC_include == 1)
   
   # Load csv files ------------------------------------------------------------------

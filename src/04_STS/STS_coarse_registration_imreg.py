@@ -110,9 +110,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    fixed_image = args.path_fixed_image
-    query_image = args.path_query_image
-    output_image = args.path_query_registered
-    output_tm = args.path_transformation_matrix
+fixed_image = args.path_fixed_image
+query_image = args.path_query_image
+output_image = args.path_query_registered
+output_tm = args.path_transformation_matrix
 
-    get_regstat(fixed_image = fixed_image, query_image = query_image, output_image = output_image, output_tm = output_tm)
+get_regstat(fixed_image = fixed_image, query_image = query_image, output_image = output_image, output_tm = output_tm)
