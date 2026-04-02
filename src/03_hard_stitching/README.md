@@ -16,8 +16,10 @@
 │
 └── AKOYA
     ├── 1. rebuild_preprocessed_ffc_akoya_list_jobs.R
-    └── 2. run_rebuild.py
-        └── 01_rebuild_after_ffc.py
+    ├── 2. run_rebuild.py
+    │    └── 01_rebuild_after_ffc.py
+    └── 3. run_resize.py
+        └── 01_resize_processed.py
 
 </pre>
 
@@ -51,7 +53,7 @@ Rscript src/03_hard_stitching/03_hard_stitching_list_jobs.R --input_path_tiles <
 **Script:** [run_hs.py](src/03_hard_stitching/run_hs.py) 
 
 ### Description
-It orchestrates coarse stitching. It requires the output CSV file of [hard_stitching_list_jobs.R](src/03_hard_stitching/hard_stitching_list_jobs.R) and [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) script  as positional arguments
+It orchestrates hard stitching. It requires the output CSV file of [hard_stitching_list_jobs.R](src/03_hard_stitching/hard_stitching_list_jobs.R) and [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) script  as positional arguments
 
 
 ### Arguments
@@ -92,7 +94,8 @@ python src/03_hard_stitching/hard_stitching.py --input_tiles <path_to_tiles/> --
 **Script:** [resize_images_list_jobs.R](src/03_hard_stitching/resize_images_list_jobs.R) 
 
 ### Description
-This function lists all the folders in the input directory and generates a csv with the list of jobs that have to be run for coarse stitching.
+This function lists all the folders in the input directory and generates a csv with the list of jobs that have to be run for coarse stitching. 
+Images from COMET needs it to be executed twice, once for STS and once for QUALIFAI. Image from AKOYA needs to be resized only for QULIFAI
 
 ### Arguments
 ```
@@ -101,7 +104,7 @@ Rscript src/03_hard_stitching/resize_images_list_jobs.R --input_path_images <inp
 
 | Argument           | Description                                                                                                                                                                       |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_images`      | Path to input tiles (dir). Example:  `path/to/project_directory/output_processed` or `path/to/project_directory/output_tiles_tiffs`.                                              |
+| `input_path_images`      | Path to input tiles (dir). Example:  `path/to/project_directory/output_processed` (AKOYA) or `path/to/project_directory/output_tiles_tiffs` (COMET).                              |
 | `output_folder`   | Path to output path to save images (dir). Example:  `path/to/project_directory/hard_stitching` or `path/to/project_directory/resized_images`.                                     |
 | `input_pixel_size`    | Pixel size input images (numeric). Example: `0.5` (AKOYA) or `0.28` (COMET).                                                                                                      |
 | `output_pixel_size`| Pixel size input images (numeric). Example: `2.6` (for STS) or `0.65` (for QUALIFAI).                                                                                             |
@@ -111,7 +114,7 @@ Rscript src/03_hard_stitching/resize_images_list_jobs.R --input_path_images <inp
 **Script:** [run_resize.py](src/03_hard_stitching/run_resize.py) 
 
 ### Description
-It orchestrates coarse stitching.
+It orchestrates resizing the images. It requires the output CSV file of [resize_images_list_jobs.R](src/03_hard_stitching/hresize_images_list_jobs.R) and [01_resize_processed.py](src/03_hard_stitching/01_resize_processed.py) script  as positional arguments
 
 ### Arguments
 ```
@@ -156,19 +159,20 @@ This function lists all the folders in the input directory and generates a csv w
 Rscript src/03_hard_stitching/rebuild_preprocessed_ffc_akoya_list_jobs.R --input_path_tiles <input_path_tiles/> --input_path_meta <nput_path_meta/> --output_folder <output_folder/> --output_path_csv <output_path_csv/> --output_pixel_size <output_pixel_size/>  
 ```
 
-| Argument            | Description                                                                                                                                                                         |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_tiles`  | Path to input tiles (dir). Example:  `path/to/project_directory/output_FFC_corrected`                                                                                               |
-| `input_path_meta`   | Path to input metadata files (dir). Example:  `path/to/project_directory/output_FFC_corrected`                                                                                      |
-| `output_folder`     | Path to output path to save images (dir). Example:  `path/to/project_directory/output_processed` (for split scenes), `path/to/project_directory/output_processed_QC` (for QUALOFAI) |
-| `output_path_csv`   | Path to output csv where the job list will be saved (.csv). Example:  `path/to/project_directory/rebuild_processed_job_list.csv`                                                    |
-| `output_pixel_size` | Output pixel size (numeric). Example:  `2.6` (for FFC Kask), `0.65` (for QUALIFAI) or `0.5` (for split scenes)                                                                      |
+| Argument            | Description                                                                                                                      |
+|---------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_tiles`  | Path to input tiles (dir). Example:  `path/to/project_directory/output_FFC_corrected`                                            |
+| `input_path_meta`   | Path to input metadata files (dir). Example:  `path/to/project_directory/output_FFC_corrected`                                   |
+| `output_folder`     | Path to output path to save images (dir). Example:  `path/to/project_directory/output_processed`                                 |
+| `output_path_csv`   | Path to output csv where the job list will be saved (.csv). Example:  `path/to/project_directory/rebuild_processed_job_list.csv` |
+| `output_pixel_size` | Output pixel size (numeric). Example: `0.5`                                                                                      |
 
 ---
 **Script:** [run_rebuild.py](src/03_hard_stitching/run_rebuild.py) 
 
 ### Description
-It orchestrates coarse stitching.
+It orchestrates rebuilding the images. It requires the output CSV file of [rebuild_preprocessed_ffc_akoya_list_jobs.R](src/03_hard_stitching/rebuild_preprocessed_ffc_akoya_list_jobs.R) and [01_rebuild_after_ffc.py](src/03_hard_stitching/01_rebuild_after_ffc.py) script  as positional arguments
+
 
 ### Arguments
 ```
@@ -184,7 +188,7 @@ python src/03_hard_stitching/run_rebuild.py <csv_path/> src/03_hard_stitching/01
 **Script:** [01_rebuild_after_ffc.py](src/03_hard_stitching/01_rebuild_after_ffc.py) 
 
 ### Description
-This function generates a hard stitched image
+This function generates an images with a corrected size
 
 ### Arguments
 ```

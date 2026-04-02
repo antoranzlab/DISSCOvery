@@ -232,7 +232,7 @@ python src/02_FFC/FFC_raw.py --input_images <path_to_tiles/> --channel <channel_
 **Script:** [run_ffc_metadata.py](src/02_FFC/run_ffc_metadata.py)
 
 ### Description
-It orchestrates copying the metadata after FFC. It requires the output CSV file of [FFC_job_list_metadata.csv](src/02_FFC/FFC_job_list_metadata.csv) and [FFC_metadata.py](src/02_FFC/FFC_metadata.py) script  as positional arguments
+It orchestrates copying the metadata after FFC. It requires the output CSV file of [FFC_list_jobs.R](src/02_FFC/FFC_list_jobs.R) and [FFC_metadata.py](src/02_FFC/FFC_metadata.py) script  as positional arguments
 
 ### Arguments
 ```

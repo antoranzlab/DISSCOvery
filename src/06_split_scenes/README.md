@@ -154,7 +154,7 @@ Rscript src/06_split_scenes/split_scenes_list_jobs.R --input_path_tiles <path_to
 **Script:** [run_split_scenes.py](src/06_split_scenes/run_split_scenes.py) 
 
 ### Description
-It orchestrates reverse transformation. It requires the output CSV file of [split_scenes_list_jobs.R](src/06_split_scenes/split_scenes_list_jobs.R) and [split_scenes.R](src/06_split_scenes/split_scenes.R) script  as positional arguments
+It orchestrates split scenes. It requires the output CSV file of [split_scenes_list_jobs.R](src/06_split_scenes/split_scenes_list_jobs.R) and [split_scenes.R](src/06_split_scenes/split_scenes.R) script  as positional arguments
 
 ### Arguments
 
@@ -261,7 +261,7 @@ Rscript src/06_split_scenes/01_split_scenes_processed_list_jobs.R --input_path_i
 **Script:** [run_split_scenes_processed.py](src/06_split_scenes/run_split_scenes_processed.py) 
 
 ### Description
-It orchestrates reverse transformation. It requires the output CSV file of [01_split_scenes_processed_list_jobs.R](src/06_split_scenes/01_split_scenes_processed_list_jobs.R) and [split_scenes.R](src/06_split_scenes/split_scenes_processed.py) script  as positional arguments
+It orchestrates split scenes. It requires the output CSV file of [01_split_scenes_processed_list_jobs.R](src/06_split_scenes/01_split_scenes_processed_list_jobs.R) and [split_scenes.R](src/06_split_scenes/split_scenes_processed.py) script  as positional arguments
 
 ### Arguments
 

@@ -22,7 +22,7 @@ for i, row in df.iterrows():
     ref_round = str(row["ref_round"])
     reference_version = str(row["ref_version"])
     
-    print(f"Running Bounding Box estimation for {input_path_BB}")
+    print(f"Running evaluate concordance for {input_path_BB}")
     
     subprocess.run([
         "Rscript", script_path,

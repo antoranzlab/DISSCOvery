@@ -16,11 +16,7 @@
     ├── 8. MapFingerprints_training.R
     ├── 9. MapFingerprints_testing.py
     ├── 10. MapFingerprints_post.py
-    ├── 11. DataFiltering.py
-    ├── 12. PreProcessingForDigitalReconstruction.R
-    ├── 13. DigitalReconstruction_generate_csv.R
-    ├── 14. DigitalReconstructionAux.R
-    └── 15. DigitalReconstruction.R
+    └──  11. DataFiltering.py
 
 </pre>
 
@@ -128,6 +124,8 @@ CD8
 PANCK
 ```
 
+Int he software this list is created by providing the requited information in the GUI. While running manually, the user has to create the file themselves. 
+
 ---
 
 **Script:** [Clustering.R](src/11_cell_identification/Clustering.R)
@@ -135,7 +133,8 @@ PANCK
 
 ### Description
 Using the sampled data, the set of user-selected markers are taken and a clustering method is applied (to be chosen between phenograph, kmeans, and flowsom).
-This function is executed 3 times, once per clustering method.
+This function is executed 3 times, once per clustering method. Phenograph doesn't take the maximum number of clusters in its function.
+Therefore, the numnber of clusters provided for kmean anf flwosome must match the numnber of clsuerts obtained using phenograph. 
 
 ### Arguments
 ```
@@ -156,7 +155,22 @@ Rscript src/11_cell_identification/Clustering.R --input.marker.list <marker_list
 
 
 ### Description
-The results from DimensionalityReduction.R and Clustering.R are evaluated and several graphs are generated to be displayed on the GUI.
+The results from DimensionalityReduction.R and Clustering.R are evaluated and several graphs are generated to be displayed on the GUI. Each graph is annotated by a user. 
+All annotations, for each clustering method are then merged together into one `annotation_dictionary.csv` file. 
+
+Outside of the software the user first runs `ClusteringAnalysis.R` to create all plots and `annotation_dictionary.csv` file. 
+Then they use the plots to properly annotate `annotation_dictionary.csv` for the next step. 
+
+The content of the `annotation_dictionary.csv` looks like this:
+
+```
+cl_method      cluster       annotation     annotated
+flowsom        1             Tumor          1
+flowsom        15            Tumor          1
+flowsom        6             B cell         1
+kmeans         21            T cell         1
+phenograph     3             Tumor          1
+```
 
 ### Arguments
 ```
@@ -230,7 +244,8 @@ Rscript src/11_cell_identification/MapFingerprints_training.R --input.marker.lis
 
 ### Description
 This function takes all the partitions saved in the previous step and projects them into the model.
-Then, it  applies a knn approach to assign a new label to the cells based on the annotated data. The function only executes one job at once, therefore it needs to be orchestrated from outside
+Then, it  applies a knn approach to assign a new label to the cells based on the annotated data. 
+The function only executes one job at once, therefore it needs to be orchestrated from outside or run for each `iter_X.csv` file produced in the previous step
 ### Arguments
 ```
 python src/11_cell_identification/MapFingerprints_testing.py --input_marker_list <input_marker_list/> --path_input_csv_training <path_input_csv_training/> --path_input_csv_testing <path_input_csv_testing/> --path_input_model <path_input_model/> --path_output_folder <path_output_folder/>
@@ -270,8 +285,15 @@ python src/11_cell_identification/MapFingerprints_post.py --path_input_folder <p
 
 
 ### Description
-Takes all the csvs listed in `input.folder`, filters the cell types from input.cell.types with QC = 1 and if renormalization = 1 (TRUE) normalizes mean fluorescence intensity (MFI) values to z-scores. 
-The normalization is performed per scene. Z-scores are later trimmed into the [-5, +5] range. 
+Allows for re-clustering of the selected cell types or finalize the clustering process. 
+Takes all the csvs listed in `path_input_folder`, filters the selected cell types from `selected_celltypes_c01.csv` and creates a file that will be an input to repeat the entire clustering procedure with only particular cell types. 
+
+The content of the `selected_celltypes_c01.csv` should be as presented below:
+
+```
+CellType      include 
+Tumor         1       
+```
 
 ### Arguments
 ```
@@ -285,80 +307,3 @@ python src/11_cell_identification/DataFiltering.py --path_input_folder <path_inp
 | `path_output_csv`   | Path to output csv where the split data will be stored (.csv). Example: `/path/to/project_directory/output_cell_identification/n01/c01/merged_data_c01.csv` |
 
 ---
-
-**Script:** [PreProcessingForDigitalReconstruction.R](src/11_cell_identification/PreProcessingForDigitalReconstruction.R)
-
-
-### Description
-The aim to this function is to merge all the annotation log files described in input.csv and associate them to the corresponding cells. 
-One csv is generated for each tissue in `output.folder` under cell_annotations. 
-If there is a mistake in the selected cell types and more than one annotation exists for individual cells, the rarest event is selected. 
-For these cases, an additional csv is generated in `output.folder` with the name `conflicting_cells.csv`.
-### Arguments
-```
-Rscript src/11_cell_identification/PreProcessingForDigitalReconstruction.R --path.input.csv <path.input.csv/> --path.output.folder <path.output.folder/> 
-```
-
-| Argument          | Description                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `path.input.csv` | Path to input directory where the annotations are stored (dir). Example: `/path/to/project_directory/output_cell_identification/aux_dr_file_v01.csv`                       |
-| `path.output.folder`| Path to input directory where the annotations are stored (dir). Example: `/path/to/project_directory/output_digital_reconstruction/v01`                            |
-
----
-
-**Script:** [DigitalReconstruction_generate_csv.R](src/11_cell_identification/DigitalReconstruction_generate_csv.R)
-
-
-### Description
-The aim to this function is to merge the corresponding cell annotations in `path.input.folder`, segmentation images from `path.input.segmented.dapi`, and QC masks from `path.input.overlapping.mask` of all the cores and list all the jobs to be performed for digital reconstruction to be saved in `path.output.csv`.
-### Arguments
-```
-Rscript src/11_cell_identification/DigitalReconstruction_generate_csv.R --path.input.folder <path.input.folder/> --path.input.segmented.dapi <path.input.segmented.dapi/> --path.input.overlapping.mask <path.input.overlapping.mask/> --path.output.csv <path.output.csv/>
-```
-
-| Argument          | Description                                                                                                                                                          |
-|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `path.input.folder` | Path to input folder where the annotated data for the scene is stored (dir). Example: `path/to/project_directory/output_digital_reconstruction/v02/cell_annotations` |
-| `path.input.segmented.dapi`| Path to input folder where the segmented DAPI object is stored (dir). Example: `path/to/project_directory/output_segmentation/Matrix`                                |
-| `path.input.overlapping.mask` | Path to input folder where the overlapping mask is stored (dir). Example: `path/to/project_directory/output_overlapping_QC`                                          |
-| `path.output.csv`| Path to output csv where the results will be stored (csv). Example: `path/to/project_directory/output_digital_reconstruction/v02/digital_reconstruction_csv.csv`     |
-
----
-**Script:** [DigitalReconstructionAux.R](src/11_cell_identification/DigitalReconstructionAux.R)
-
-
-### Description
-This function projects the cell types included in `input.csv.scene` to the segmentation mask in `input.segmentation.mask` considering only the area covered by `input.overlapping.mask`. 
-The function outputs a csv and a Rds file both saved in `output.folder`.
-### Arguments
-```
-Rscript src/11_cell_identification/DigitalReconstructionAux.R --path.input.folder <path.input.csv.scene/> --path.input.segmented.dapi <path.input.segmented.dapi/> --path.input.overlapping.mask <path.input.overlapping.mask/> --path.output.folder <path.output.folder/>
-```
-
-| Argument | Description                                                                                                                                                            |
-|---|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `path.input.csv.scene` | Path to input csv where the complete data is stored (csv). Example: `path/to/project_directory/output_digital_reconstruction/v02/cell_annotations/TMA_scene05.csv`     |
-| `path.input.segmented.dapi`| Path to input npy where the segmented DAPI object is stored (npy). Example: `path/to/project_directory/output_segmentation/Matrix/TMA_20210101_R01_V02_S4_DAPI.npy`                                    |
-| `path.input.overlapping.mask` | Path to input tiff where the overlapping mask is stored (tiff). Example: `path/to/project_directory/output_overlapping_QC/TMA_scene05.tiff`                            |
-| `path.output.folder`| Path to output directory where the figures and html will be generated (dir). Example: `path/to/project_directory/output_digital_reconstruction/v02/digital_tissue_aux` |
-
-
----
-
-**Script:** [DigitalReconstruction.R](src/11_cell_identification/DigitalReconstruction.R)
-
-
-### Description
-The aim to this function is to color the different celltypes in input.csv and `input.segmented.dapi` with the colors defined in `input.csv.colors` and save the image in `output.folder`.
-### Arguments
-```
-Rscript src/11_cell_identification/DigitalReconstruction.R --path.input.csv.colors <path.input.csv.colors> --path.input.segmented.dapi <path.input.segmented.dapi/> --path.input.csv  <path.input.csv/> --path.output.folder <path.output.folder/>
-```
-
-| Argument | Description                                                                                                                                                         |
-|------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `path.input.csv.colors` | Path to input csv where the annotated data is stored (csv). Example:  `path/to/project_directory/utput_downstream_analysis/1/df_consensus_celltypes_colored.csv`     |
-| `path.input.segmented.dapi` | Path to the segmentation DAPI matrix RDS file (rds). Example:  `path/to/project_directory/output_downstream_analysis/1/digital_tissue_aux/MVM006_scene01.rds`       |
-| `path.input.csv` | Path to input tiff where the overlapping mask is stored (tiff). Example: `path/to/project_directory/output_overlapping_QC/TMA_scene05.tiff`                         |
-| `path.output.folder` | Path to the output folder where the results will be stored (dir). Example:  `path/to/project_directory/output_downstream_analysis/1/digital_tissue` |
-

@@ -133,12 +133,12 @@ Rscript src/04_STS/mask_generation_list_jobs.R --input_path_images <path_to_hard
 | `output_path_csv`   | Path to the output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/generate_mask_job_list.csv` (for STS) or `/path/to/project_directory/generate_mask_job_list_ffc.csv` (for FFC Kask)                                                                     |
 | `ref_channel`       | Reference channel (string). Example: `DAPI`                                                                                                                                                                                                                                                      |
 
-[//]: # (| `input_path_images` | Path to the registered hard stitching images directory &#40;dir&#41;. Example: `/path/to/project_directory/output_STS/output_coarse_registration/images` &#40;for STS&#41; or  `/path/to/project_directory/hard_stitching_FFC` &#40;for FFC Kask&#41; | )
 ---
+
 **Script:** [run_STS_mask.py](src/04_STS/run_STS_mask.py) 
 
 ### Description
-It orchestrates coarse stitching. It requires the output CSV file of [mask_generation_list_jobs.R](src/04_STS/mask_generation_list_jobs.R) and [STS_generate_mask.py](src/04_STS/STS_generate_mask.py) script  as positional arguments
+It orchestrates masks generation. It requires the output CSV file of [mask_generation_list_jobs.R](src/04_STS/mask_generation_list_jobs.R) and [STS_generate_mask.py](src/04_STS/STS_generate_mask.py) script  as positional arguments
 
 
 ### Arguments
@@ -186,12 +186,12 @@ This function lists all the paths for input and output files and generates a csv
 Rscript src/04_STS/BB_estimation_list_jobs.R --input_path_images <path_to_STS_masks/> --output_path_bbs <path_to_output_bbs/> --filter_small <filter_small_objects/> --output_path_csv <path_to_output_csv/>
 ```
 
-| Argument          | Description                                                                                                                                                                                |
-|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_images`| Full path to the masks calculated in STS (dir). Example: `/path/to/project_directory/output_STS/output_masks`|
-| `output_path_bbs`  | Full path to the bounding boxes output (dir). Example: `/path/to/project_directory/output_STS/BBs`                                                                                         |
-| `filter_small`    | Boolean indicating whether to filter out small objects (str). Example: `True`                                                                                                           |
-| `output_path_csv`  | Path to output csv where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/BB_estimation_job_list.csv`                                                           |
+| Argument          | Description                                                                                                                                                                                      |
+|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_images`| Full path to the masks calculated in STS (dir). Example: `/path/to/project_directory/output_STS/output_masks` (for MILAN/COMET),  `/path/to/project_directory/output_FFC_kask_masks` (for AKOYA) |
+| `output_path_bbs`  | Full path to the bounding boxes output (dir). Example: `/path/to/project_directory/output_STS/BBs`                                                                                               |
+| `filter_small`    | Boolean indicating whether to filter out small objects (str). Example: `True`                                                                                                                    |
+| `output_path_csv`  | Path to output csv where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/BB_estimation_job_list.csv`                                                                 |
 
 ---
 **Script:** [run_STS_BBs.py](src/04_STS/run_STS_BBs.py) 
@@ -262,12 +262,12 @@ Rscript src/04_STS/bb_concordance_list_jobs.R --input_path_BB <path_to_BB/> --ou
 **Script:** [run_STS_concordance.py](src/04_STS/run_STS_concordance.py) 
 
 ### Description
-It orchestrates coarse stitching. It requires the output CSV file of [bb_concordance_list_jobs.R](src/04_STS/bb_concordance_list_jobs.R) and [STS_evaluate_concordance.R](src/04_STS/STS_evaluate_concordance.R) script  as positional arguments
+It orchestrates concordance evaluation. It requires the output CSV file of [bb_concordance_list_jobs.R](src/04_STS/bb_concordance_list_jobs.R) and [STS_evaluate_concordance.R](src/04_STS/STS_evaluate_concordance.R) script  as positional arguments
 
 
 ### Arguments
 ```
-python src/04_STS/run_STS_mask.py <csv_path/> src/04_STS/STS_evaluate_concordance.R
+python src/04_STS/run_STS_concordance.py <csv_path/> src/04_STS/STS_evaluate_concordance.R
 ```
 
 | Argument                 | Description                                                                                                                         |

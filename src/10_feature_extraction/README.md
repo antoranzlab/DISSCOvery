@@ -10,11 +10,11 @@
 
 ---
 
-**Script:** [FeatureExtraction.py](src/11_feature_extraction/FeatureExtraction.py) 
+**Script:** [FeatureExtraction.py](src/10_feature_extraction/FeatureExtraction.py) 
 
 ### Description
 
-This script subtracts teh autofluorescence signal from the image. 
+This quantifies the signal for each slide and scene.  
 
 ### Arguments
 ```
