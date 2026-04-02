@@ -126,7 +126,8 @@ exp_design_comet <- function(input_path, # Path to input directory with the raw 
     mutate(ref_round_af = ifelse(is.na(ref_round_af), round_number, ref_round_af)) %>% 
     mutate(round_number = paste0('R', str_pad(round_number, width = 2, pad = '0'))) %>% 
     mutate(ref_round_af = paste0('R', str_pad(ref_round_af, width = 2, pad = '0'))) %>% 
-    mutate(QC_include = 1)
+    mutate(QC_include = 1) %>%
+    mutate(marker_id=marker_name) # Duplication, remove later if nt necessary
     
   write.csv(df_exp_design_rounds, exp_design_rounds, row.names = FALSE)
   

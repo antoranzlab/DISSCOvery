@@ -76,6 +76,7 @@ exp_design_akoya <- function(input_path, # Path to input directory with the raw 
         marker_info <- list(
           'well_name' = well_name,
           'marker_name' = item$markerName,
+          'marker_id' = item$markerName, # Duplication to make AFS work, remove later on if it won't be necessary anymore
           'channel_id' = item$channel,
           channel_number = k-1
         )

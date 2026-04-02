@@ -46,7 +46,7 @@ tmp_parser <- add_argument(tmp_parser,
                            type = "character")
 
 tmp_parser <- add_argument(tmp_parser,
-                           arg = "--pixel_size_hs",
+                           arg = "--pixel_size_sts",
                            help = "Pixel size for hard stitching (numeric).",
                            type = "character")
 
@@ -82,7 +82,7 @@ SplitScenesProcessedJobList <- function(input_path_images, # Path to input image
                                         output_folder, # Path to output path to save images (path).
                                         pixel_size_full, # Pixel size acquired images
                                         pixel_size_qc, # Pixel size qc images
-                                        pixel_size_hs, # Pixel size hs images
+                                        pixel_size_sts, # Pixel size hs images
                                         ref_round, # Reference round
                                         ref_version, # Reference version
                                         ref_channel, # Reference channel
@@ -95,7 +95,7 @@ SplitScenesProcessedJobList <- function(input_path_images, # Path to input image
   print(paste0('### output directory: ', output_folder, ' ###')) 
   print(paste0('### pixel size (acquired images): ', pixel_size_full, ' ###')) 
   print(paste0('### pixel size (quality control): ', pixel_size_qc, ' ###')) 
-  print(paste0('### pixel size (hard stitching): ', pixel_size_hs, ' ###')) 
+  print(paste0('### pixel size (hard stitching): ', pixel_size_sts, ' ###')) 
   print(paste0('### reference round: ', ref_round, ' ###')) 
   print(paste0('### reference version: ', ref_version, ' ###')) 
   print(paste0('### reference channel: ', ref_channel, ' ###')) 
@@ -103,10 +103,10 @@ SplitScenesProcessedJobList <- function(input_path_images, # Path to input image
   
   pixel_size_full <- as.numeric(pixel_size_full)
   pixel_size_qc <- as.numeric(pixel_size_qc)
-  pixel_size_hs <- as.numeric(pixel_size_hs)
+  pixel_size_sts <- as.numeric(pixel_size_sts)
   
   conversion_factor_qc <- pixel_size_qc/pixel_size_full
-  conversion_factor_hs <- pixel_size_hs/pixel_size_full
+  conversion_factor_sts <- pixel_size_sts/pixel_size_full
   
   if(!(dir.exists(output_folder))){
     print(paste('### creating folder: ', output_folder, ' ###'))
@@ -155,7 +155,7 @@ SplitScenesProcessedJobList <- function(input_path_images, # Path to input image
                           input_path_qc = file.path(input_mask_qc, tmp_file$slide_id, tmp_file_qc$ofile),
                           output_path_image = file.path(output_folder, tmp_file$slide_id, tmp_file$ofile),
                           conversion_factor_qc = conversion_factor_qc,
-                          conversion_factor_hs = conversion_factor_hs)
+                          conversion_factor_sts = conversion_factor_sts)
     job_list <- job_list %>% bind_rows(tmp_job)
   }
   write.csv(job_list, output_path_csv, row.names = FALSE)
@@ -169,7 +169,7 @@ SplitScenesProcessedJobList(input_path_images = argv$input_path_images, # Path t
                             output_folder = argv$output_folder, # Path to output path to save images (path).
                             pixel_size_full = argv$pixel_size_full, # Pixel size acquired images
                             pixel_size_qc = argv$pixel_size_qc, # Pixel size qc images
-                            pixel_size_hs = argv$pixel_size_hs, # Pixel size hs images
+                            pixel_size_sts = argv$pixel_size_sts, # Pixel size sts images
                             ref_round = argv$ref_round, # Reference round
                             ref_version = argv$ref_version, # Reference version
                             ref_channel = argv$ref_channel, # Reference channel

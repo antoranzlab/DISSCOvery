@@ -2,7 +2,7 @@ import pandas as pd
 import subprocess
 import argparse
 
-parser = argparse.ArgumentParser(description='orchestrate reverse transformation. Type run_reverse_transformation.py -h for positional and optional inputs description')
+parser = argparse.ArgumentParser(description='Orchestrate reverse transformation. Type run_reverse_transformation.py -h for positional and optional inputs description')
 parser.add_argument('csv_path', type=str,
                     help=' full path to the csv with the joblist. file e.g. /path/to/project_directory/reverse_transformation_job_list.csv')
 parser.add_argument('script_path', type=str,

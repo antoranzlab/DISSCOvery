@@ -90,6 +90,7 @@ AFSJobList <- function(input_path_images, # Path to input images (path).
     mutate(channel_id = toupper(channel_id))
   
   df_exp_design_rounds <- read_csv(exp_design_rounds) %>%
+    # rename(marker_id= any_of("marker_name")) %>%
     mutate(channel_id = sub('AF_FITC', 'AF', channel_id)) %>% 
     mutate(channel_id = sub('FITC_AF', 'AF', channel_id)) %>% 
     mutate(channel_id = toupper(channel_id)) %>% 

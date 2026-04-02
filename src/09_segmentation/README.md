@@ -22,16 +22,16 @@ This function resizes the input images, lists all the paths for input and output
 Rscript src/09_segmentation/segmentation_list_jobs.R --input_path_images <path_to_input_images/> --output_folder <path_to_output_directory/> --ref_round <reference_round/> --conversion_factor <conversion_factor/> --path_model <path_to_models/> --model_name <model_name/> --pp <preprocessing_indicator/> --output_path_csv <path_to_job_list/>
 ```
 
-| Argument           | Description                                                                                                                     |
-|--------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_images` | Path to input tiles (dir). Example: `/path/to/project_directory/output_registration`                                            |
-| `output_folder`    | Path to output path to save images (dir). Example: `/path/to/project_directory/output_segmentation`                             |
-| `ref_round`        | Reference round for segmentation (str). Example: `R01`                                                                          |
-| `conversion_factor` | Conversion factor (numeric). Example: `1`                                                                                       |
-| `path_model`       | Path to segmentation models. Example: `models/09_models`                                                                        |
-| `model_name`       | Name of the model. Example: `stardist` or `cellpose`                                                                            |
-| `pp`               | Indicator for the preprocessing. Example: `False`                                                                               |
-| `output_path_csv`  | Path to output csv where the job list will be saved (.csv). Example: `/path/to/project_directory/cell_segmentation_joblist.csv` |
+| Argument           | Description                                                                                                                                                                                           |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_images` | Path to input tiles (dir). Example: `/path/to/project_directory/output_registration` (for MILAN), `/path/to/project_directory/split_scenes` (for COMET/AKOYA)                                         |
+| `output_folder`    | Path to output path to save images (dir). Example: `/path/to/project_directory/output_segmentation`                                                                                                   |
+| `ref_round`        | Reference round for segmentation (str). Example: `R01`                                                                                                                                                |
+| `conversion_factor` | Conversion factor (numeric). Example: for MILAN it is `1`, for COMET and AKOYA it need to be resized to match teh size of the orginal, full resolutio images; `0.65/0.28` (COMET), `0.65/0.5` (AKOYA) |
+| `path_model`       | Path to segmentation models. Example: `models/09_models`                                                                                                                                              |
+| `model_name`       | Name of the model. Example: `stardist` or `cellpose`                                                                                                                                                  |
+| `pp`               | Indicator for the preprocessing. Example: `False`                                                                                                                                                     |
+| `output_path_csv`  | Path to output csv where the job list will be saved (.csv). Example: `/path/to/project_directory/cell_segmentation_joblist.csv`                                                                       |
 
 ---
 **Script:** [run_segmentation.py](src/09_segmentation/run_segmentation.py) 

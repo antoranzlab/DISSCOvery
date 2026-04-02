@@ -44,6 +44,8 @@ def feature_extraction(path_input_afs, path_exp_design_rounds, path_input_seg, r
     df_files = pd.concat(df_list, ignore_index=True)
     df_files["channel_id"] = df_files["channel_id"].str.upper()
     tmp_dictionary = pd.read_csv(path_exp_design_rounds)
+    if "marker_name" in tmp_dictionary.columns:
+      tmp_dictionary = tmp_dictionary.rename(columns={"marker_name": "marker_id"})
     tmp_dictionary["channel_id"] = tmp_dictionary["channel_id"].str.upper()
     
     df_files = df_files.merge(

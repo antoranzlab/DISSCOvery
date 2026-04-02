@@ -98,20 +98,30 @@ def split_scenes_processed(input_path_image, input_path_bb, input_path_foregroun
         
         tifffile.imwrite(os.path.join(new_folder_name, new_file_name), tmp_scene, compression='lzma')
 
-parser = argparse.ArgumentParser(description="Splitting slides into scenes (processed).")
-parser.add_argument("--input_path_image", type=str, help="Path to input images (.tiff).")
-parser.add_argument("--input_path_bb", type=str, help="Path to input bounding boxes (.csv).")
-parser.add_argument("--input_path_foreground", type=str, help="Path to input foreground mask (.tiff).")
-parser.add_argument("--input_path_qc", type=str, help="Path to input quality control mask (.tiff).")
-parser.add_argument("--output_path_image", type=str, help="Path to output scene image directory (.tiff).")
-parser.add_argument("--conversion_factor_qc", type=str, help="Conversion factor for quality control images (numeric).")
-parser.add_argument("--conversion_factor_hs", type=float, help="Conversion factor for hard stitched images (numeric).")
-parser.add_argument("--skip_existing", type=bool, help="Boolean to skip already existing results (boolean).")
-# If no arguments are provided, show help and exit
-if len(sys.argv) == 1:
-    parser.print_help(sys.stderr)
-    sys.exit(1)
-args = parser.parse_args()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Splitting slides into scenes (processed).")
+    parser.add_argument("--input_path_image", type=str, help="Path to input images (.tiff).")
+    parser.add_argument("--input_path_bb", type=str, help="Path to input bounding boxes (.csv).")
+    parser.add_argument("--input_path_foreground", type=str, help="Path to input foreground mask (.tiff).")
+    parser.add_argument("--input_path_qc", type=str, help="Path to input quality control mask (.tiff).")
+    parser.add_argument("--output_path_image", type=str, help="Path to output scene image directory (.tiff).")
+    parser.add_argument("--conversion_factor_qc", type=str, help="Conversion factor for quality control images (numeric).")
+    parser.add_argument("--conversion_factor_sts", type=float, help="Conversion factor for hard stitched images (numeric).")
+    parser.add_argument("--skip_existing", type=bool, help="Boolean to skip already existing results (boolean).")
+    # If no arguments are provided, show help and exit
+    if len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
+    args = parser.parse_args()
+
+input_path_image = args.input_path_image
+input_path_bb = args.input_path_bb
+input_path_foreground = args.input_path_foreground
+input_path_qc = args.input_path_qc
+output_path_image = args.output_path_image
+conversion_factor_qc = args.conversion_factor_qc
+conversion_factor_sts = args.conversion_factor_sts
+skip_existing = args.skip_existing
 
 split_scenes_processed(input_path_image=input_path_image, input_path_bb=input_path_bb, input_path_foreground=input_path_foreground, input_path_qc=input_path_qc, 
-    output_path_image=output_path_image, conversion_factor_qc=conversion_factor_qc, conversion_factor_hs=conversion_factor_hs, skip_existing=False)
+    output_path_image=output_path_image, conversion_factor_qc=conversion_factor_qc, conversion_factor_hs=conversion_factor_sts, skip_existing=skip_existing)

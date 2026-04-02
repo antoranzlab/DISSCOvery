@@ -13,8 +13,8 @@
 <pre> 
 06_split_scenes
 ├── MILAN
-│    ├── 1. generate_scenes_csv.R
-│    ├── 2. reverse_transformation_list_jobs.R
+│    ├── 1. generate_scenes_csv.py
+│    ├── 2. reverse_transformation_list_jobs.py
 │    ├── 3. run_reverse_transformation.py
 │    │   └── reverse_transformation.py
 │    ├── 4. split_scenes_list_jobs.R
@@ -22,7 +22,7 @@
 │        └── split_scenes.R
 │
 └── COMET/AKOYA
-     ├── 1. generate_scenes_csv.R
+     ├── 1. generate_scenes_csv.py
      ├── 2. 01_split_scenes_processed_list_jobs.R
      └── 3. run_split_scenes_processed.py
          └── split_scenes_processed.py
@@ -39,7 +39,7 @@
 
 ---
 
-**Script:** [generate_scenes_csv.R](src/06_split_scenes/generate_scenes_csv.R) 
+**Script:** [generate_scenes_csv.py](src/06_split_scenes/generate_scenes_csv.py) 
 
 ### Description
 
@@ -47,14 +47,13 @@ The script generates CSV file that is necessary to run cell phenotyping and assi
 
 ### Arguments
 ```
-Rscript src/06_split_scenes/generate_scenes_csv.R --input_path_bb <path_to_input_bounding_boxes/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/> 
+python src/06_split_scenes/generate_scenes_csv.py --input_path_bb <path_to_input_bounding_boxes/> --reference_map_json <reference_map_json/> --output_path_csv <path_to_output_csv/> 
 ```
 
 | Argument             | Description                                                                                                                                                                                                                                                     |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_path_bb`   | Path to the parent directory where the tiles are stored (dir). Example: `/path/to/project_directory/output_STS/BBs`. It can also use the output of FFC.                                                                                                     |
-| `ref_round`        | Reference round (str). Example: `R01`                                                                                                                                      |
-| `ref_version`      | Reference version (str). Example: `V01`               |                   |
+| `reference_map_json`        | Path to a JSON file containing the reference mapping per slide. Example: `/path/to/project_directory/output_STS/reference_map_slide_round_version.json`                                                                                                                                      |
 | `output_path_csv`    | Path to the CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/experimental_design/experimental_design_scenes.csv`|
 
 ---
@@ -62,7 +61,7 @@ Rscript src/06_split_scenes/generate_scenes_csv.R --input_path_bb <path_to_input
 ## 2. Reverse transformation
 
 ---
-**Script:** [reverse_transformation_list_jobs.R](src/06_split_scenes/reverse_transformation_list_jobs.R) 
+**Script:** [reverse_transformation_list_jobs.py](src/06_split_scenes/reverse_transformation_list_jobs.py) 
 
 ### Description
 
@@ -70,25 +69,24 @@ This function lists all the paths for input and output files and generates a csv
 
 ### Arguments
 ```
-Rscript src/06_split_scenes/reverse_transformation_list_jobs.R --input_path_tm <path_to_input_transformation_matrices/> --input_path_masks <path_to_input_foreground_masks/> --input_path_bb <path_to_input_bounding_boxes/> --output_path_masks <path_to_output_foreground_masks/> --output_path_bb <path_to_output_bounding_boxes/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/>
+python src/06_split_scenes/reverse_transformation_list_jobs.py --input_path_tm <path_to_input_transformation_matrices/> --input_path_masks <path_to_input_foreground_masks/> --input_path_bb <path_to_input_bounding_boxes/> --output_path_masks <path_to_output_foreground_masks/> --output_path_bb <path_to_output_bounding_boxes/> --reference_map_json <reference_map_json/> --output_path_csv <path_to_output_csv/>
 ```
 
-| Argument        | Description                                                                                                                             |
-|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_tm`   | Path to the directory with the transformation matrices (dir). Example: `/path/to/project_directory/output_STS/output_coarse_registration/tm`. |
-| `input_path_masks` | Path to the foreground masks (dir). Example: `/path/to/project_directory/output_STS/output_masks`.                                      |
-| `input_path_bb`  | Path to the bounding boxes (dir). Example: `/path/to/project_directory/output_STS/BBs`.                                                 |
-| `output_path_masks`| Path to the foreground mask output (dir). Example: `/path/to/project_directory/output_STS/output_masks_reverse`.                        |
-| `output_path_bb` | Path to the bounding boxes output (dir). Example: `/path/to/project_directory/output_STS/BBs_reverse`.                                  |
-| `ref_round`      | Reference round (str). Example: `R01`.                                                                                                  |
-| `ref_version`       | Reference version (str). Example: `V01`.                                                                                                |
-| `output_path_csv`      | Path to output csv where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/output_STS/reverse_transformation_job_list.csv`.                                                     |
+| Argument        | Description                                                                                                                                             |
+|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_tm`   | Path to the directory with the transformation matrices (dir). Example: `/path/to/project_directory/output_STS/output_coarse_registration/tm`.           |
+| `input_path_masks` | Path to the foreground masks (dir). Example: `/path/to/project_directory/output_STS/output_masks`.                                                      |
+| `input_path_bb`  | Path to the bounding boxes (dir). Example: `/path/to/project_directory/output_STS/BBs`.                                                                 |
+| `output_path_masks`| Path to the foreground mask output (dir). Example: `/path/to/project_directory/output_STS/output_masks_reverse`.                                        |
+| `output_path_bb` | Path to the bounding boxes output (dir). Example: `/path/to/project_directory/output_STS/BBs_reverse/`.                                                 |
+| `reference_map_json`      | Path to a JSON file containing the reference mapping per slide. Example: `/path/to/project_directory/output_STS/reference_map_slide_round_version.json` |
+| `output_path_csv`      | Path to output csv where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/reverse_transformation_job_list.csv`.              |
 
 ---
 **Script:** [run_reverse_transformation.py](src/06_split_scenes/run_reverse_transformation.py) 
 
 ### Description
-It orchestrates reverse transformation. It requires the output CSV file of [reverse_transformation_list_jobs.R](src/06_split_scenes/reverse_transformation_list_jobs.R) and [reverse_transformation.py](src/06_split_scenes/reverse_transformation.py) script  as positional arguments
+It orchestrates reverse transformation. It requires the output CSV file of [reverse_transformation_list_jobs.py](src/06_split_scenes/reverse_transformation_list_jobs.py) and [reverse_transformation.py](src/06_split_scenes/reverse_transformation.py) script  as positional arguments
 
 ### Arguments
 ```
@@ -138,19 +136,19 @@ This function lists all the paths for input and output files and generates a csv
 Rscript src/06_split_scenes/split_scenes_list_jobs.R --input_path_tiles <path_to_input_tiles/> --input_path_meta <path_to_input_metadata/> --input_path_masks_foreground <path_to_input_foreground_masks/> --input_path_bb <path_to_input_bounding_boxes/> --input_path_masks_qc <path_to_input_quality_control_masks/> --output_path_error_log <path_to_output_error_log/> --px_size_sts <pixel_size_used_in_STS/> --px_size_qc <pixel_size_used_in_QC/> --output_path_folder <path_to_output_directory/> --output_path_csv <path_to_output_csv/> --skip_existing <skip_existing_results/>
 ```
 
-| Argument                      | Description                                                                                                                                 |
-|-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_tiles`            | Path to the directory with the input tiles (dir). Example: `/path/to/project_directory/output_FFC_corrected`.                               |
-| `input_path_meta`             | Path to the input metadata (dir). Example: `/path/to/project_directory/output_tiles_tiffs`.                                                 |
-| `input_path_masks_foreground` | Path to the input foreground mask (dir). Example: `/path/to/project_directory/output_STS/output_masks_reverse`.                             |
-| `input_path_bb`               | Path to the input bounding boxes (dir). Example: `/path/to/project_directory/output_STS/BBs_reverse`.                                       |
-| `input_path_masks_qc`         | Path to the input QC masks (dir). Example: `/path/to/project_directory/output_QC`.                                                          |
-| `output_path_error_log`       | Path to the output error log txts (dir). Example: `/path/to/project_directory/split_scenes_errors_logs`.                                    |
-| `px_size_sts`                 | Pixel size used for STS (numeric). Example: `2.6`.                                                                                          |
-| `px_size_qc`                  | Pixel size used for QC (numeric). Example: `0.65`.                                                                                          |
-| `output_path_folder`          | Path to output directory (dir). Example: `/path/to/project_directory/split_scenes`.                                                         |
-| `output_path_csv`             | Path to output csv where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/output_STS/split_scenes_job_list.csv`. |
-| `skip_existing`               | Boolean to skip already existing results (boolean). Example: `False`.                                                                         |
+| Argument                      | Description                                                                                                                                |
+|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_tiles`            | Path to the directory with the input tiles (dir). Example: `/path/to/project_directory/output_FFC_corrected`.                              |
+| `input_path_meta`             | Path to the input metadata (dir). Example: `/path/to/project_directory/output_tiles_tiffs`.                                                |
+| `input_path_masks_foreground` | Path to the input foreground mask (dir). Example: `/path/to/project_directory/output_STS/output_masks_reverse`.                            |
+| `input_path_bb`               | Path to the input bounding boxes (dir). Example: `/path/to/project_directory/output_STS/BBs_reverse`.                                      |
+| `input_path_masks_qc`         | Path to the input QC masks (dir). Example: `/path/to/project_directory/output_QC`.                                                         |
+| `output_path_error_log`       | Path to the output error log txts (dir). Example: `/path/to/project_directory/split_scenes_errors_logs`.                                   |
+| `px_size_sts`                 | Pixel size used for STS (numeric). Example: `2.6`.                                                                                         |
+| `px_size_qc`                  | Pixel size used for QC (numeric). Example: `0.65`.                                                                                         |
+| `output_path_folder`          | Path to output directory (dir). Example: `/path/to/project_directory/split_scenes`.                                                        |
+| `output_path_csv`             | Path to output csv where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/split_scenes_job_list.csv`. |
+| `skip_existing`               | Boolean to skip already existing results (boolean). Example: `False`.                                                                        |
 
 ---
 **Script:** [run_split_scenes.py](src/06_split_scenes/run_split_scenes.py) 
@@ -200,22 +198,35 @@ Rscript src/06_split_scenes/split_scenes.R --input_path_tiles <path_to_input_til
 
 ---
 
-**Script:** [generate_scenes_csv.R](src/06_split_scenes/generate_scenes_csv.R) 
+**Script:** [generate_scenes_csv.py](src/06_split_scenes/generate_scenes_csv.py) 
 
 ### Description
 
-The script generates CSV file that is necessary to run cell phenotyping and assigning cells to specific tissues
+The script generates CSV file that is necessary to run cell phenotyping and assigning cells to specific tissues. It requires  json file that maps reference rounds and versions. 
+Example:
+```
+{
+  "Slide name 1": {
+    "reference_round": "R01",
+    "reference_version": "V01"
+  },
+  "Slide name 2": {
+    "reference_round": "R02",
+    "reference_version": "V03"
+  }
+}
+```
+where each record corresponds to a different slide in the project
 
 ### Arguments
 ```
-Rscript src/06_split_scenes/generate_scenes_csv.R --input_path_bb <path_to_input_bounding_boxes/> --ref_round <reference_round/> --ref_version <reference_version/> --output_path_csv <path_to_output_csv/> 
+python src/06_split_scenes/generate_scenes_csv.py --input_path_bb <path_to_input_bounding_boxes/> --reference_map_json <reference_map_json/> --output_path_csv <path_to_output_csv/> 
 ```
 
 | Argument             | Description                                                                                                                                                                                                                                                     |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `input_path_bb`   | Path to the parent directory where the tiles are stored (dir). Example: `/path/to/project_directory/output_STS/BBs`. It can also use the output of FFC.                                                                                                     |
-| `ref_round`        | Reference round (str). Example: `R01`                                                                                                                                      |
-| `ref_version`      | Reference version (str). Example: `V01`               |                   |
+| `reference_map_json`        | Path to a JSON file containing the reference mapping per slide. Example: `/path/to/project_directory/output_STS/reference_map_slide_round_version.json`                                                                                                                                     |
 | `output_path_csv`    | Path to the CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/experimental_design/experimental_design_scenes.csv`|
 
 ---
@@ -228,18 +239,23 @@ The script generates CSV job list file
 
 ### Arguments
 ```
-Rscript src/06_split_scenes//01_split_scenes_processed_list_jobs.R --input_tiles <input_tiles/> --input_bb <input_bb/> --input_mask_foreground <input_mask_foreground/> --input_mask_qc <input_mask_qc/> --output_folder <output_folder/> --conversion_factor <conversion_factor/> --skip_existing <skip_existing/>
+Rscript src/06_split_scenes/01_split_scenes_processed_list_jobs.R --input_path_images <input_path_images/> --input_bb <input_bb/> --input_mask_foreground <input_mask_foreground/> --input_mask_qc <input_mask_qc/> --output_folder <output_folder/> --pixel_size_full <pixel_size_full/> --pixel_size_qc <pixel_size_qc/> --pixel_size_sts <pixel_size_sts/> --ref_round <ref_round/> --ref_version <ref_version/> --ref_channel <ref_channel/> --output_path_csv <output_path_csv/>
 ```
 
-| Argument         | Description                                                                                                                             |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| `input_tiles` | Path to input tiles (tiff). Example: `path/to/project_directory/output_processed/BMARK01_R01_V01_COMET/BMARK01_R01_V01_COMET_DAPI.tiff` |
-| `input_bb`    | Path to bounding boxes (csv). Example: `path/to/project_directory/output_STS/BBs/BMARK01/BMARK01_R01_V01_COMET_DAPI.csv`                |
-| `input_mask_foreground`   | Path to foreground mask (.tiff). Example: `path/to/project_directory/output_STS/output_masks/BMARK01/BMARK01_R01_V01_COMET_DAPI.tiff`   |                   |
-| `input_mask_qc` | Path to qualifai mask (dir)). Example: `path/to/project_directory/output_QC/BMARK01/BMARK01_R01_V01_COMET_DAPI.tiff`                    |
-| `output_folder`    | Path to output path to save images (dir)). Example: `2.32142857142857`                                                                  |                   |
-| `conversion_factor` | Conversion factor for downscaling (numeric). Example: `9.28571428571428`                                                                |
-| `skip_existing` | Boolean to skip already existing results (boolean). Example: `TRUE`                                                                      |
+| Argument       | Description                                                                                                                                                 |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_images` | Path to input tiles (tiff). Example: `path/to/project_directory/output_tiles_tiffs` (for COMET), `path/to/project_directory/output_tiles_tiffs` (for AKOYA) |
+| `input_bb`  | Path to bounding boxes (csv). Example: `path/to/project_directory/output_STS/BBs`                                                                           |
+| `input_mask_foreground` | Path to foreground mask (.tiff). Example: `path/to/project_directory/output_STS/output_masks`                                                               |                   |
+| `input_mask_qc` | Path to qualifai mask (dir)). Example: `path/to/project_directory/output_QC`                                                                                |
+| `output_folder`  | Path to output path to save images (dir)). Example: `path/to/project_directory/split_scenes`                                                                |                   |
+| `pixel_size_full` | Pixel size input images (numeric). Example: `0.5` (AKOYA) or `0.28` (COMET).                                                                                |
+| `pixel_size_qc` | Pixel size input QC images (numeric). Example: `0.65`                                                                                                       |
+| `pixel_size_sts` | Pixel size input STS images (numeric). Example: `2.6`                                                                                                       |
+| `ref_round` | Reference round (str). Example: `R01`                                                                                         |
+| `ref_version` | Reference version (str). Example: `V01`                                                                                     |
+| `ref_channel` | Reference channel (str). Example: `DAPI`                                                                                         |
+| `output_path_csv` | Path to output CSV where the list of jobs will be saved (.csv). Example: `/path/to/project_directory/split_scenes_processed_job_list.csv`                                                                                     |
 
 ---
 **Script:** [run_split_scenes_processed.py](src/06_split_scenes/run_split_scenes_processed.py) 

@@ -22,14 +22,14 @@ This function lists all the paths for input and output files and generates a csv
 Rscript src/08_AFS/AFS_list_jobs.R --input_path_images <path_to_input_images/> --input_path_medoids <path_to_medoids_file/> --output_folder <path_to_output_director/> --output_folder_qc <path_to_output_qc_directory/> --exp_design_rounds <path_to_exp_design_rounds/> --output_path_csv <path_to_job_list/>
 ```
 
-| Argument             | Description                                                                                                                |
-|----------------------|----------------------------------------------------------------------------------------------------------------------------|
-| `input_path_images`   | Path to input tiles (dir). Example: `/path/to/project_directory/output_registration`                                       |
-| `input_path_medoids`        | Path to input medoids (.csv). Example: `src/auxiliary functions/AFS/medoid_series.csv`                                     |
-| `output_folder`   | Path to output path to save images (dir). Example: `/path/to/project_directory/output_AFS_images`                          |
-| `output_folder_qc`        | Path to output path to save qc plots (dir). Example: `/path/to/project_directory/output_AFS_QC`                            |
-| `exp_design_rounds`   | Experimental design for the rounds (.csv). Example: `/path/to/project_directory/experimental_design/exp_design_rounds.csv` |
-| `output_path_csv`        | Path to output csv where the job list will be saved (.csv). Example: `/path/to/project_directory/afs_job_list.csv`         |
+| Argument             | Description                                                                                                                                                    |
+|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_path_images`   | Path to input tiles (dir). Example: `/path/to/project_directory/output_registration` (for MILAN),  `/path/to/project_directory/split_scenes` (for COMET/AKOYA) |
+| `input_path_medoids`        | Path to input medoids (.csv). Example: `src/auxiliary functions/AFS/medoid_series.csv`                                                                         |
+| `output_folder`   | Path to output path to save images (dir). Example: `/path/to/project_directory/output_AFS_images`                                                              |
+| `output_folder_qc`        | Path to output path to save qc plots (dir). Example: `/path/to/project_directory/output_AFS_QC`                                                                |
+| `exp_design_rounds`   | Experimental design for the rounds (.csv). Example: `/path/to/project_directory/experimental_design/exp_design_rounds.csv`                                     |
+| `output_path_csv`        | Path to output csv where the job list will be saved (.csv). Example: `/path/to/project_directory/afs_job_list.csv`                                             |
 
 ---
 **Script:** [run_AFS.py](src/08_AFS/run_AFS.py) 

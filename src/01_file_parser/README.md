@@ -36,7 +36,7 @@
 ├── COMET
 │   ├── 1. comet_files_qc_processed.R
 │   ├── 2. exp_design_comet.R
-│   ├── 3. parse_slide_names.R
+│   ├── 3. parse_slide_names.py
 │   ├── 4. comet_generate_csv_joblist.R
 │   └── 5. run_harmonization_comet_processed.py
 │       └── extract_lunaphore_ometiff_processed.py
@@ -44,7 +44,7 @@
 └── AKOYA
     ├── 1. qc_input_files_akoya_raw.py
     ├── 2. exp_design_akoya.R
-    ├── 3. parse_slide_names.R
+    ├── 3. parse_slide_names.py
     ├── 4. akoya_generate_csv_joblist.R
     └── 5. run_harmonization_akoya_raw.py
         └── extract_images_qptiff_akoya_raw.py
@@ -284,15 +284,18 @@ Rscript src/01_file_parser/exp_design_comet.R --input_path <path_to_files/> --ex
 
 ---
 
-**Script:** [parse_slide_names.R](src/01_file_parser/parse_slide_names.R)
+**Script:** [parse_slide_names.py](src/01_file_parser/parse_slide_names.py)
 
 ### Description
 
-Combines information from experimental design files (rounds and slides) into one file
+Before running this step, you need to manually add column `slide_id`, with the ID name of yur choice,  to `/path/to/project_directory/experimental_design/exp_design_slides.csv` file. 
+In GUI this information is taken from the user and incorporated into the data directly.
+
+`parse_slide_names` combines information from experimental design files (rounds and slides) into one file
 
 ### Arguments
 ```
-Rscript src/01_file_parser/parse_slide_names.R --path_input_exp_design_rounds <path_to_input_csv/> --path_input_exp_design_slides <path_to_input_csv_slides/> --path_output_exp_design_merged <path_to_output_csv/>
+Rscript src/01_file_parser/parse_slide_names.py --path_input_exp_design_rounds <path_to_input_csv/> --path_input_exp_design_slides <path_to_input_csv_slides/> --path_output_exp_design_merged <path_to_output_csv/>
 ```
 | Argument              | Description                                                                                                                                            |
 |-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -313,7 +316,7 @@ Rscript src/01_file_parser/parse_slide_names.R --path_input_exp_design_rounds <p
 
 ### Arguments
 ```
-Rscript src/01_file_parser/comet_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.output.folder <path_to_output_tiles/> --path.input.slide.dictionary <path_to_input_slides_dictionary/> --path.exp.design.rounds.file <path_to_input_channel_dictionary/> --user.id <user_id/> --project_id <project_id/> --path.output.csv<path_to_output_csv/>
+Rscript src/01_file_parser/comet_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.output.folder <path_to_output_tiles/> --path.input.slide.dictionary <path_to_input_slides_dictionary/> --path.exp.design.rounds.file <path_to_input_channel_dictionary/> --user.id <user_id/> --project.id <project_id/> --path.output.csv <path_to_output_csv/>
 ```
 
 | Argument                  | Description                                                                                                                                                   |
@@ -437,15 +440,18 @@ Rscript src/01_file_parser/exp_design_akoya.R --input_path <path_to_files/> --ex
 
 ---
 
- **Script:** [parse_slide_names.R](src/01_file_parser/parse_slide_names.R)
+ **Script:** [parse_slide_names.py](src/01_file_parser/parse_slide_names.py)
 
 ### Description
 
-Combines information from experimental design files (rounds and slides) into one file
+Before running this step, you need to manually add column `slide_id`, with the ID name of yur choice,  to `/path/to/project_directory/experimental_design/exp_design_slides.csv` file. 
+In GUI this information is taken from the user and incorporated into the data directly.
+
+`parse_slide_names` combines information from experimental design files (rounds and slides) into one file
 
 ### Arguments
 ```
-Rscript src/01_file_parser/parse_slide_names.R --path_input_exp_design_rounds <path_to_input_csv/> --path_input_exp_design_slides <path_to_input_csv_slides/> --path_output_exp_design_merged <path_to_output_csv/>
+python src/01_file_parser/parse_slide_names.py --path_input_exp_design_rounds <path_to_input_csv/> --path_input_exp_design_slides <path_to_input_csv_slides/> --path_output_exp_design_merged <path_to_output_csv/>
 ```
 | Argument              | Description                                                                                                                                            |
 |-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -465,7 +471,7 @@ Rscript src/01_file_parser/parse_slide_names.R --path_input_exp_design_rounds <p
 `akoya_generate_csv_joblist.R` lists all the czi files in the project’s folder and generates a csv file listing all the jobs that need to be run in the next step. 
 ### Arguments
 ```
-Rscript src/01_file_parser/akoya_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.output.folder <path_to_output_tiles/> --path.input.slide.dictionary <path_to_input_slides_dictionary/> --path.exp.design.rounds.file <path_to_input_channel_dictionary/> --user.id <user_id/> --project_id <project_id/> --path.output.csv <path_to_output_csv/>
+Rscript src/01_file_parser/akoya_generate_csv_joblist.R --path.input.folder <path_to_input_project_folder/> --path.output.folder <path_to_output_tiles/> --path.input.slide.dictionary <path_to_input_slides_dictionary/> --path.exp.design.rounds.file <path_to_input_channel_dictionary/> --user.id <user_id/> --project.id <project_id/> --path.output.csv <path_to_output_csv/>
 ```
 
 | Argument                  | Description                                                                                                                                                    |

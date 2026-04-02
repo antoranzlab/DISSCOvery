@@ -1,20 +1,28 @@
-# from tifffile import imread,tifffile,imwrite
-# import tifffile
 import os
-import sys
 import numpy as np
 import re
 import tifffile
 import xmltodict
 import pandas as pd
 import argparse
-    
+import unicodedata
+
+def normalize_folder(x):
+    if pd.isna(x):
+        return None
+    x = str(x)
+    x = unicodedata.normalize("NFKC", x)
+    x = re.sub(r"[\u2010\u2011\u2012\u2013\u2014\u2015\u2212]", "-", x)   # dash variants
+    x = re.sub(r"[\u00A0\u2000-\u200B\u202F\u205F\u3000]", " ", x)       # weird spaces
+    x = re.sub(r"\s+", " ", x).strip()
+    return x
+
 def extract_lunaphore_processed(input_directory, output_directory, slide_dictionary_file, exp_design_rounds_file, user_id, project_id):
     
     os.makedirs(output_directory, exist_ok=True)
     
     slide_dictionary = pd.read_csv(slide_dictionary_file)
-  
+    slide_dictionary["folder"] = slide_dictionary["folder"].map(lambda x: normalize_folder(str(x)))
     base_folder_name = os.path.basename(input_directory)
     slide_id = slide_dictionary[slide_dictionary['folder'] == base_folder_name]['slide_id'].tolist()[0]
     
@@ -25,8 +33,8 @@ def extract_lunaphore_processed(input_directory, output_directory, slide_diction
     ## read exp design rounds
     exp_design_rounds = pd.read_csv(exp_design_rounds_file)
     exp_design_rounds = exp_design_rounds[exp_design_rounds['slide_id'] == slide_id] # filter for slide
-    # sort to match channel list: first DAPI, then rest.
 
+    
     # Open the qptiff file
     with tifffile.TiffFile(tiff_name) as tif:
         # Access the highest resolution series and its highest resolution level
@@ -72,12 +80,6 @@ def extract_lunaphore_processed(input_directory, output_directory, slide_diction
         # Drop helper column if no longer needed
         channels_df.drop(columns='marker_name_count', inplace=True)
         
-        # channels_df = pd.concat([channels_df, exp_design_rounds], axis = 1)
-        # channels_df2 = channels_df.merge(exp_design_rounds, left_on='marker_name', right_on='marker_name')
-        
-        # csv_filename = os.path.join(output_path, file.replace('.tiff', '.csv'))
-        # channels_df.to_csv(csv_filename, index = False)
-        
         print(f'Highest resolution level shape: {highest_level.shape}')
         
         # Process each channel
@@ -102,12 +104,7 @@ parser.add_argument('--exp_design_rounds_file', type=str,
 parser.add_argument('--user_id', type=str,
                     help='User identifier (str). Example: JM')
 parser.add_argument('--project_id', type=str,
-                    help='Project identifier (str). Example: PROJECT_COMET')
-
-# If no arguments are provided, show help and exit
-if len(sys.argv) == 1:
-    parser.print_help(sys.stderr)
-    sys.exit(1)
+                    help='Project identifier (str). Example: COMETP')
 
 args = parser.parse_args()
 
