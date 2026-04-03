@@ -244,7 +244,7 @@ Rscript src/06_split_scenes/01_split_scenes_processed_list_jobs.R --input_path_i
 
 | Argument       | Description                                                                                                                                                 |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `input_path_images` | Path to input tiles (tiff). Example: `path/to/project_directory/output_tiles_tiffs` (for COMET), `path/to/project_directory/output_tiles_tiffs` (for AKOYA) |
+| `input_path_images` | Path to input tiles (tiff). Example: `path/to/project_directory/output_tiles_tiffs` (for COMET), `path/to/project_directory/output_processed` (for AKOYA) |
 | `input_bb`  | Path to bounding boxes (csv). Example: `path/to/project_directory/output_STS/BBs`                                                                           |
 | `input_mask_foreground` | Path to foreground mask (.tiff). Example: `path/to/project_directory/output_STS/output_masks`                                                               |                   |
 | `input_mask_qc` | Path to qualifai mask (dir)). Example: `path/to/project_directory/output_QC`                                                                                |

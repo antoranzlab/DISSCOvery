@@ -16,11 +16,11 @@ try:
     task_id = str(sys.argv[7])
 except:
     n_cores = 10
-    dir_csv = "/media/ib/My Book Duo/output_MVM006/output_downstream_analysis/9/tmp_results/training_data.csv"
-    marker_list = "/media/ib/My Book Duo/output_MVM006/output_downstream_analysis/9/marker_list_path.csv"
-    path_input_model = "/media/ib/My Book Duo/output_MVM006/output_downstream_analysis/9/tmp_results/tmp_umap.rds"
-    path_outputs = "/media/ib/My Book Duo/output_MVM006/output_downstream_analysis/9/tmp_partitions_annotated"
-    path_output_partitions = "/media/ib/My Book Duo/output_MVM006/output_downstream_analysis/9/tmp_partitions"
+    dir_csv = "/path/to/project_directory/output_cell_identification/n01/v01/tmp_results/training_data.csv"
+    marker_list = "/path/to/project_directory/output_cell_identification/phenotypic_markers_n01_v01.csv"
+    path_input_model = "/path/to/project_directory/output_cell_identification/n01/v01/tmp_results/tmp_umap.rds"
+    path_outputs = "/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions_annotated"
+    path_output_partitions = "/path/to/project_directory/output_cell_identification/n01/v01/tmp_partitions"
     task_id = '999'
 
 #######################
