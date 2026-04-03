@@ -116,6 +116,7 @@ SplitScenesProcessedJobList <- function(input_path_images, # Path to input image
   ## Tabulate data
   tmp_folders <- list.dirs(input_path_images, full.names = FALSE, recursive = FALSE)
   
+  
   df_files <- lapply(tmp_folders, function(x){
     tmp_files <- data.frame(ofile = list.files(file.path(input_path_images, x), full.names = FALSE, recursive = FALSE, pattern = '.tif+')) %>% 
       mutate(folder = x)
