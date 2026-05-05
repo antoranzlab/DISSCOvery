@@ -293,8 +293,8 @@ python src/06_split_scenes/split_scenes_processed.py --input_path_image <input_p
 | `input_path_foreground` | Path to foreground mask (.tiff). Example: `path/to/project_directory/output_STS/output_masks/BMARK01/BMARK01_R01_V01_COMET_DAPI.tiff`   |                   |
 | `input_path_qc` | Path to qualifai mask (dir)). Example: `path/to/project_directory/output_QC/BMARK01/BMARK01_R01_V01_COMET_DAPI.tiff`                    |
 | `output_path_image`  | Path to output path to save images (tiff). Example: `path/to/project_directory/split_scenes/bmark01/BMARK01_R01_V01_COMET_DAPI.tiff`    |                   |
-| `conversion_factor_qc` | Conversion factor for downscaling (numeric). Example: `2.32142857142857`                                                                |
-| `conversion_factor_hs` | Boolean to skip already existing results (boolean). Example: `9.28571428571428`                                                                     |
+| `conversion_factor_qc` | Conversion factor QC (numeric). Example: `2.32142857142857`                                                                             |
+| `conversion_factor_hs` | Conversion factor STS (numeric). Example: `9.28571428571428`                                                                            |
 | `skip_existing` | Boolean to skip already existing results (boolean). Example: `True`                                                                     |
 
 ---

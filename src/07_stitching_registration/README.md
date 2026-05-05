@@ -131,7 +131,7 @@ This script generates the QC figures to evaluate the registration.
 
 ### Arguments
 ```
-Rscript src/07_stitching_registration/evaluate_registration_algnqc.py --path_ref_image <path_to_reference_image/> --path_query_image <path_to_query_image/> --path_model <loaded_algnqc_model/> --path_csv <path_csv/> --path_html <path_to_html_output/> --path_json <path_to_json_output/>
+python src/07_stitching_registration/evaluate_registration_algnqc.py --path_ref_image <path_to_reference_image/> --path_query_image <path_to_query_image/> --path_model <loaded_algnqc_model/> --path_csv <path_csv/> --path_html <path_to_html_output/> --path_json <path_to_json_output/>
 ```
 
 | Argument     | Description                                                                                                                                                                 |

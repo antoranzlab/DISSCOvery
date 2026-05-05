@@ -160,7 +160,7 @@ The script creates tissue masks.
 
 ### Arguments
 ```
-python src/04_STS/STS_generate_mask.py --input_image_path <path_to_registered_hard_stitching/> -- output_image_path <path_to_output_mask/> --model_path <path_to_pretrained_model/> 
+python src/04_STS/STS_generate_mask.py --input_image_path <path_to_registered_hard_stitching/> --output_image_path <path_to_output_mask/> --model_path <path_to_pretrained_model/> 
 ```
 | Argument           | Description                                                                                                                                                                                                     |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
