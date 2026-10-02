@@ -1,0 +1,1680 @@
+import os
+import pandas as pd
+import sys
+
+configfile: "config.yaml"
+
+# ---------------------------------------------------------------------------
+# Global paths
+# ---------------------------------------------------------------------------
+BASE_INPUT_DIR  = config["base_input_dir"]
+BASE_OUTPUT_DIR = config["base_output_dir"]
+PROJECT_NAME = config["project_name"]
+PROJECT_DIR = os.path.join(BASE_OUTPUT_DIR, PROJECT_NAME)
+
+# Flag files
+STATUS_DIR        = os.path.join(PROJECT_DIR, ".status")
+EXTRACTION_DONE = os.path.join(STATUS_DIR, ".extraction_done")
+PARSE_DONE = os.path.join(STATUS_DIR, ".parse_name_done")
+RESIZE_STS_DONE = os.path.join(STATUS_DIR, ".hard_stitching_sts_done") # Needed?
+RESIZE_QC_DONE = os.path.join(STATUS_DIR, ".hard_stitching_qc_done")
+STS_MASK_DONE = os.path.join(STATUS_DIR, ".sts_mask_generation_done")
+BBS_DONE = os.path.join(STATUS_DIR, ".bb_estimation_done")
+QUALIFAI_DONE = os.path.join(STATUS_DIR, ".qualifai_done")
+SPLIT_SCENES_DONE = os.path.join(STATUS_DIR, ".split_scenes_done")
+SLIDE_ID_SELECTION_DONE = os.path.join(STATUS_DIR, ".exp_design_add_slide_id_done")
+AFS_SELECTION_DONE = os.path.join(STATUS_DIR, ".afs_selection_done")
+AFS_DONE = os.path.join(STATUS_DIR, ".afs_done")
+SEG_SELECTION_DONE = os.path.join(STATUS_DIR, ".seg_selection_done")
+SEGMENTATION_DONE = os.path.join(STATUS_DIR, ".segmentation_done")
+FE_DONE = os.path.join(STATUS_DIR, ".fe_done")
+MARKER_CSV_DONE = os.path.join(STATUS_DIR, ".marker_list_done")
+REDUCTION_DONE = os.path.join(STATUS_DIR, ".data_reduction")
+PHENOGRAPH_DONE = os.path.join(STATUS_DIR, ".phenograph_done")
+CLUSTERING_DONE = os.path.join(STATUS_DIR, ".clustering_done")
+MAPPED_CLUSTERING_DONE = os.path.join(STATUS_DIR, ".mapped_clustering_done")
+CONFUSION_MATRIX_DONE =os.path.join(STATUS_DIR, ".confusion_matrix_no_annotation_done")
+MAPPED_CLUSTERING_CSV_DONE = os.path.join(STATUS_DIR, ".mapped_clustering_csv_done")
+CLUSTERING_CSV_DONE = os.path.join(STATUS_DIR, ".clustering_csv_done")
+CLUSTERING_ANALYSIS_DONE = os.path.join(STATUS_DIR, ".clustering_analysis_done")
+
+# ---------------------------------------------------------------------------
+# Paths outputs - 01 File parsing
+# ---------------------------------------------------------------------------
+
+OUTPUT_01_QC_FILE = os.path.join(PROJECT_DIR, "input_qc.txt")
+CSV_01_EXP_DESIGN_ROUNDS = os.path.join(PROJECT_DIR, "experimental_design", "exp_design_rounds.csv")
+CSV_01_EXP_DESIGN_SLIDES = os.path.join(PROJECT_DIR, "experimental_design", "exp_design_slides.csv")
+PATH_01_RAW_TILES = os.path.join(PROJECT_DIR, "output_tiles_tiff")
+CSV_01_DATA_PARSING = os.path.join(PROJECT_DIR, "data_parsing.csv")
+
+rule all:
+    input:
+        OUTPUT_01_QC_FILE,
+        CSV_01_EXP_DESIGN_SLIDES,
+        PARSE_DONE,
+        EXTRACTION_DONE,
+        RESIZE_STS_DONE,
+        RESIZE_QC_DONE,
+        STS_MASK_DONE,
+        BBS_DONE,
+        QUALIFAI_DONE,
+        SPLIT_SCENES_DONE,
+        AFS_DONE,
+        SEGMENTATION_DONE,
+        FE_DONE,
+        MARKER_CSV_DONE,
+        REDUCTION_DONE,
+        PHENOGRAPH_DONE,
+        CLUSTERING_DONE,
+        MAPPED_CLUSTERING_DONE,
+        CONFUSION_MATRIX_DONE,
+        CLUSTERING_ANALYSIS_DONE,
+
+# =============================================================================
+# 01 File parsing
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# 01 File parsing - Input QC
+# ---------------------------------------------------------------------------
+rule input_qc:
+    input:
+        indir=BASE_INPUT_DIR,
+    output:
+        txt=OUTPUT_01_QC_FILE,
+    params:
+        script=os.path.join(config["scripts"], "src/01_file_parser/comet_files_qc_processed.py"),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "input_qc.log"),
+    shell:
+        "python {params.script} "
+        "--input_path {input.indir} "
+        "--output_txt {output.txt} "
+        "&> {log}"
+
+# ---------------------------------------------------------------------------
+# 01 File parsing - Experimental design
+# ---------------------------------------------------------------------------
+rule experimental_design:
+    input:
+        indir=BASE_INPUT_DIR,
+    output:
+        rounds=CSV_01_EXP_DESIGN_ROUNDS,
+        slides=CSV_01_EXP_DESIGN_SLIDES,
+    params:
+        script=os.path.join(config["scripts"], "src/01_file_parser/exp_design_comet.py"),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "experimental_design.log"),
+    shell:
+        "python {params.script} "
+        "--input_path {input.indir} "
+        "--exp_design_rounds {output.rounds} "
+        "--exp_design_slides {output.slides} "
+        "&> {log}"
+
+# ---------------------------------------------------------------------------
+# 01 File parsing - Add slide ID
+# ---------------------------------------------------------------------------
+rule add_slide_id:
+    input:
+        slides=CSV_01_EXP_DESIGN_SLIDES,
+    output:
+        id_done = touch(SLIDE_ID_SELECTION_DONE),
+    params:
+        slide_id=config['slide_id']
+    log:
+        os.path.join(PROJECT_DIR, "logs", "add_slide_id.log"),
+    run:
+        import pandas as pd
+
+        # Experimental design for slides
+        df_exp_slide = pd.read_csv(input.slides)
+        df_exp_slide['slide_id'] = params.slide_id
+
+        df_exp_slide.to_csv(input.slides, index=False)
+
+# ---------------------------------------------------------------------------
+# 01 File parsing - Parse slide name
+# ---------------------------------------------------------------------------
+rule parse_name:
+    input:
+        done=SLIDE_ID_SELECTION_DONE,
+    output:
+        id_done = touch(PARSE_DONE),
+    params:
+        script=os.path.join(config["scripts"], "src/01_file_parser/parse_slide_names.py"),
+        rounds=CSV_01_EXP_DESIGN_ROUNDS,
+        slides=CSV_01_EXP_DESIGN_SLIDES,
+    log:
+        os.path.join(PROJECT_DIR, "logs", "parse_slide_name.log"),
+    shell:
+        "python {params.script} "
+        "--path_input_exp_design_rounds {params.rounds} "
+        "--path_input_exp_design_slides {params.slides} "
+        "--path_output_exp_design_merged {params.rounds} "
+        "&> {log}"
+
+    
+# ---------------------------------------------------------------------------
+# 01 File parsing - Build data parsing joblist
+# ---------------------------------------------------------------------------
+checkpoint generate_joblist:
+    input:
+        done=PARSE_DONE
+    output:
+        joblist=CSV_01_DATA_PARSING,
+    params:
+        script=os.path.join(config["scripts"], "src/01_file_parser/comet_generate_csv_joblist.py"),
+        indir=BASE_INPUT_DIR,
+        tiles_dir=PATH_01_RAW_TILES,
+        slide=CSV_01_EXP_DESIGN_SLIDES,
+        rounds=CSV_01_EXP_DESIGN_ROUNDS,
+        user=config['user_id'],
+        project=config['project_id'],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "parsing_joblist.log"),
+    shell:
+        "python {params.script} "
+        "--path.input.folder {params.indir} "
+        "--path.output.folder {params.tiles_dir} "
+        "--path.input.slide.dictionary {params.slide} "
+        "--path.exp.design.rounds.file {params.rounds} "
+        "--user.id {params.user} "
+        "--project.id {params.project} "
+        "--path.output.csv {output.joblist} "
+        "&> {log}"
+
+# ---------------------------------------------------------------------------
+# 01 File parsing - Run the extraction
+# ---------------------------------------------------------------------------
+def get_data_parsing_jobs():
+    df = pd.read_csv(checkpoints.generate_joblist.get().output.joblist)
+    return {
+        str(i): {
+            "input_path": row["input_path"],
+            "output_folder": row["output_folder"],
+            "project_id": row["project_id"],
+            "user_id": row["user_id"],
+            "input_slide_dictionary": row["input_slide_dictionary"],
+            "exp_design_rounds_file": row["exp_design_rounds_file"],
+        }
+        for i, row in df.iterrows()
+    }
+
+def all_job_ids(wildcards):
+    return list(get_data_parsing_jobs().keys())
+
+def all_data_parsing_flags(wildcards):
+    jobs = get_data_parsing_jobs()
+    return [
+        os.path.join(PROJECT_DIR, "logs", f"data_parsing_{j}.done")
+        for j in jobs
+    ]
+
+wildcard_constraints:
+    job=r"\d+"
+
+rule parsing:
+    input:
+        joblist=CSV_01_DATA_PARSING,
+    output:
+        done=touch(os.path.join(PROJECT_DIR, "logs", "data_parsing_{job}.done")),
+    params:
+        script=os.path.join(config["scripts"], "src/01_file_parser/extract_lunaphore_ometiff_processed.py"),
+        file=lambda wc: get_data_parsing_jobs()[wc.job]["input_path"],
+        slide_dictionary=lambda wc: get_data_parsing_jobs()[wc.job]["input_slide_dictionary"],
+        rounds_dictionary=lambda wc: get_data_parsing_jobs()[wc.job]["exp_design_rounds_file"],
+        out_dir=lambda wc: get_data_parsing_jobs()[wc.job]["output_folder"],
+        user=lambda wc: get_data_parsing_jobs()[wc.job]["user_id"],
+        project=lambda wc: get_data_parsing_jobs()[wc.job]["project_id"],
+        rounds=config['parse_rounds'],
+        workers=config['num_workers']
+    log:
+        os.path.join(PROJECT_DIR, "logs", "data_parsing_{job}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input_directory {params.file} "
+        "--output_directory {params.out_dir} "
+        "--slide_dictionary_file {params.slide_dictionary} "
+        "--exp_design_rounds_file {params.rounds_dictionary} "
+        "--user_id {params.user} "
+        "--project_id {params.project} "
+        "--rounds {params.rounds} "
+        "--n_workers {params.workers} "
+        "&> {log} "
+
+# Aggregator: forces checkpoint resolution and collects all per-job outputs
+rule parsing_done:
+    input:
+        all_data_parsing_flags
+    output:
+        touch(EXTRACTION_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "data_parsing_done.log"),
+
+
+# =============================================================================
+# 04 Coarse stitching and STS
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Paths outputs - 03 Resizing + Smart Tissue Selection (STS)
+# ---------------------------------------------------------------------------
+PATH_03_RESIZE = os.path.join(PROJECT_DIR, "resize_STS")
+CSV_03_RESIZE_JOBLIST = os.path.join(PROJECT_DIR, "resize_job_list_sts.csv")
+PATH_03_RESIZE_QC = os.path.join(PROJECT_DIR, "resize_QC")
+CSV_03_RESIZE_JOBLIST_QC = os.path.join(PROJECT_DIR, "resize_job_list_QC.csv")
+PATH_04_STS_MASK        = os.path.join(PROJECT_DIR, "output_STS", "output_masks")
+CSV_04_STS_MASK_JOBLIST = os.path.join(PROJECT_DIR, "generate_mask_job_list.csv")
+PATH_04_BBS        = os.path.join(PROJECT_DIR, "output_STS", "BBs")
+CSV_04_BBS_JOBLIST = os.path.join(PROJECT_DIR, "BB_estimation_job_list.csv")
+PATH_04_HTML        = os.path.join(PROJECT_DIR, "output_STS", "heatmaps_html")
+PATH_04_JSON        = os.path.join(PROJECT_DIR, "output_STS", "heatmaps_json")
+
+# ---------------------------------------------------------------------------
+# 03 STS - Resize joblist
+# ---------------------------------------------------------------------------
+checkpoint resize_sts_joblist:
+    input:
+        done=EXTRACTION_DONE,
+    output:
+        joblist=CSV_03_RESIZE_JOBLIST,
+    params:
+        script=os.path.join(config["scripts"], "src/03_hard_stitching/resize_images_list_jobs.py"),
+        tiles_dir=PATH_01_RAW_TILES,
+        out_dir=PATH_03_RESIZE,
+        in_pixel_size=config["pixel_input"],
+        out_pixel_size=config["pixel_output_sts"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "resize_sts_joblist.log"),
+
+    shell:
+        "python {params.script} "
+        "--input_path_images {params.tiles_dir} "
+        "--output_folder {params.out_dir} "
+        "--output_path_csv {output.joblist} "
+        "--output_pixel_size {params.out_pixel_size} "
+        "--input_pixel_size {params.in_pixel_size} "
+        "&> {log} "
+
+# ---------------------------------------------------------------------------
+# 03 STS - Resize
+# ---------------------------------------------------------------------------
+def get_resize_sts_jobs():
+    df = pd.read_csv(checkpoints.resize_sts_joblist.get().output.joblist)
+    return {
+        str(i): {
+            "input_path_image": row["input_path_image"],
+            "output_path_image": row["output_path_image"],
+            "conversion_factor": row["conversion_factor"],
+            }
+        for i, row in df.iterrows()
+    }
+
+def all_resize_sts_job_ids(wildcards):
+    return list(get_resize_sts_jobs().keys())
+
+def all_resize_sts_flags(wildcards):
+    jobs = get_resize_sts_jobs()
+    return [
+        os.path.join(PROJECT_DIR, "logs", f"resize_sts_{j}.done")
+        for j in jobs
+    ]
+
+wildcard_constraints:
+    job=r"\d+"
+
+rule hard_stitching_sts:
+    input:
+        joblist=CSV_03_RESIZE_JOBLIST,
+    output:
+        done=touch(os.path.join(PROJECT_DIR, "logs", "resize_sts_{job}.done")),
+    params:
+        script=os.path.join(config["scripts"], "src/03_hard_stitching/01_resize_processed.py"),
+        img=lambda wc: get_resize_sts_jobs()[wc.job]["input_path_image"],
+        out=lambda wc: get_resize_sts_jobs()[wc.job]["output_path_image"],
+        conversion_factor=lambda wc: get_resize_sts_jobs()[wc.job]["conversion_factor"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "resize_sts_{job}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input_path_image {params.img} "
+        "--output_path_image {params.out} "
+        "--conversion_factor {params.conversion_factor} "
+        "--skip_existing False "
+        "&> {log} "
+
+# Aggregator: forces checkpoint resolution and collects all per-job outputs
+rule resize_sts_done:
+    input:
+        all_resize_sts_flags
+    output:
+        touch(RESIZE_STS_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "resize_sts.log"),
+
+# ---------------------------------------------------------------------------
+# 03 STS - Resize joblist QC
+# ---------------------------------------------------------------------------
+
+checkpoint resize_qc_joblist:
+    input:
+        done=RESIZE_STS_DONE
+    output:
+        joblist=CSV_03_RESIZE_JOBLIST_QC,
+    params:
+        script=os.path.join(config["scripts"], "src/03_hard_stitching/resize_images_list_jobs.py"),
+        tiles_dir=PATH_01_RAW_TILES,
+        out_dir=PATH_03_RESIZE_QC,
+        in_pixel_size=config["pixel_input"],
+        out_pixel_size=config["pixel_output_qc"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "resize_qc_joblist.log"),
+
+    shell:
+        "python {params.script} "
+        "--input_path_images {params.tiles_dir} "
+        "--output_folder {params.out_dir} "
+        "--output_path_csv {output.joblist} "
+        "--output_pixel_size {params.out_pixel_size} "
+        "--input_pixel_size {params.in_pixel_size} "
+        "&> {log} "
+
+# ---------------------------------------------------------------------------
+# 03 QC - Resize
+# ---------------------------------------------------------------------------
+def get_resize_qc_jobs():
+    df = pd.read_csv(checkpoints.resize_qc_joblist.get().output.joblist)
+    return {
+        str(i): {
+            "input_path_image": row["input_path_image"],
+            "output_path_image": row["output_path_image"],
+            "conversion_factor": row["conversion_factor"],
+            }
+        for i, row in df.iterrows()
+    }
+
+def all_resize_qc_job_ids(wildcards):
+    return list(get_resize_qc_jobs().keys())
+
+def all_resize_qc_flags(wildcards):
+    jobs = get_resize_qc_jobs()
+    return [
+        os.path.join(PROJECT_DIR, "logs", f"resize_qc_{j}.done")
+        for j in jobs
+    ]
+
+wildcard_constraints:
+    job=r"\d+"
+
+rule hard_stitching_qc:
+    input:
+        joblist=CSV_03_RESIZE_JOBLIST_QC,
+    output:
+        done=touch(os.path.join(PROJECT_DIR, "logs", "resize_qc_{job}.done")),
+    params:
+        script=os.path.join(config["scripts"], "src/03_hard_stitching/01_resize_processed.py"),
+        img=lambda wc: get_resize_qc_jobs()[wc.job]["input_path_image"],
+        out=lambda wc: get_resize_qc_jobs()[wc.job]["output_path_image"],
+        conversion_factor=lambda wc: get_resize_qc_jobs()[wc.job]["conversion_factor"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "resize_qc_{job}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input_path_image {params.img} "
+        "--output_path_image {params.out} "
+        "--conversion_factor {params.conversion_factor} "
+        "--skip_existing False "
+        "&> {log} "
+
+# Aggregator: forces checkpoint resolution and collects all per-job outputs
+rule resize_qc_done:
+    input:
+        all_resize_qc_flags
+    output:
+        touch(RESIZE_QC_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "resize_qc.log"),
+        
+        
+# ---------------------------------------------------------------------------
+# 04 STS - Mask generation joblist
+# ---------------------------------------------------------------------------
+checkpoint sts_mask_joblist:
+    input:
+        done=RESIZE_QC_DONE,
+    output:
+        joblist=CSV_04_STS_MASK_JOBLIST,
+    params:
+        script=os.path.join(config["scripts"], "src/04_STS/mask_generation_list_jobs.py"),
+        images_in=PATH_03_RESIZE,
+        images_out=PATH_04_STS_MASK,
+        model=os.path.join(config["scripts"], "models/04_model.pt"),
+        ref_channel=config["sts_ref_channel"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "sts_mask_joblist.log"),
+    shell:
+          "python {params.script} "
+          "--input_path_images {params.images_in} "
+          "--output_path_images {params.images_out} "
+          "--path_model {params.model} "
+          "--output_path_csv {output.joblist} "
+          "--ref_channel {params.ref_channel} "
+          "&> {log}"
+
+# ---------------------------------------------------------------------------
+# 04 STS - Generate masks
+# ---------------------------------------------------------------------------
+def get_sts_generate_masks_jobs():
+    df = pd.read_csv(checkpoints.sts_mask_joblist.get().output.joblist)
+    return {
+        str(i): {
+            "input_image": row["input_image"],
+            "output_image": row["output_image"],
+            "model": row["model"],
+            }
+        for i, row in df.iterrows()
+    }
+
+def all_sts_generate_masks_job_ids(wildcards):
+    return list(get_sts_generate_masks_jobs().keys())
+
+def all_sts_generate_masks_flags(wildcards):
+    jobs = get_sts_generate_masks_jobs()
+    return [
+        os.path.join(PROJECT_DIR, "logs", f"sts_generate_masks_{j}.done")
+        for j in jobs
+    ]
+
+wildcard_constraints:
+    job=r"\d+"
+
+rule sts_generate_masks:
+    input:
+        joblist=CSV_04_STS_MASK_JOBLIST,
+    output:
+        done=touch(os.path.join(PROJECT_DIR, "logs", "sts_generate_masks_{job}.done")),
+    params:
+        script=os.path.join(config["scripts"], "src/04_STS/STS_generate_mask.py"),
+        input_file=lambda wc: get_sts_generate_masks_jobs()[wc.job]["input_image"],
+        output_file=lambda wc: get_sts_generate_masks_jobs()[wc.job]["output_image"],
+        model=lambda wc: get_sts_generate_masks_jobs()[wc.job]["model"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "sts_generate_masks_{job}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input_image_path {params.input_file} "
+        "--output_image_path {params.output_file} "
+        "--model_path {params.model} "
+        "&> {log} "
+
+# Aggregator: forces checkpoint resolution and collects all per-job outputs
+rule sts_generate_masks_done:
+    input:
+        all_sts_generate_masks_flags
+    output:
+        touch(STS_MASK_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "sts_generate_masks.log"),
+
+# ---------------------------------------------------------------------------
+# 04 STS - Bounding box (BB) estimation joblist
+# ---------------------------------------------------------------------------
+checkpoint bb_estimation_joblist:
+    input:
+        sts_mask_done=STS_MASK_DONE,
+    output:
+        joblist=CSV_04_BBS_JOBLIST,
+    params:
+        script=os.path.join(config["scripts"], "src/04_STS/BB_estimation_list_jobs.py"),
+        images_in=PATH_04_STS_MASK,
+        bbs_out=PATH_04_BBS,
+    log:
+        os.path.join(PROJECT_DIR, "logs", "bb_estimation_joblist.log"),
+    shell:
+          "python {params.script} "
+          "--input_path_images {params.images_in} "
+          "--output_path_bbs {params.bbs_out} "
+          "--filter_small True "
+          "--output_path_csv {output.joblist} "
+          "&> {log} "
+
+# ---------------------------------------------------------------------------
+# 03 STS - Estimate BBs
+# ---------------------------------------------------------------------------
+def get_bb_estimation_jobs():
+    df = pd.read_csv(checkpoints.bb_estimation_joblist.get().output.joblist)
+    return {
+        str(i): {
+            "input_image": row["input_image"],
+            "output_bb": row["output_bb"],
+            "filter_small": row["filter_small"],
+            }
+        for i, row in df.iterrows()
+    }
+
+def all_bb_estimation_job_ids(wildcards):
+    return list(get_bb_estimation_jobs().keys())
+
+def all_bb_estimation_flags(wildcards):
+    jobs = get_bb_estimation_jobs()
+    return [
+        os.path.join(PROJECT_DIR, "logs", f"bb_estimation_{j}.done")
+        for j in jobs
+    ]
+
+wildcard_constraints:
+    job=r"\d+"
+
+rule bb_estimation:
+    input:
+        joblist=CSV_04_BBS_JOBLIST,
+    output:
+        done=touch(os.path.join(PROJECT_DIR, "logs", "bb_estimation_{job}.done")),
+    params:
+        script=os.path.join(config["scripts"], "src/04_STS/STS_generate_BB.py"),
+        input_file=lambda wc: get_bb_estimation_jobs()[wc.job]["input_image"],
+        output_bb=lambda wc: get_bb_estimation_jobs()[wc.job]["output_bb"],
+        filter_small=lambda wc: get_bb_estimation_jobs()[wc.job]["filter_small"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "bb_estimation_{job}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input_image_path {params.input_file} "
+        "--bbox_tile_path {params.output_bb} "
+        "--filter_small {params.filter_small} "
+        "&> {log} "
+
+# Aggregator: forces checkpoint resolution and collects all per-job outputs
+rule bb_estimation_done:
+    input:
+        all_bb_estimation_flags
+    output:
+        touch(BBS_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "bb_estimation.log"),
+
+# =============================================================================
+# 05 QUALIFAI
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Paths outputs - 05 QUALIFAI
+# ---------------------------------------------------------------------------
+PATH_05_QC = os.path.join(PROJECT_DIR, "output_QUALIFAI")
+
+# Params when running old QUALIAFI
+CSV_05_JOBLIST = os.path.join(PROJECT_DIR, "qualifai_list_jobs.csv")
+
+# ---------------------------------------------------------------------------
+# 05 - QUALIFAI - old model
+# ---------------------------------------------------------------------------
+checkpoint qualifai_joblist:
+    input:
+        bbs_done=BBS_DONE,
+    output:
+        joblist=CSV_05_JOBLIST
+    params:
+        script=os.path.join(config["scripts"], "src/05_artifacts_detection/qualifai_list_jobs_multiclass.py"),
+        model=os.path.join(config["scripts"], "models/05_unetpp_best.pth"),
+        qc_input=PATH_03_RESIZE_QC,
+        qc_output=PATH_05_QC,
+    log:
+        os.path.join(PROJECT_DIR, "logs", "qualifai_joblist.log"),
+    shell:
+        "python {params.script} "
+        "--input_folder_path {params.qc_input} "
+        "--output_folder_path {params.qc_output} "
+        "--model_path {params.model} "
+        "--output_path_csv {output.joblist} "
+        "&> {log} "
+
+def get_qualifai_jobs():
+    df = pd.read_csv(checkpoints.qualifai_joblist.get().output.joblist)
+    return {
+        str(i): {
+            "input_image": row["input_image"],
+            "output_image": row["output_image"],
+            "model_path": row["model_path"],
+            }
+        for i, row in df.iterrows()
+    }
+
+def all_qualifai_job_ids(wildcards):
+    return list(get_qualifai_jobs().keys())
+
+def all_qualifai_flags(wildcards):
+    jobs = get_qualifai_jobs()
+    return [
+        os.path.join(PROJECT_DIR, "logs", f"qualifai_{j}.done")
+        for j in jobs
+    ]
+
+wildcard_constraints:
+    job=r"\d+"
+
+rule qualifai:
+    input:
+        joblist=CSV_05_JOBLIST,
+    output:
+        done=touch(os.path.join(PROJECT_DIR, "logs", "qualifai_{job}.done")),
+    params:
+        script=os.path.join(config["scripts"], "src/05_artifacts_detection/QUALIFAI.py"),
+        input_im=lambda wc: get_qualifai_jobs()[wc.job]["input_image"],
+        output_im=lambda wc: get_qualifai_jobs()[wc.job]["output_image"],
+        model=lambda wc: get_qualifai_jobs()[wc.job]["model_path"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "qualifai_{job}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input_image_path {params.input_im} "
+        "--output_image_path {params.output_im} "
+        "--model_path {params.model} "
+        "&> {log} "
+
+# Aggregator: forces checkpoint resolution and collects all per-job outputs
+rule qualifai_done:
+    input:
+        all_qualifai_flags
+    output:
+        touch(QUALIFAI_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "qualifai.log"),
+
+
+# =============================================================================
+# 06 Split scenes
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Paths outputs - 06 split scenes
+# ---------------------------------------------------------------------------
+CSV_06_EXP_DESIGN_SCENES = os.path.join(PROJECT_DIR, "experimental_design", "experimental_design_scenes.csv")
+PATH_06_SPLIT_SCENES_JOBLIST = os.path.join(PROJECT_DIR, "split_scenes_job_list.csv")
+PATH_06_SPLIT = os.path.join(PROJECT_DIR, "split_scenes")
+REF_JSON_06 = os.path.join(PROJECT_DIR, "reference_map_slide_round_version.json")
+
+
+# ---------------------------------------------------------------------------
+# 06 split scenes - creating refernce map file (json)
+# ---------------------------------------------------------------------------
+rule generate_reference_map:
+    input:
+        qc_done=QUALIFAI_DONE,
+    output:
+        json=REF_JSON_06,
+    run:
+        import json
+        with open(output.json, "w") as f:
+            json.dump(config["reference_map"], f, indent=2)
+
+# ---------------------------------------------------------------------------
+# 06 split scenes - generate scenes
+# ---------------------------------------------------------------------------
+rule generate_scenes:
+    input:
+        json_done=REF_JSON_06,
+    output:
+        done=CSV_06_EXP_DESIGN_SCENES,
+    params:
+        script=os.path.join(config["scripts"], "src/06_split_scenes/generate_scenes_csv.py"),
+        bbs_in=PATH_04_BBS,
+        ref_json=os.path.join(PROJECT_DIR, "reference_map_slide_round_version.json"),
+        scene_output=CSV_06_EXP_DESIGN_SCENES,
+    log:
+        os.path.join(PROJECT_DIR, "logs", "genrate_scenes.log"),
+    shell:
+        """
+        python "{params.script}" \
+            --input_path_bb "{params.bbs_in}" \
+            --reference_map_json "{params.ref_json}" \
+            --output_path_csv "{params.scene_output}" \
+            &> "{log}"
+        """
+
+# ---------------------------------------------------------------------------
+# 06 split scenes - split scenes joblist
+# ---------------------------------------------------------------------------
+checkpoint split_scenes_joblist:
+    input:
+        done=CSV_06_EXP_DESIGN_SCENES,
+    output:
+        joblist=PATH_06_SPLIT_SCENES_JOBLIST,
+    params:
+        script=os.path.join(config["scripts"], "src/06_split_scenes/split_scenes_processed_list_jobs.py"),
+        img_in=PATH_01_RAW_TILES,
+        bbs_in=PATH_04_BBS,
+        ref_json=os.path.join(PROJECT_DIR, "reference_map_slide_round_version.json"),
+        mask_in=PATH_04_STS_MASK,
+        qc_in=PATH_05_QC,
+        px_sts=config["pixel_output_sts"],
+        px_qc=config["pixel_output_qc"],
+        px_full=config["pixel_input"],
+        split_out=PATH_06_SPLIT,
+
+    log:
+        os.path.join(PROJECT_DIR, "logs", "split_scenes_joblist.log"),
+    shell:
+        "python {params.script} "
+        "--input_path_images {params.img_in} "
+        "--input_bb {params.bbs_in} "
+        "--input_mask_foreground {params.mask_in} "
+        "--input_mask_qc {params.qc_in} "
+        "--pixel_size_full {params.px_full} "
+        "--reference_map_json {params.ref_json} "
+        "--pixel_size_sts {params.px_sts} "
+        "--pixel_size_qc {params.px_qc} "
+        "--output_folder {params.split_out} "
+        "--output_path_csv {output.joblist} "
+        "--ref_channel DAPI "
+        "&> {log} "
+
+
+def get_split_scenes_jobs():
+    df = pd.read_csv(checkpoints.split_scenes_joblist.get().output.joblist)
+    return {
+        str(i): {
+            "input_path_image": row["input_path_image"],
+            "input_path_foreground": row["input_path_foreground"],
+            "input_path_bb": row["input_path_bb"],
+            "input_path_qc": row["input_path_qc"],
+            "conversion_factor_qc": row["conversion_factor_qc"],
+            "conversion_factor_sts": row["conversion_factor_sts"],
+            "output_path_image": row["output_path_image"],
+            }
+        for i, row in df.iterrows()
+    }
+
+def all_split_scenes_job_ids(wildcards):
+    return list(get_split_scenes_jobs().keys())
+
+def all_split_scenes_flags(wildcards):
+    jobs = get_split_scenes_jobs()
+    return [
+        os.path.join(PROJECT_DIR, "logs", f"split_scenes_{j}.done")
+        for j in jobs
+    ]
+
+wildcard_constraints:
+    job=r"\d+"
+
+rule split_scenes:
+    input:
+        joblist=PATH_06_SPLIT_SCENES_JOBLIST,
+    output:
+        done=touch(os.path.join(PROJECT_DIR, "logs", "split_scenes_{job}.done")),
+    params:
+        script=os.path.join(config["scripts"], "src/06_split_scenes/split_scenes_processed.py"),
+        input_img=lambda wc: get_split_scenes_jobs()[wc.job]["input_path_image"],
+        input_mask=lambda wc: get_split_scenes_jobs()[wc.job]["input_path_foreground"],
+        input_bb=lambda wc: get_split_scenes_jobs()[wc.job]["input_path_bb"],
+        input_qc=lambda wc: get_split_scenes_jobs()[wc.job]["input_path_qc"],
+        conv_qc=lambda wc: get_split_scenes_jobs()[wc.job]["conversion_factor_qc"],
+        conv_sts=lambda wc: get_split_scenes_jobs()[wc.job]["conversion_factor_sts"],
+        out_folder=lambda wc: get_split_scenes_jobs()[wc.job]["output_path_image"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "split_scenes_{job}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input_path_image {params.input_img} "
+        "--input_path_bb {params.input_bb} "
+        "--input_path_foreground {params.input_mask} "
+        "--input_path_qc {params.input_qc} "
+        "--output_path_image {params.out_folder} "
+        "--conversion_factor_sts {params.conv_sts} "
+        "--conversion_factor_qc {params.conv_qc} "
+        "--skip_existing False "
+        "&> {log} "
+
+
+# Aggregator: forces checkpoint resolution and collects all per-job outputs
+rule split_scenes_done:
+    input:
+        all_split_scenes_flags
+    output:
+       touch(SPLIT_SCENES_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "split_scenes.log"),
+
+
+# =============================================================================
+# 08 AFS
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Paths outputs - 08 AFS
+# ---------------------------------------------------------------------------
+PATH_OUTPUT_08_AFS = os.path.join(PROJECT_DIR, "output_AFS_images")
+PATH_OUTPUT_08_AFS_QC = os.path.join(PROJECT_DIR, "output_AFS_QC")
+CSV_08_JOBLIST_1 = os.path.join(PROJECT_DIR, "afs_job_list.csv")
+
+# # ---------------------------------------------------------------------------
+# # 08 AFS - add slide_id to exp_design_rounds
+# # ---------------------------------------------------------------------------
+# rule add_slide_id:
+#     input:
+#         align_done = MERGE_DONE,
+#     output:
+#         id_done = touch(SLIDE_ID_SELECTION_DONE),
+#     params:
+#         exp_design=config["exp_design_rounds"],
+#         exp_slides=CSV_01_EXP_DESIGN_SLIDES,
+#     run:
+#         import pandas as pd
+# 
+#         # Experimental design for rounds/versions
+#         df_exp_design = pd.read_csv(params.exp_design)
+# 
+#         # Experimental design for slides
+#         df_exp_slide = pd.read_csv(params.exp_slides)
+# 
+#         # Add every slide_id to every R/V combination
+#         df_exp_design = df_exp_design.merge(
+#             df_exp_slide[["slide_id"]],
+#             how="cross"
+#         )
+# 
+#         df_exp_design.to_csv(params.exp_design, index=False)
+
+# ---------------------------------------------------------------------------
+# 08 AFS - Joblist
+# ---------------------------------------------------------------------------
+checkpoint afs_joblist:
+    input:
+        done=SPLIT_SCENES_DONE,
+    output:
+        joblist=CSV_08_JOBLIST_1,
+    params:
+        script=os.path.join(config["scripts"], "src/08_AFS/AFS_list_jobs.py"),
+        img_in=PATH_06_SPLIT,
+        medoids_in=os.path.join(config["scripts"], "src/auxiliary_functions/AFS/medoid_series.csv"),
+        out_afs=PATH_OUTPUT_08_AFS,
+        out_afs_qc=PATH_OUTPUT_08_AFS_QC,
+        exp_des_in=CSV_01_EXP_DESIGN_ROUNDS,
+    log:
+        os.path.join(PROJECT_DIR, "logs", "afs_joblist.log"),
+    shell:
+        "python {params.script} "
+        "--input_path_images {params.img_in} "
+        "--input_path_medoids {params.medoids_in} "
+        "--output_folder {params.out_afs} "
+        "--output_folder_qc {params.out_afs_qc} "
+        "--exp_design_rounds {params.exp_des_in} "
+        "--output_path_csv {output.joblist} "
+        "&> {log} "
+
+# ---------------------------------------------------------------------------
+# 08 AFS - AFS
+# ---------------------------------------------------------------------------
+def get_afs_jobs():
+    df = pd.read_csv(checkpoints.afs_joblist.get().output.joblist)
+    return {
+        str(i): {
+            "marker_id": row["marker_id"],
+            "input_path_medoids": row["input_path_medoids"],
+            "input_path_MS": row["input_path_MS"],
+            "input_path_AF": row["input_path_AF"],
+            "output_path_QC": row["output_path_QC"],
+            "output_path_TS": row["output_path_TS"],
+            }
+        for i, row in df.iterrows()
+    }
+
+def all_afs_job_ids(wildcards):
+    return list(get_afs_jobs().keys())
+
+def all_afs_flags(wildcards):
+    jobs = get_afs_jobs()
+    return [
+        os.path.join(PROJECT_DIR, "logs", f"afs_{j}.done")
+        for j in jobs
+    ]
+
+wildcard_constraints:
+    job=r"\d+"
+
+rule afs:
+    input:
+        joblist=CSV_08_JOBLIST_1,
+    output:
+        done=touch(os.path.join(PROJECT_DIR, "logs", "afs_{job}.done")),
+    params:
+        script=os.path.join(config["scripts"], "src/08_AFS/AutofluorescenceSubtraction.py"),
+        input_medois=lambda wc: get_afs_jobs()[wc.job]["input_path_medoids"],
+        input_MS=lambda wc: get_afs_jobs()[wc.job]["input_path_MS"],
+        input_AF=lambda wc: get_afs_jobs()[wc.job]["input_path_AF"],
+        output_QC=lambda wc: get_afs_jobs()[wc.job]["output_path_QC"],
+        output_TS=lambda wc: get_afs_jobs()[wc.job]["output_path_TS"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "afs_{job}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input_path_medoids {params.input_medois} "
+        "--input_path_MS {params.input_MS} "
+        "--input_path_AF {params.input_AF} "
+        "--output_path_TS {params.output_TS} "
+        "--output_path_QC {params.output_QC} "
+        "&> {log} "
+
+# Aggregator: forces checkpoint resolution and collects all per-job outputs
+rule afs_done:
+    input:
+        all_afs_flags
+    output:
+        touch(AFS_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "afs.log"),
+
+# =============================================================================
+# 09 SEGMENTATION
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Paths outputs - 09 Segmentation
+# ---------------------------------------------------------------------------
+PATH_OUTPUT_09_SEG = os.path.join(PROJECT_DIR, "output_segmentation")
+CSV_09_JOBLIST_1 = os.path.join(PROJECT_DIR, "cell_segmentation_joblist.csv")
+
+# ---------------------------------------------------------------------------
+# 09 Segmentation - Joblist
+# ---------------------------------------------------------------------------
+checkpoint segmentation_joblist:
+    input:
+        afs_done=AFS_DONE,
+    output:
+        joblist=CSV_09_JOBLIST_1,
+    params:
+        script=os.path.join(config["scripts"], "src/09_segmentation/segmentation_list_jobs.py"),
+        img_in=PATH_06_SPLIT,
+        # ref=config["ref_round"],
+        out_seg=PATH_OUTPUT_09_SEG,
+        conv_factor=config["conv_factor_seg"],
+        model_path=os.path.join(config["scripts"], "models/09_models"),
+        model_name=config["segmentation_model"],
+        pp=config["bool_f"],
+        ref=REF_JSON_06,
+    log:
+        os.path.join(PROJECT_DIR, "logs", "segmentation_joblist.log"),
+    shell:
+        "python {params.script} "
+        "--input_path_images {params.img_in} "
+        "--reference_map_json {params.ref} "
+        "--output_folder {params.out_seg} "
+        "--conversion_factor {params.conv_factor} "
+        "--path_model {params.model_path} "
+        "--model_name {params.model_name} "
+        "--pp {params.pp} "
+        # "--reference_map_json {params.ref_json} "
+        "--output_path_csv {output.joblist} "
+        "&> {log} "
+
+
+# ---------------------------------------------------------------------------
+# 09 Segmentation - Segmentation
+# ---------------------------------------------------------------------------
+def get_segmentation_jobs():
+    df = pd.read_csv(checkpoints.segmentation_joblist.get().output.joblist)
+    return {
+        str(i): {
+            "input_path_image": row["input_path_image"],
+            "output_path_matrix": row["output_path_matrix"],
+            "output_path_qc": row["output_path_qc"],
+            "path_model": row["path_model"],
+            "model": row["model"],
+            "pp": row["pp"],
+            }
+        for i, row in df.iterrows()
+    }
+
+def all_segmentation_job_ids(wildcards):
+    return list(get_segmentation_jobs().keys())
+
+def all_segmentation_flags(wildcards):
+    jobs = get_segmentation_jobs()
+    return [
+        os.path.join(PROJECT_DIR, "logs", f"segmentation_{j}.done")
+        for j in jobs
+    ]
+
+wildcard_constraints:
+    job=r"\d+"
+
+rule segmentation:
+    input:
+        joblist=CSV_09_JOBLIST_1,
+    output:
+        done=touch(os.path.join(PROJECT_DIR, "logs", "segmentation_{job}.done")),
+    params:
+        script=os.path.join(config["scripts"], "src/09_segmentation/segmentation.py"),
+        input_im=lambda wc: get_segmentation_jobs()[wc.job]["input_path_image"],
+        output_matrix=lambda wc: get_segmentation_jobs()[wc.job]["output_path_matrix"],
+        output_qc=lambda wc: get_segmentation_jobs()[wc.job]["output_path_qc"],
+        model=lambda wc: get_segmentation_jobs()[wc.job]["model"],
+        model_path=lambda wc: get_segmentation_jobs()[wc.job]["path_model"],
+        pp=lambda wc: get_segmentation_jobs()[wc.job]["pp"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "segmentation_{job}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--path_to_the_image {params.input_im} "
+        "--path_to_the_models {params.model_path} "
+        "--model_name {params.model} "
+        "--output_path {params.output_matrix} "
+        "--QC_path {params.output_qc} "
+        "--PP {params.pp} "
+        "&> {log} "
+
+# Aggregator: forces checkpoint resolution and collects all per-job outputs
+rule segmentation_done:
+    input:
+        all_segmentation_flags
+    output:
+        touch(SEGMENTATION_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "segmentation.log"),
+
+# =============================================================================
+# 10 Feature Extraction
+# =============================================================================
+PATH_OUTPUT_10_FE = os.path.join(PROJECT_DIR, "output_feature_extraction")
+
+# ---------------------------------------------------------------------------
+# 10 Feature Extraction - FE
+# ---------------------------------------------------------------------------
+rule feature_extraction:
+    input:
+        segmentation_done=SEGMENTATION_DONE,
+    output:
+        done=touch(FE_DONE),
+    params:
+        script=os.path.join(config["scripts"], "src/10_feature_extraction/FeatureExtraction.py"),
+        exp_design_in=CSV_01_EXP_DESIGN_ROUNDS,
+        afs_in=PATH_OUTPUT_08_AFS,
+        seg_in=os.path.join(PATH_OUTPUT_09_SEG, "Matrix"),
+        ref=config["reference_round"],
+        fe_out=PATH_OUTPUT_10_FE,
+    log:
+        os.path.join(PROJECT_DIR, "logs", "feature_extraction.log"),
+    shell:
+        "python {params.script} "
+        "--path_input_AFS {params.afs_in} "
+        "--path_exp_design_rounds {params.exp_design_in} "
+        "--path_input_seg {params.seg_in} "
+        "--ref_round {params.ref} "
+        "--path_output_csv {params.fe_out} "
+        "&> {log}"
+
+# =============================================================================
+# 11 Cell Identification
+# =============================================================================
+CSV_11_DATA_MERGED = os.path.join(PROJECT_DIR, "output_cell_identification/df_data_merged.parquet")
+CSV_11_DATA_QC = os.path.join(PROJECT_DIR, "output_cell_identification/df_data_qc.parquet")
+CSV_11_DATA_NORM = os.path.join(PROJECT_DIR, "output_cell_identification", config["ci_node_id"], "df_data_norm.parquet")
+CSV_11_DATA_SAMPLED = os.path.join(PROJECT_DIR, "output_cell_identification", config["ci_node_id"], "df_data_sampled.parquet")
+CSV_11_DATA_REDUCED_UMAP = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "uMap.parquet")
+RDS_11_DATA_REDUCED_UMAP = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "uMap.rds")
+CSV_11_DATA_REDUCED_PCA = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "PCA.parquet")
+RDS_11_DATA_REDUCED_PCA  = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "PCA.rds")
+CSV_11_DATA_REDUCED_TSNE = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "tsne.parquet")
+RDS_11_DATA_REDUCED_TSNE  = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "tsne.rds")
+
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Data merged
+# ---------------------------------------------------------------------------
+rule merge_data:
+    input:
+        fe_done=FE_DONE,
+    output:
+        data_merged=CSV_11_DATA_MERGED,
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/MergeData.py"),
+        fe_in=PATH_OUTPUT_10_FE,
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_data_merged.log"),
+    shell:
+        "python {params.script} "
+        "--path.input.folder {params.fe_in} "
+        "--path.output.csv {output.data_merged} "
+        "&> {log} "
+
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Data Normalization
+# ---------------------------------------------------------------------------
+rule normalize_data:
+    input:
+        data_merged=CSV_11_DATA_MERGED,
+    output:
+        data_norm=CSV_11_DATA_NORM,
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/DataNormalization.py"),
+        norm=config["normalization_yes_or_no"],
+        scope=config['normalization_scope'],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_data_norm.log"),
+    shell:
+        "python {params.script} "
+        "--path.input.csv {input.data_merged} "
+        "--normalization.yes.no {params.norm} "
+        "--normalization.scope {params.scope} "
+        "--path.output.csv {output.data_norm} "
+        "&> {log} "
+
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Data Sampling
+# ---------------------------------------------------------------------------
+rule sample_data:
+    input:
+        data_norm=CSV_11_DATA_NORM,
+    output:
+        data_sample=CSV_11_DATA_SAMPLED,
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/DataSampling.py"),
+        sample_yes_no=config["sample_yes_or_no"],
+        num_cells=config["number_of_cells"],
+        seed=config["sample_seed"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_data_sample.log"),
+    shell:
+        "python {params.script} "
+        "--path.input.csv {input.data_norm} "
+        "--path.output.csv {output.data_sample} "
+        "--sampling.yes.no {params.sample_yes_no} "
+        "--number.of.cells {params.num_cells} "
+        "--selected.seed {params.seed} "
+        "&> {log} "
+
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Create phenotipic markers csv
+# ---------------------------------------------------------------------------
+rule create_marker_list:
+    input:
+        CSV_11_DATA_SAMPLED,
+    output:
+        csv_markers=os.path.join(PROJECT_DIR, "phenotypic_markers.csv"),
+        marker_done = touch(MARKER_CSV_DONE),
+
+    params:
+        markers = lambda wildcards: config["phenotypic_markers_list"],
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_create_markers_file.log"),
+    run:
+        import pandas as pd
+
+        markers = params.markers
+        output_file = output.csv_markers
+
+        df = pd.DataFrame({"marker_id": markers})
+        df.to_csv(output_file, index=False)
+
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Dimensionality reduction
+# ---------------------------------------------------------------------------
+rule dim_reduction_umap:
+    input:
+        markers_done=MARKER_CSV_DONE,
+    output:
+        reduced_csv=CSV_11_DATA_REDUCED_UMAP,
+        reduced_rds=RDS_11_DATA_REDUCED_UMAP,
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/DimensionalityReduction.py"),
+        data_sampled = CSV_11_DATA_SAMPLED,
+        csv_markers=os.path.join(PROJECT_DIR, "phenotypic_markers.csv"),
+        sample=config["sample_yes_or_no"],
+        seed=config['seed']
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_dim_reduction_umap.log"),
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {params.data_sampled} "
+        "--path.output.csv {output.reduced_csv} "
+        "--path.output.model {output.reduced_rds} "
+        "--dimensionality.reduction.method uMap "
+        "--selected.seed {params.seed} "
+        "&> {log} "
+
+
+rule dim_reduction_pca:
+    input:
+        umap_done1 = CSV_11_DATA_REDUCED_UMAP,
+        umap_done2 = RDS_11_DATA_REDUCED_UMAP,
+    output:
+        reduced_csv=CSV_11_DATA_REDUCED_PCA,
+        reduced_rds=RDS_11_DATA_REDUCED_PCA,
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/DimensionalityReduction.py"),
+        data_sampled = CSV_11_DATA_SAMPLED,
+        csv_markers=os.path.join(PROJECT_DIR, "phenotypic_markers.csv"),
+        sample=config["sample_yes_or_no"],
+        seed=config['seed']
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_dim_reduction_pca.log"),
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {params.data_sampled} "
+        "--path.output.csv {output.reduced_csv} "
+        "--path.output.model {output.reduced_rds} "
+        "--dimensionality.reduction.method PCA "
+        "--selected.seed {params.seed} "
+        "&> {log} "
+
+rule dim_reduction_tsne:
+    input:
+        pca_done1 = CSV_11_DATA_REDUCED_PCA,
+        pca_done2 = RDS_11_DATA_REDUCED_PCA,
+    output:
+        reduced_csv=CSV_11_DATA_REDUCED_TSNE,
+        reduced_rds=RDS_11_DATA_REDUCED_TSNE,
+        reduction_done = touch(REDUCTION_DONE),
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/DimensionalityReduction.py"),
+        data_sampled = CSV_11_DATA_SAMPLED,
+        csv_markers=os.path.join(PROJECT_DIR, "phenotypic_markers.csv"),
+        sample=config["sample_yes_or_no"],
+        seed=config['seed']
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_dim_reduction_tsne.log"),
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {params.data_sampled} "
+        "--path.output.csv {output.reduced_csv} "
+        "--path.output.model {output.reduced_rds} "
+        "--dimensionality.reduction.method tsne "
+        "--selected.seed {params.seed} "
+        "&> {log} "
+
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Clustering
+# ---------------------------------------------------------------------------
+PATH_REDUCED_DATA = os.path.join(
+    PROJECT_DIR,
+    "output_cell_identification",
+    config["ci_node_id"],
+    config["ci_version_id"]
+)
+
+
+# ---------------------------------------------------------------------------
+# Phenograph - Parquet
+# ---------------------------------------------------------------------------
+
+rule cluster_phenograph:
+    input:
+        reduced_csv=CSV_11_DATA_REDUCED_TSNE,
+        reduced_rds=RDS_11_DATA_REDUCED_TSNE,
+    output:
+        clusters=os.path.join(PATH_REDUCED_DATA,"phenograph.parquet"),
+        done=touch(PHENOGRAPH_DONE),
+    params:
+        data=CSV_11_DATA_SAMPLED,
+        script=os.path.join( config["scripts"], "src/11_cell_identification/Clustering.py"),
+        csv_markers=os.path.join( PROJECT_DIR, "phenotypic_markers.csv"),
+        method="phenograph",
+        seed=config["seed"],
+    log:
+        os.path.join( PROJECT_DIR, "logs", "ci_cluster_phenograph.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {params.data} "
+        "--path.output.csv {output.clusters} "
+        "--clustering.method {params.method} "
+        "--selected.seed {params.seed} "
+        "&> {log} "
+
+
+# ---------------------------------------------------------------------------
+# Kmeans + SOM - Parquet
+# ---------------------------------------------------------------------------
+
+CLUSTERING_METHODS = ["kmeans", "som"]
+
+wildcard_constraints:
+    method="|".join(CLUSTERING_METHODS)
+
+
+def get_n_clusters_from_phenograph(wildcards):
+    df = pd.read_parquet( os.path.join(PATH_REDUCED_DATA,"phenograph.parquet"))
+    return df["cluster"].nunique()
+
+
+def all_clustering_flags(wildcards):
+    return expand(os.path.join(PROJECT_DIR,"logs", "ci_{method}_done.flag"),
+        method=CLUSTERING_METHODS)
+
+rule cluster_other_methods:
+    input:
+        data=CSV_11_DATA_SAMPLED,
+        phenograph=os.path.join(PATH_REDUCED_DATA, "phenograph.parquet"),
+    output:
+        clusters=os.path.join(PATH_REDUCED_DATA, "{method}.parquet"),
+        done=touch(os.path.join( PROJECT_DIR,"logs", "ci_{method}_done.flag")),
+    params:
+        script=os.path.join(config["scripts"],"src/11_cell_identification/Clustering.py"),
+        csv_markers=os.path.join(PROJECT_DIR,"phenotypic_markers.csv"),
+        method="{method}",
+        seed=config["seed"],
+        n_clusters=get_n_clusters_from_phenograph,
+    log:
+        os.path.join(PROJECT_DIR,"logs","ci_cluster_{method}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {input.data} "
+        "--path.output.csv {output.clusters} "
+        "--clustering.method {params.method} "
+        "--number.of.clusters {params.n_clusters} "
+        "--selected.seed {params.seed} "
+        "&> {log} "
+
+# ---------------------------------------------------------------------------
+# CSV aggregation
+# ---------------------------------------------------------------------------
+
+rule clustering_done:
+    input:
+        all_clustering_flags
+    output:
+        done=touch(CLUSTERING_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_clustering.log" ),
+        
+# ---------------------------------------------------------------------------
+# CSV versions
+# ---------------------------------------------------------------------------
+
+def all_clustering_csv_flags(wildcards):
+    return expand(os.path.join(PROJECT_DIR, "logs", "ci_{method}_csv_done.flag"),
+        method=["phenograph", "kmeans", "som"])
+
+rule cluster_phenograph_csv:
+    input:
+        data=CSV_11_DATA_SAMPLED,
+    output:
+        clusters=os.path.join(PATH_REDUCED_DATA, "phenograph.csv"),
+        done=touch(os.path.join(PROJECT_DIR,"logs", "ci_phenograph_csv_done.flag")),
+    params:
+        script=os.path.join(config["scripts"],"src/11_cell_identification/Clustering.py"),
+        csv_markers=os.path.join(PROJECT_DIR, "phenotypic_markers.csv"),
+        method="phenograph",
+        seed=config["seed"],
+    log:
+        os.path.join(PROJECT_DIR,"logs", "ci_cluster_phenograph_csv.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {input.data} "
+        "--path.output.csv {output.clusters} "
+        "--clustering.method {params.method} "
+        "--selected.seed {params.seed} "
+        "&> {log} "
+
+
+rule cluster_other_methods_csv:
+    input:
+        data=CSV_11_DATA_SAMPLED,
+        phenograph=os.path.join(PATH_REDUCED_DATA, "phenograph.parquet"),
+    output:
+        clusters=os.path.join(PATH_REDUCED_DATA,"{method}.csv"),
+        done=touch(os.path.join(PROJECT_DIR,"logs", "ci_{method}_csv_done.flag")),
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/Clustering.py"),
+        csv_markers=os.path.join(PROJECT_DIR,"phenotypic_markers.csv"),
+        method="{method}",
+        seed=config["seed"],
+        n_clusters=get_n_clusters_from_phenograph,
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_cluster_{method}_csv.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {input.data} "
+        "--path.output.csv {output.clusters} "
+        "--clustering.method {params.method} "
+        "--number.of.clusters {params.n_clusters} "
+        "--selected.seed {params.seed} "
+        "&> {log} "
+
+
+# ---------------------------------------------------------------------------
+# CSV aggregation
+# ---------------------------------------------------------------------------
+
+rule clustering_csv_done:
+    input:
+        all_clustering_csv_flags
+    output:
+        done=touch(CLUSTERING_CSV_DONE),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_clustering_csv.log" ),
+
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Map Clustering parquet + CSV
+# ---------------------------------------------------------------------------
+
+CLUSTER_MAPPING_FOLDER = os.path.join(
+    PROJECT_DIR,
+    "output_cell_identification",
+    config["ci_node_id"],
+    config["ci_version_id"],
+    "cluster_mapping"
+)
+
+CLUSTERING_METHODS2 = ["phenograph", "kmeans", "som"]
+
+wildcard_constraints:
+    method="|".join(CLUSTERING_METHODS2)
+
+# ---------------------------------------------------------------------------
+# Parquet
+# ---------------------------------------------------------------------------
+
+def all_mapped_clustering_flags(wildcards):
+    return expand(os.path.join(PROJECT_DIR, "logs", "ci_{method}_mapped_clusters_done.flag"),
+        method=CLUSTERING_METHODS2)
+
+
+rule mapped_clustering:
+    input:
+        data=os.path.join(PATH_REDUCED_DATA, "{method}.parquet"),
+        done=CLUSTERING_DONE,
+    output:
+        clusters=os.path.join(PATH_REDUCED_DATA,"{method}_mapped_clusters.parquet"),
+        done=touch(os.path.join(PROJECT_DIR,"logs", "ci_{method}_mapped_clusters_done.flag")),
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/MapClusters.py"),
+        csv_markers=os.path.join(PROJECT_DIR,"phenotypic_markers.csv"),
+        umap=CSV_11_DATA_REDUCED_UMAP,
+        umap_model=RDS_11_DATA_REDUCED_UMAP,
+        knn=config["knn_n_neighbors"],
+        full_data=CSV_11_DATA_NORM,
+        high_pred=config["prediction_high_confidence"],
+        medium_pred=config["prediction_medium_confidence"],
+    log:
+        os.path.join( PROJECT_DIR,"logs", "ci_mapped_clusters_{method}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.full.data {params.full_data} "
+        "--path.input.umap {params.umap} "
+        "--path.input.umap.model {params.umap_model} "
+        "--path.input.cluster {input.data} "
+        "--path.output.csv {output.clusters} "
+        "--knn.n.neighbors {params.knn} "
+        "--prediction.high.confidence {params.high_pred} "
+        "--prediction.medium.confidence {params.medium_pred} "
+        "&> {log} "
+
+
+rule mapped_clustering_done:
+    input:
+        all_mapped_clustering_flags
+    output:
+        done=touch(MAPPED_CLUSTERING_DONE),
+    log:
+        os.path.join(PROJECT_DIR,"logs","ci_mapped_clustering.log"),
+
+
+# ---------------------------------------------------------------------------
+# CSV
+# ---------------------------------------------------------------------------
+
+def all_mapped_clustering_csv_flags(wildcards):
+    return expand(os.path.join(PROJECT_DIR,"logs","ci_{method}_mapped_clusters_csv_done.flag"),
+        method=CLUSTERING_METHODS2)
+
+
+rule mapped_clustering_csv:
+    input:
+        data=os.path.join(PATH_REDUCED_DATA, "{method}.parquet"),
+        done=CLUSTERING_DONE,
+    output:
+        clusters=os.path.join(PATH_REDUCED_DATA,"{method}_mapped_clusters.csv" ),
+        done=touch(os.path.join(PROJECT_DIR,"logs","ci_{method}_mapped_clusters_csv_done.flag")),
+    params:
+        script=os.path.join(config["scripts"],"src/11_cell_identification/MapClusters.py"),
+        csv_markers=os.path.join( PROJECT_DIR,"phenotypic_markers.csv"),
+        umap=CSV_11_DATA_REDUCED_UMAP,
+        umap_model=RDS_11_DATA_REDUCED_UMAP,
+        knn=config["knn_n_neighbors"],
+        full_data=CSV_11_DATA_NORM,
+        high_pred=config["prediction_high_confidence"],
+        medium_pred=config["prediction_medium_confidence"],
+    log:
+        os.path.join(PROJECT_DIR, "logs","ci_mapped_clusters_{method}_csv.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.full.data {params.full_data} "
+        "--path.input.umap {params.umap} "
+        "--path.input.umap.model {params.umap_model} "
+        "--path.input.cluster {input.data} "
+        "--path.output.csv {output.clusters} "
+        "--knn.n.neighbors {params.knn} "
+        "--prediction.high.confidence {params.high_pred} "
+        "--prediction.medium.confidence {params.medium_pred} "
+        "&> {log} "
+
+
+rule mapped_clustering_csv_done:
+    input:
+        all_mapped_clustering_csv_flags
+    output:
+        done=touch(MAPPED_CLUSTERING_CSV_DONE),
+    log:
+        os.path.join(PROJECT_DIR,"logs", "ci_mapped_clustering_csv.log"),    
+    
+        
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Cluster Confusion Matrix
+# ---------------------------------------------------------------------------
+rule cluster_conf_matrix:
+    input:
+        done=MAPPED_CLUSTERING_CSV_DONE, 
+    output:
+        done=touch(CONFUSION_MATRIX_DONE), 
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/ClusterConfusionMatrix.py"),
+        phenograph=os.path.join(PATH_REDUCED_DATA, "phenograph_mapped_clusters.parquet"),
+        kmeans=os.path.join(PATH_REDUCED_DATA, "kmeans_mapped_clusters.parquet"),
+        som=os.path.join(PATH_REDUCED_DATA, "phenograph_mapped_clusters.parquet"),
+        csv=os.path.join(PATH_REDUCED_DATA, "confusion_matrix_clusters.parquet"),
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_cluster_conf_matrix.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--mode clusters "
+        "--path.input.phenograph {params.phenograph} "
+        "--path.input.kmeans {params.kmeans} "
+        "--path.input.som {params.som} "
+        "--path.output.csv {params.csv} "
+        "&> {log} "
+
+
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Clustering analysis
+# ---------------------------------------------------------------------------
+CSV_11_DICT =  os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "annotation_dictionary.csv")
+
+rule clustering_analysis:
+    input:
+        done=CONFUSION_MATRIX_DONE, 
+    output:
+        done=touch(CLUSTERING_ANALYSIS_DONE), 
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/ClusteringAnalysis_updated.py"),
+        csv_markers=os.path.join( PROJECT_DIR,"phenotypic_markers.csv"),
+        csv_in=CSV_11_DATA_SAMPLED,
+        pca=CSV_11_DATA_REDUCED_PCA,
+        tsne=CSV_11_DATA_REDUCED_TSNE,
+        umap=CSV_11_DATA_REDUCED_UMAP,
+        phenograph=os.path.join(PATH_REDUCED_DATA, "phenograph.parquet"),
+        kmeans=os.path.join(PATH_REDUCED_DATA, "kmeans.parquet"),
+        som=os.path.join(PATH_REDUCED_DATA, "som.parquet"),
+        anno_dict = CSV_11_DICT,
+        gen_plots=config['generate_marker_plots'],
+        out_dir=PATH_REDUCED_DATA,
+        phenograph_map=os.path.join(PATH_REDUCED_DATA, "phenograph_mapped_clusters.parquet"),
+        kmeans_map=os.path.join(PATH_REDUCED_DATA, "kmeans_mapped_clusters.parquet"),
+        som_map=os.path.join(PATH_REDUCED_DATA, "som_mapped_clusters.parquet"),
+        gen_spatial_plots=config['generate_spatial_plots'],
+        points_per_plot= config['spatial_max_points.per_plot'],
+        seed=config['seed'],
+        
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_clustering_analysis.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--mode build "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {params.csv_in} "
+        "--path.input.pca {params.pca} "
+        "--path.input.tsne {params.tsne} "
+        "--path.input.umap {params.umap} "
+        "--path.input.phenograph {params.phenograph} "
+        "--path.input.kmeans {params.kmeans} "
+        "--path.input.som {params.som} "
+        "--path.annotation.dictionary {params.anno_dict} "
+        "--generate.marker.plots {params.gen_plots} "
+        "--path.output.folder {params.out_dir} "
+        "--path.input.mapped.phenograph {params.phenograph_map} "
+        "--path.input.mapped.kmeans {params.kmeans_map} "
+        "--path.input.mapped.som {params.som_map} "
+        "--generate.spatial.plots {params.gen_spatial_plots} "
+        "--spatial.max.points.per.plot {params.points_per_plot} "
+        "--selected.seed {params.seed} "
+        "--update.heatmaps 0 "
+        "--update.enrichment 0 "
+        "--update.dr.plots 0 "
+        "--update.spatial.plots 0 "
+        "--write.json 0 "
+        "--write.html 1 "
+        "&> {log} "
+

@@ -1,0 +1,40 @@
+Assuming unrestricted shared filesystem usage.
+host: ac52ede08cfa
+Building DAG of jobs...
+Updating checkpoint dependencies.
+Using shell: /usr/bin/bash
+Provided cores: 2
+Rules claiming more threads will be scaled down.
+Job stats:
+job                    count
+-------------------  -------
+all                        1
+clustering_analysis        1
+total                      2
+
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Oct  2 11:33:29 2026]
+localrule clustering_analysis:
+    input: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.confusion_matrix_no_annotation_done
+    output: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_analysis_done
+    log: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/logs/ci_clustering_analysis.log
+    jobid: 44
+    reason: Missing output files: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_analysis_done
+    resources: tmpdir=/tmp
+Touching output file /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_analysis_done.
+[Fri Oct  2 11:33:55 2026]
+Finished jobid: 44 (Rule: clustering_analysis)
+1 of 2 steps (50%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Oct  2 11:33:55 2026]
+localrule all:
+    input: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/input_qc.txt, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/experimental_design/exp_design_slides.csv, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.parse_name_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.extraction_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.hard_stitching_sts_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.hard_stitching_qc_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.sts_mask_generation_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.bb_estimation_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.qualifai_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.split_scenes_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.afs_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.segmentation_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.fe_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.marker_list_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.data_reduction, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.phenograph_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.mapped_clustering_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.confusion_matrix_no_annotation_done, /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_analysis_done
+    jobid: 0
+    reason: Input files updated by another job: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_analysis_done
+    resources: tmpdir=/tmp
+[Fri Oct  2 11:33:55 2026]
+Finished jobid: 0 (Rule: all)
+2 of 2 steps (100%) done
+Complete log(s): /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/DISSCOvery_clean/COMET/.snakemake/log/2026-10-02T113326.024555.snakemake.log

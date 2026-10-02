@@ -1,0 +1,52 @@
+Assuming unrestricted shared filesystem usage.
+host: 6406519e69c3
+Building DAG of jobs...
+Updating checkpoint dependencies.
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                    count
+-------------------  -------
+all                        1
+clustering_analysis        1
+total                      2
+
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Oct  2 11:06:11 2026]
+localrule clustering_analysis:
+    input: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.confusion_matrix_no_annotation_done
+    output: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_analysis_done
+    log: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/logs/ci_clustering_analysis.log
+    jobid: 44
+    reason: Missing output files: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_analysis_done
+    resources: tmpdir=/tmp
+RuleException:
+CalledProcessError in file "/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/DISSCOvery_clean/COMET/Snakefile", line 1679:
+Command 'set -euo pipefail;  python /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/code/src/11_cell_identification/ClusteringAnalysis_updated.py --mode build --input.marker.list /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/phenotypic_markers.csv --path.input.csv /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/df_data_sampled.parquet --path.input.pca /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/PCA.parquet --path.input.tsne /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/tsne.parquet --path.input.umap /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/uMap.parquet --path.input.phenograph /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/phenograph.parquet --path.input.kmeans /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/kmeans.parquet --path.input.som /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/som.parquet --path.annotation.dictionary /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/annotation_dictionary.csv --generate.marker.plots 1 --path.output.folder /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01 --path.input.mapped.phenograph /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/phenograph_mapped_clusters.parquet --path.input.mapped.kmeans /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/kmeans_mapped_clusters.parquet --path.input.mapped.som /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/som_mapped_clusters.parquet --generate.spatial.plots 1 --spatial.max.points.per.plot 200000 --selected.seed 1234 --update.heatmaps 0 --update.enrichment 0 --update.dr.plots 0 --update.spatial.plots 0 --write.json 0 --write.html 1 &> /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/logs/ci_clustering_analysis.log' returned non-zero exit status 1.
+[Fri Oct  2 11:06:11 2026]
+Error in rule clustering_analysis:
+    message: None
+    jobid: 44
+    input: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.confusion_matrix_no_annotation_done
+    output: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_analysis_done
+    log: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/logs/ci_clustering_analysis.log (check log file(s) for error details)
+    shell:
+        python /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/code/src/11_cell_identification/ClusteringAnalysis_updated.py --mode build --input.marker.list /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/phenotypic_markers.csv --path.input.csv /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/df_data_sampled.parquet --path.input.pca /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/PCA.parquet --path.input.tsne /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/tsne.parquet --path.input.umap /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/uMap.parquet --path.input.phenograph /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/phenograph.parquet --path.input.kmeans /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/kmeans.parquet --path.input.som /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/som.parquet --path.annotation.dictionary /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/annotation_dictionary.csv --generate.marker.plots 1 --path.output.folder /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01 --path.input.mapped.phenograph /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/phenograph_mapped_clusters.parquet --path.input.mapped.kmeans /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/kmeans_mapped_clusters.parquet --path.input.mapped.som /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/som_mapped_clusters.parquet --generate.spatial.plots 1 --spatial.max.points.per.plot 200000 --selected.seed 1234 --update.heatmaps 0 --update.enrichment 0 --update.dr.plots 0 --update.spatial.plots 0 --write.json 0 --write.html 1 &> /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/logs/ci_clustering_analysis.log 
+        (command exited with non-zero exit code)
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Fri Oct  2 11:06:11 2026]
+Error in rule clustering_analysis:
+    message: None
+    jobid: 44
+    input: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.confusion_matrix_no_annotation_done
+    output: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/.status/.clustering_analysis_done
+    log: /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/logs/ci_clustering_analysis.log (check log file(s) for error details)
+    shell:
+        python /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/code/src/11_cell_identification/ClusteringAnalysis_updated.py --mode build --input.marker.list /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/phenotypic_markers.csv --path.input.csv /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/df_data_sampled.parquet --path.input.pca /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/PCA.parquet --path.input.tsne /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/tsne.parquet --path.input.umap /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/uMap.parquet --path.input.phenograph /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/phenograph.parquet --path.input.kmeans /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/kmeans.parquet --path.input.som /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/som.parquet --path.annotation.dictionary /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/annotation_dictionary.csv --generate.marker.plots 1 --path.output.folder /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01 --path.input.mapped.phenograph /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/phenograph_mapped_clusters.parquet --path.input.mapped.kmeans /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/kmeans_mapped_clusters.parquet --path.input.mapped.som /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/output_cell_identification/n01/v01/som_mapped_clusters.parquet --generate.spatial.plots 1 --spatial.max.points.per.plot 200000 --selected.seed 1234 --update.heatmaps 0 --update.enrichment 0 --update.dr.plots 0 --update.spatial.plots 0 --write.json 0 --write.html 1 &> /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/test_COMET_revission/logs/ci_clustering_analysis.log 
+        (command exited with non-zero exit code)
+Complete log(s): /home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/DISSCOvery_clean/COMET/.snakemake/log/2026-10-02T110608.041629.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

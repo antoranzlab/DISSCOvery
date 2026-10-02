@@ -1,0 +1,292 @@
+import os
+import pandas as pd
+import sys
+
+configfile: "config.yaml"
+
+# ---------------------------------------------------------------------------
+# Global paths
+# ---------------------------------------------------------------------------
+BASE_OUTPUT_DIR = config["base_output_dir"]
+PROJECT_NAME = config["project_name"]
+PROJECT_DIR = os.path.join(BASE_OUTPUT_DIR, PROJECT_NAME)
+
+# Flag files
+STATUS_DIR        = os.path.join(PROJECT_DIR, ".status")
+CLUSTERING_ANALYSIS_DONE = os.path.join(STATUS_DIR, ".clustering_update_done")
+PAIRWISE_DENSITY_DONE = os.path.join(STATUS_DIR, ".pairwise_density_done")
+CLUSTERING_STABILITY_DONE = os.path.join(STATUS_DIR, ".clustering_stability_done")
+MAP_FINGERPRINTS = os.path.join(STATUS_DIR, ".map_fingerprints_done")
+CONF_CLUSTER_DONE = os.path.join(STATUS_DIR, ".conf_clusters_done")
+
+# ---------------------------------------------------------------------------
+# Paths outputs - 01 File parsing
+# ---------------------------------------------------------------------------
+
+OUTPUT_01_QC_FILE = os.path.join(PROJECT_DIR, "input_qc.txt")
+CSV_01_CHANNEL_NAMES = os.path.join(PROJECT_DIR, "experimental_design", "channel_names.csv")
+CSV_01_EXP_DESIGN_SLIDES = os.path.join(PROJECT_DIR, "experimental_design", "exp_design_slides.csv")
+PATH_01_RAW_TILES = os.path.join(PROJECT_DIR, "output_tiles_tiff")
+CSV_01_EXTRACT_CZI_JOBLIST = os.path.join(PROJECT_DIR, "czi_extraction_csv.csv")
+
+
+# =============================================================================
+# 01 File parsing
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# 01 File parsing - final targets
+# ---------------------------------------------------------------------------
+rule all:
+    input:
+        CLUSTERING_ANALYSIS_DONE,
+        PAIRWISE_DENSITY_DONE, 
+        CLUSTERING_STABILITY_DONE,
+        MAP_FINGERPRINTS,
+        CONF_CLUSTER_DONE,
+
+# =============================================================================
+# 11 Clustering - After annotations
+# =============================================================================
+# ---------------------------------------------------------------------------
+# 11 Cell Identification - Clustering analysis update
+# ---------------------------------------------------------------------------
+CSV_11_DICT =  os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "annotation_dictionary.csv")
+CSV_11_DATA_NORM = os.path.join(PROJECT_DIR, "output_cell_identification", config["ci_node_id"], "df_data_norm.parquet")
+CSV_11_DATA_SAMPLED = os.path.join(PROJECT_DIR, "output_cell_identification", config["ci_node_id"], "df_data_sampled.parquet")
+CSV_11_DATA_REDUCED_UMAP = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "uMap.parquet")
+RDS_11_DATA_REDUCED_UMAP = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "uMap.rds")
+CSV_11_DATA_REDUCED_PCA = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "PCA.parquet")
+RDS_11_DATA_REDUCED_PCA  = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "PCA.rds")
+CSV_11_DATA_REDUCED_TSNE = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "tsne.parquet")
+RDS_11_DATA_REDUCED_TSNE  = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "tsne.rds")
+PATH_REDUCED_DATA = os.path.join(PROJECT_DIR,"output_cell_identification",
+    config["ci_node_id"],config["ci_version_id"])
+
+
+rule clustering_analysis:
+    input:
+        csv_in=CSV_11_DATA_SAMPLED,
+    output:
+        done=touch(CLUSTERING_ANALYSIS_DONE), 
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/ClusteringAnalysis_updated.py"),
+        csv_markers=os.path.join( PROJECT_DIR,"phenotypic_markers.csv"),
+        # csv_in=CSV_11_DATA_SAMPLED,
+        pca=CSV_11_DATA_REDUCED_PCA,
+        tsne=CSV_11_DATA_REDUCED_TSNE,
+        umap=CSV_11_DATA_REDUCED_UMAP,
+        phenograph=os.path.join(PATH_REDUCED_DATA, "phenograph.parquet"),
+        kmeans=os.path.join(PATH_REDUCED_DATA, "kmeans.parquet"),
+        som=os.path.join(PATH_REDUCED_DATA, "som.parquet"),
+        anno_dict = CSV_11_DICT,
+        gen_plots=config['generate_marker_plots'],
+        out_dir=PATH_REDUCED_DATA,
+        phenograph_map=os.path.join(PATH_REDUCED_DATA, "phenograph_mapped_clusters.parquet"),
+        kmeans_map=os.path.join(PATH_REDUCED_DATA, "kmeans_mapped_clusters.parquet"),
+        som_map=os.path.join(PATH_REDUCED_DATA, "som_mapped_clusters.parquet"),
+        gen_spatial_plots=config['generate_spatial_plots'],
+        points_per_plot= config['spatial_max_points.per_plot'],
+        seed=config['seed'],
+        
+    log:
+        os.path.join(PROJECT_DIR, "logs", "ci_clustering_analysis_update.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--mode update "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {input.csv_in} "
+        "--path.input.pca {params.pca} "
+        "--path.input.tsne {params.tsne} "
+        "--path.input.umap {params.umap} "
+        "--path.input.phenograph {params.phenograph} "
+        "--path.input.kmeans {params.kmeans} "
+        "--path.input.som {params.som} "
+        "--path.annotation.dictionary {params.anno_dict} "
+        "--generate.marker.plots {params.gen_plots} "
+        "--path.output.folder {params.out_dir} "
+        "--path.input.mapped.phenograph {params.phenograph_map} "
+        "--path.input.mapped.kmeans {params.kmeans_map} "
+        "--path.input.mapped.som {params.som_map} "
+        "--generate.spatial.plots {params.gen_spatial_plots} "
+        "--spatial.max.points.per.plot {params.points_per_plot} "
+        "--selected.seed {params.seed} "
+        "--update.heatmaps 1 "
+        "--update.enrichment 1 "
+        "--update.dr.plots 1 "
+        "--update.spatial.plots 1 "
+        "--write.json 0 "
+        "--write.html 1 "
+        "&> {log} "
+
+
+# -----------------------------------------------------------------------------
+# 8. Optional pairwise density
+# -----------------------------------------------------------------------------
+PAIRWISE_OUTPUT_FOLDER = os.path.join(PROJECT_DIR, "output_cell_identification",
+config["ci_node_id"], config["ci_version_id"], "pairwise_density")
+PAIRWISE_METHODS = ["phenograph", "kmeans", "som"]
+
+wildcard_constraints:
+    method="|".join(PAIRWISE_METHODS)
+
+
+def all_pairwise_density_flags(wildcards):
+    return expand(os.path.join(PROJECT_DIR, "logs","ci_{method}_pairwise_density_done.flag"),
+        method=PAIRWISE_METHODS)
+
+
+rule pairwise_density:
+    input:
+        done=CLUSTERING_ANALYSIS_DONE, 
+        cluster=os.path.join(PATH_REDUCED_DATA, "{method}.parquet"),
+    output:
+        done=touch(os.path.join(PROJECT_DIR,"logs", "ci_{method}_pairwise_density_done.flag")),
+    params:
+        data=CSV_11_DATA_SAMPLED,
+        script=os.path.join(config["scripts"], "src/11_cell_identification/PreComputePairWiseDensity.py"),
+        csv_markers=os.path.join(PROJECT_DIR, "phenotypic_markers.csv"),
+        top_n_markers=config["pairwise_top_n_markers"],
+        bins=config["pairwise_bins"],
+        density=os.path.join(PAIRWISE_OUTPUT_FOLDER,"{method}"),
+    log:
+        os.path.join(PROJECT_DIR,"logs", "ci_pairwise_density_{method}.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.csv {params.data} "
+        "--path.input.cluster {input.cluster} "
+        "--path.output.folder {params.density} "
+        "--top.n.markers {params.top_n_markers} "
+        "--bins {params.bins} "
+        "&> {log}"
+
+
+rule pairwise_density_done:
+    input:
+        all_pairwise_density_flags
+    output:
+        done=touch(PAIRWISE_DENSITY_DONE),
+    log:
+        os.path.join(PROJECT_DIR,"logs", "ci_pairwise_density.log"),
+        
+        
+# -----------------------------------------------------------------------------
+# 9 + 10. ClusteringStability
+# -----------------------------------------------------------------------------       
+rule clustering_stability_check:
+    input:
+        done=PAIRWISE_DENSITY_DONE,
+    output:
+        done=touch(CLUSTERING_STABILITY_DONE),
+    params:
+        phenograph=os.path.join(PATH_REDUCED_DATA, "phenograph.parquet"),
+        kmeans=os.path.join(PATH_REDUCED_DATA, "kmeans.parquet"),
+        som=os.path.join(PATH_REDUCED_DATA, "som.parquet"),
+        script=os.path.join(config["scripts"], "src/11_cell_identification/ClusteringStability.py"),
+        anno_dict = CSV_11_DICT,
+        out_dir=PATH_REDUCED_DATA,
+
+    log:
+        os.path.join(PROJECT_DIR,"logs", "ci_clustering_stability_check.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--path.input.phenograph {params.phenograph} "
+        "--path.input.kmeans {params.kmeans} "
+        "--path.input.som {params.som} "
+        "--path.annotation.dictionary {params.anno_dict} "
+        "--path.output.folder {params.out_dir} "
+        "&> {log}"
+
+# -----------------------------------------------------------------------------
+# 11. Map fingerprints to full data
+# -----------------------------------------------------------------------------       
+CONSENSUS_DATA = os.path.join(PATH_REDUCED_DATA, "df_data_consensus.parquet"),
+
+rule map_fingerprints:
+    input:
+        done=CLUSTERING_STABILITY_DONE,
+    output:
+        done=touch(MAP_FINGERPRINTS),
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/MapFingerprints.py"),
+        csv_markers=os.path.join( PROJECT_DIR,"phenotypic_markers.csv"),
+        csv_norm=CSV_11_DATA_NORM,
+        csv_consensus=CONSENSUS_DATA,
+        out_dir=PATH_REDUCED_DATA,
+        node=config['ci_node_id'],
+        version=config['ci_version_id'],
+        max_cells=config['max_cells_per_celltype'],
+        umap_neigh=config['umap_n_neighbors'],
+        umap_dist=config['umap_min_dist'],
+        knn=config['knn_n_neighbors'],
+        seed=config['seed'],
+        min_conf=config['refine_min_confidence'],
+        min_margin=config['refine_min_margin'],
+        pred_high=config['prediction_high_confidence'],
+        pred_medium=config['prediction_medium_confidence'],
+        write=config['write_per_sample_files'],
+    log:
+        os.path.join(PROJECT_DIR,"logs", "ci_map_fingerprints.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--input.marker.list {params.csv_markers} "
+        "--path.input.full.data {params.csv_norm} "
+        "--path.input.consensus {params.csv_consensus} "
+        "--path.output.folder {params.out_dir} "
+        "--node.id {params.node} "
+        "--version.id {params.version} "
+        "--max.cells.per.celltype {params.max_cells} "
+        "--umap.n.neighbors {params.umap_neigh} "
+        "--umap.min.dist {params.umap_dist} "
+        "--knn.n.neighbors {params.knn} "
+        "--selected.seed {params.seed} "
+        "--refine.min.confidence {params.min_conf} "
+        "--refine.min.margin {params.min_margin} "
+        "--prediction.high.confidence {params.pred_high} "
+        "--prediction.medium.confidence {params.pred_medium} "
+        "--write.per.sample.files {params.write} "
+        "&> {log}"
+
+# -----------------------------------------------------------------------------
+# 11b. Confusion matrix (cluster x sample), consensus/fingerprint annotations
+# -----------------------------------------------------------------------------       
+FINGERPRINT_PREDICTIONS = os.path.join(PATH_REDUCED_DATA, "fingerprint_mapping", "fingerprint_predictions.parquet"),
+CONFUSION_MATRIX_CLUSTERS = os.path.join(PATH_REDUCED_DATA, "confusion_matrix_clusters.parquet")
+
+rule cluster_confusion_matrix:
+    input:
+        done=MAP_FINGERPRINTS,
+    output:
+        done=touch(CONF_CLUSTER_DONE),
+    params:
+        script=os.path.join(config["scripts"], "src/11_cell_identification/ClusterConfusionMatrix.py"),
+        fing=FINGERPRINT_PREDICTIONS,
+        out_csv=CONFUSION_MATRIX_CLUSTERS,
+    log:
+        os.path.join(PROJECT_DIR,"logs", "ci_map_fingerprints.log"),
+    threads: 1
+    shell:
+        "python {params.script} "
+        "--mode annotated "
+        "--path.input.annotated {params.fing} "
+        "--label.col CellType "
+        "--method.label consensus "
+        "--path.output.csv {params.out_csv} "
+        "&> {log}"
+
+
+# -----------------------------------------------------------------------------
+# 12. Optional child-node filtering
+# ----------------------------------------------------------------------------- 

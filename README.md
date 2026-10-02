@@ -2,13 +2,7 @@
 
 ## Overview
 DISSCovery is an interactive image analysis platform that allows for high-quality processing of the images acquired with MILAN, COMET, and PhenoCycler-Fusion (AKOYA). 
-It utilizes state-of-the-art tools for flat-field correction, tissue detection, artifact recognition, tile stitching, cycle registration, autofluorescence subtraction, cell segmentation, and consensus cell phenotyping. 
-
-
-<p align="center">
-  <img src="images/workflow.png" alt="My Plot" width="600"/>
-</p>
-
+It utilizes state-of-the-art tools for flat-field correction, tissue detection, artifact recognition, tile stitching, cycle registration, autofluorescence subtraction, cell segmentation, and consensus cell phenotyping.
 
 ## Documentation
 The documentation regarding the technical aspects of the pipeline can be found [here](src). All the pre-trained model required by the scripts are located [here](models).
