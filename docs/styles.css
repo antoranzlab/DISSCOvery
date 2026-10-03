@@ -1,0 +1,41 @@
+/* Formating tables */ 
+.md-typeset table:not([class]) {
+    margin-left: auto;
+    margin-right: auto;
+}
+.md-typeset table {
+    text-align: center;
+}
+.center-table table {
+    margin: auto;
+    border-collapse: collapse;
+}
+
+/* Colors for the banner */
+:root {
+    --md-primary-fg-color: #468e74;
+    --md-primary-fg-color--light: #34D399;
+    --md-primary-fg-color--dark: #30614f;
+}
+
+/* Main font */
+body {
+    font-family: "Mona Sans", sans-serif;
+    color: var(--bs-body-color); /* to be deleted*/
+    background-color: var(--bs-body-bg); /* to be deleted*/
+}
+
+/* Next Previous buttons and banner */
+.md-header__button.md-logo img {
+    height: 40px;
+}
+.md-header__button.md-logo {
+    padding: 0;
+}
+.md-footer {
+    padding-top: 0.0rem;
+    padding-bottom: 0.0rem;
+}
+.md-footer__link {
+    padding: 0.0rem 0.0rem;
+}

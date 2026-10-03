@@ -1,18 +1,67 @@
 site_name: DISSCOvery
 theme: 
-  # logo: "../images/logo.png"
-  name: readthedocs
+  # name: readthedocs
+  # logo: images/merge_versions_transparent.png
+  # favicon: images/merge_versions_transparent.png
   titles_only: False
+  name: material
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - navigation.footer
+    - navigation.tabs
+markdown_extensions:
+  - tables
+  - attr_list
+  - md_in_html
+  - def_list
+  - admonition
+  # - pymdownx.details
+  # - pymdownx.superfences
+  # icon:
+  #     admonition:
+  #       # note: octicons/tag-16
+  #     warning: material/alert
+extra_css:
+  - styles.css
+  
 nav:
   - 'index.md'
-  - 'General': 
+  - 'Technologies overview': 
     - 'main.md'
+  - 'Running snakemake':
+    - 'snakemake_MILAN.md'
   - 'Backend: Modules':
     - 'Data exctraction': 
-      - '01_file_parser.md'
-      - 'MILAN': 
-        - 'MILAN_parser.md'
+      - '01_MILAN_parser.md'
+      - '01_COMET_parser.md'
+      - '01_AKOYA_parser.md'
+    - 'Flat Field Correction':
+      - '02_FFC.md'
+      - '02_FFC_BaSiC.md'
+      - '02_FFC_Kask.md'
+      - '02_FFC_meta_raw.md'
+    - 'Hard stitching, Resize, Rebuild':
+      - '03_hard_stitching_MILAN.md'
+      - '03_hard_stitching_COMET.md'
+      - '03_hard_stitching_AKOYA.md'
+    - 'Smart Tissue Selection (STS)':
+      - '04_sts_MILAN.md'
+      - '04_sts_COMET.md'
+      - '04_sts_AKOYA.md'
+    - 'QUALIFAI':
+      - '05_QUALIFAI.md'
+    - 'Split scenes':
+      - '06_split_scenes_MILAN.md'
+      - '06_split_scenes_COMET_AKOYA.md'
+    - 'Registration':
+      - '07_registration.md'
+    
   
 plugins:
     - search
     - mermaid2
+    # - copy-button

@@ -6,10 +6,10 @@
 <div align="center">
 ```mermaid
 stateDiagram-v2
-    Data_extraction --> MILAN
-    Data_extraction --> COMET
-    Data_extraction --> AKOYA
-    Data_extraction: Data extraction
+    A@{ shape: datastore, label: "Data_extraction" } --> MILAN
+    A@{ shape: datastore, label: "Data_extraction" } --> COMET
+    A@{ shape: datastore, label: "Data_extraction" } --> AKOYA
+    A@{ shape: datastore, label: "Data_extraction" }: A@{ shape: datastore, label: "Data extraction" }
     
     state MILAN{
       MILAN_raw --> MILAN_exp_design
