@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "BaSiCPy"
+version = "2.0.0+handoff1"
+requires-python = ">=3.12"
+dependencies = ["torch", "torch-dct", "numpy", "pooch", "pydantic>=2", "scikit-image", "scipy>=1.17", "dask", "tqdm", "hyperactive==4.8.0", "gradient-free-optimizers==1.13.0"]
+[tool.setuptools.packages.find]
+include = ["basicpy*"]

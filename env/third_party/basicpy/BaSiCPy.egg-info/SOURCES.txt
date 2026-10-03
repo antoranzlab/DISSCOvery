@@ -1,0 +1,15 @@
+LICENSE
+pyproject.toml
+BaSiCPy.egg-info/PKG-INFO
+BaSiCPy.egg-info/SOURCES.txt
+BaSiCPy.egg-info/dependency_links.txt
+BaSiCPy.egg-info/requires.txt
+BaSiCPy.egg-info/top_level.txt
+basicpy/__init__.py
+basicpy/__main__.py
+basicpy/_torch_routines.py
+basicpy/basicpy.py
+basicpy/datasets.py
+basicpy/metrics.py
+basicpy/metrics_numpy.py
+basicpy/utils.py

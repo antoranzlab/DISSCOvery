@@ -1,0 +1,11 @@
+torch
+torch-dct
+numpy
+pooch
+pydantic>=2
+scikit-image
+scipy>=1.17
+dask
+tqdm
+hyperactive==4.8.0
+gradient-free-optimizers==1.13.0

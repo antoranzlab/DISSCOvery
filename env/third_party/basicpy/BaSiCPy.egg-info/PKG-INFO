@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: BaSiCPy
+Version: 2.0.0+handoff1
+Requires-Python: >=3.12
+License-File: LICENSE
+Requires-Dist: torch
+Requires-Dist: torch-dct
+Requires-Dist: numpy
+Requires-Dist: pooch
+Requires-Dist: pydantic>=2
+Requires-Dist: scikit-image
+Requires-Dist: scipy>=1.17
+Requires-Dist: dask
+Requires-Dist: tqdm
+Requires-Dist: hyperactive==4.8.0
+Requires-Dist: gradient-free-optimizers==1.13.0
+Dynamic: license-file
