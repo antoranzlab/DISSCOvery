@@ -5,25 +5,44 @@ DISSCovery is an interactive image analysis platform that allows for high-qualit
 It utilizes state-of-the-art tools for flat-field correction, tissue detection, artifact recognition, tile stitching, cycle registration, autofluorescence subtraction, cell segmentation, and consensus cell phenotyping.
 
 ## Documentation
-The documentation regarding the technical aspects of the pipeline can be found [here](src). All the pre-trained model required by the scripts are located [here](models).
+The documentation regarding the technical aspects of the pipeline can be found [here](src). All the pre-trained models required by the scripts are located [here](models).
 
 ## Installation and software dependencies
 DISSCOvery is an online platform and doesn't require a special installation. Link to the platform: [DISSCOvery](https://app2.disscovery.org)
 
 This repository contains the source code and allows for a manual run of the pipeline, outside of the app. 
-The tool was tested on *Linux Ubuntu 22.04.* system. They yml files to configure the environment are located [here](configs). 
 
-The clone the repository and set up the required conda environment pass
+### Setting up the environment
+In order to ensure reproducibility, the environment is dockerized, To set up the environment pass
 
 ```
-git clone https://gitlab.kuleuven.be/u0172795/disscovery.git
-cd disscovery
-conda env create configs/disscovery_basicpy_env.yml
-conda env create configs/disscovery_reticulate_env.yml
+docker pull augpath/disscovery_backend:latest
 ```
-The environment installation may take up to 30min. 
+You can check if the image was properly installed with  
 
-## App tutorial
-The manual for the app is located in [tutorial](tutorials). This folder also contains the expected output fot the demo data.
+```
+docker docker image ls
+```
 
-For the manual run of the pipelie, a detailed description can be found in [technologies](technologies) and each of the [src](src) folder. 
+### Running DISSCOvery outside of the software
+
+Clone the repository
+
+```
+git clone https://github.com/antoranzlab/DISSCOvery.git
+cd ./DISSCOvery
+```
+
+There are four snakemake pipelines prepared to run end to end the data analysis. One for MILAN data, one for Lunaphore (COMET), 
+one for PhenoCycler (AKOYA), and a mutual one to finish the cell identification step (After_annotations). 
+
+Since each snakemake requires adjusting the config file, it's necessary to mount the docker to three local directories: 
+1. directory with input data
+2. directory where snakemake will write the output (project directory)
+3. path to `./DISSCOvery` folder
+
+```
+docker run -it -v /path_to_input_data/:/path_to_input_data/ -v /path_to_output/:/path_to_output/ -v your_path/DISSCOvery/:your_path/DISSCOvery/ augpath/disscovery_backend:latest
+```
+
+A detailed tutorial about running the snakemake pipelines for chosen technology is [here].
