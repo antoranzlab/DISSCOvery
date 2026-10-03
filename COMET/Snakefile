@@ -241,7 +241,7 @@ rule parsing:
         "--exp_design_rounds_file {params.rounds_dictionary} "
         "--user_id {params.user} "
         "--project_id {params.project} "
-        "--rounds {params.rounds} "
+        # "--rounds {params.rounds} "
         "--n_workers {params.workers} "
         "&> {log} "
 

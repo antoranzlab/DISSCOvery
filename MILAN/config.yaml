@@ -1,8 +1,8 @@
 # ---- Master variables (replaces the "Master variables" block in the bash script) ----
-base_input_dir: "/media/Share1/Kinga/DISSCOvery_related/MILAN_raw_testing"
-base_output_dir: "/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery"
-project_name: "test_MILAN_revission2"
-scripts: "/home/luna.kuleuven.be/u0172795/Documents/DISSCOvery/code"
+base_input_dir: "your_path/MILAN_input_data"
+base_output_dir: "your_path/output"
+project_name: "test_MILAN"
+scripts: "your_path/DISSCOvery"
 seed: '1234'
 
 # 01
@@ -36,12 +36,9 @@ bool_f: "False"
 # 06 Split scenes 
 # Split scenes needs reference round and version for each slide to be specified before running the pipeline
 reference_map:
-  BM: # slide name
+  test: # slide name
     reference_round: "R01"
     reference_version: "V01"
-  # you_slide_name: # Example
-  #   reference_round: "R02" # Example
-  #   reference_version: "V03" # Example
     
 # 07 - Setting up registration
 reg_channel: "DAPI" # registration reference channel
@@ -54,8 +51,7 @@ reg_feather_px: "10"
 # Two two files below have to be prepared before running the pipeline. 
 # The files must follow the default scheme
 # In the software it is prepared by interactring with the interface
-exp_design_rounds: '/media/Share1/Kinga/DISSCOvery_related/Dockers/MILAN_exp_design_prepared/exp_design_rounds.csv'
-# exp_design_scene_selection: '/media/Share1/Kinga/DISSCOvery_related/Dockers/MILAN_exp_design_prepared/exp_design_sceneselection.csv'
+exp_design_rounds: 'your_path/MILAN_exp_design_prepared/exp_design_rounds.csv'
 
 # 09 Segmentation
 conv_factor_seg: '1' # Conversion factor (1 for MILAN 0.65/0.28 for COMET, 0.65/0.5 for AKOYA)
