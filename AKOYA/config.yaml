@@ -46,7 +46,7 @@ reference_map:
 
 
 # 09 Segmentation
-conv_factor_seg: '2.321429' # Conversion factor (1 for MILAN 0.65/0.28 for COMET, 0.65/0.5 for AKOYA)
+conv_factor_seg: '1.3' # Conversion factor (1 for MILAN 0.65/0.28 for COMET, 0.65/0.5 for AKOYA)
 segmentation_model: 'stardist' # Segmentwtion model
 
 # 10 FE
