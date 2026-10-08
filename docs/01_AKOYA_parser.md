@@ -1,4 +1,4 @@
-# AKOYA parser
+# Data parsing - AKOYA
 
 ---
 
@@ -8,21 +8,29 @@
 stateDiagram-v2
     classDef coloring fill:#6d9a8a, stroke:#468e74, color:#ffffff
     classDef coloring2 fill:#ffffff, stroke:#6d9a8a
+
+    AKOYA --> Quality_control
+    Quality_control --> Experimental_design
+    Experimental_design --> Data_parsing
+
+
+    state Quality_control{
+          AKOYA_qc: qc_input_files_akoya_raw.py
+        }
+    state Experimental_design{
+          AKOYA_exp_design --> slides
+          AKOYA_exp_design: exp_design_akoya.py
+          slides: parse_slide_names.py
+        }
+    state Data_parsing{
+          parsing_job --> parsing
+          parsing_job: akoya_generate_csv_joblist.py
+          parsing: extract_images_qptiff_akoya_raw.py
+        }
+
     
-    state Data_extraction{
-      AKOYA_QC --> AKOYA_exp_design
-      AKOYA_QC: Quality Control
-      AKOYA_exp_design: Experimental design
-      AKOYA_exp_design --> AKOYA_parsing
-      AKOYA_parsing: Data parsing
-    }
-    
-    
-    class AKOYA_QC coloring
-    class AKOYA_exp_design coloring
-    class AKOYA_parsing coloring
-    class Data_extraction coloring2
-    class AKOYA coloring2
+    class AKOYA, AKOYA_qc, AKOYA_exp_design, parsing_job, slides, parsing coloring
+    class Data_parsing, Quality_control,  Experimental_design coloring2
 ```
 </div>
 
@@ -30,36 +38,13 @@ Data parsing for AKOYA data consist of three main steps.
 The first one is to check the quality of the input data. The second one is to extract the information about the channels from the input.
 Last step is to extract the raw data. 
 
-The graph below demonstrates the order to execute the scripts.
-
-
-<div align="center">
-
-```mermaid
-stateDiagram-v2
-    classDef coloring fill:#6d9a8a, stroke:#468e74, color:#ffffff
-    1 --> 2
-    1: 1. qc_input_files_akoya_raw.py
-    2: 2. exp_design_akoya.py
-    2 --> 3
-    3: 3. parse_slide_names.py
-    3 --> 4
-    4: 4. akoya_generate_csv_joblist.py
-    4 --> 5
-    5: 5. extract_images_qptiff_akoya_raw.py
-    
-    class 1,2,3,4,5 coloring
-```
-</div>
-
-
 ---
 
 ## 1. Quality Control
 
 ---
 
-#### **Script 1:** [qc_input_files_akoya_raw.py](src/01_file_parser/qc_input_files_akoya_raw.py)
+#### **Script 1:** [qc_input_files_akoya_raw.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/qc_input_files_akoya_raw.py)
 
 The script ensures the correctness of the input data. It checks if:
 
@@ -105,9 +90,12 @@ If there is a problem at specific checkpoint (e.g. file is incorrectly named), t
 
 ---
 
-#### **Script 2:** [exp_design_akoya.py](src/01_file_parser/exp_design_akoya.py)
+#### **Script 1:** [exp_design_akoya.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/exp_design_akoya.py)
 
 This function reads all the input files and generates a map from channel numbers (C0, C1, C2, etc.) to channel names (DAPI, FITC, AF, etc.). 
+
+!!! warning
+    Marker names can contain alphanumeric characters and "-". Using other signs may cause problems in later stages of the image preprocessing. 
 
 ``` shell
 python src/01_file_parser/exp_design_akoya.py \
@@ -128,7 +116,7 @@ python src/01_file_parser/exp_design_akoya.py \
 
 ---
 
-#### **Script 3:** [parse_slide_names.py](src/01_file_parser/parse_slide_names.py)
+#### **Script 2:** [parse_slide_names.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/parse_slide_names.py)
 
 !!! warning
     Before running this step, you need to manually add column `slide_id`, with the ID name of yur choice,  to */path/to/project_directory/experimental_design/exp_design_slides.csv* file. 
@@ -158,7 +146,7 @@ python src/01_file_parser/parse_slide_names.py \
 
 ---
 
-#### **Script 4:** [akoya_generate_csv_joblist.py](src/01_file_parser/akoya_generate_csv_joblist.py)
+#### **Script 1:** [akoya_generate_csv_joblist.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/akoya_generate_csv_joblist.py)
 
 `akoya_generate_csv_joblist.py` lists all the czi files in the project’s folder and generates a csv file listing all the jobs that need to be run in the next step. 
 
@@ -195,7 +183,7 @@ python src/01_file_parser/akoya_generate_csv_joblist.py \
 : Path to output csv (csv). Example: `/path/to/project_directory/data_parsing.csv`
 
 
-#### **Script 5\*:** [extract_images_qptiff_akoya_raw.py](src/01_file_parser/extract_images_qptiff_akoya_raw.py)
+#### **Script 2:** [extract_images_qptiff_akoya_raw.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/extract_images_qptiff_akoya_raw.py)
 
 `extract_images_qptiff_akoya_raw.py` reads an input czi given a full path and extracts all the tiles and metadata in a predefined output directory. 
 

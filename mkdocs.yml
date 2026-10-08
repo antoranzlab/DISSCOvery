@@ -1,8 +1,8 @@
 site_name: DISSCOvery
 theme: 
   # name: readthedocs
-  # logo: images/merge_versions_transparent.png
-  # favicon: images/merge_versions_transparent.png
+  logo: images/main.png
+  favicon: images/main.png
   titles_only: False
   name: material
   features:
@@ -59,6 +59,18 @@ nav:
       - '06_split_scenes_COMET_AKOYA.md'
     - 'Registration':
       - '07_registration.md'
+    - 'Autofluorescence Subtraction':
+      - '08_AFS.md'
+    - 'Segmentation':
+      - '09_segmentation.md'
+    - 'Feature extraction':
+      - '10_feature_extraction.md'
+    - 'Cell identification':
+      - '11_cell_identification1.md'
+      - '11_cell_identification2.md'
+  - 'License':
+    - 'LICENSE.md'
+    
     
   
 plugins:

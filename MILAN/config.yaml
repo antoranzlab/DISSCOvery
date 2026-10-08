@@ -1,29 +1,37 @@
-# ---- Master variables (replaces the "Master variables" block in the bash script) ----
-base_input_dir: "your_path/MILAN_input_data"
-base_output_dir: "your_path/output"
-project_name: "test_MILAN"
-scripts: "your_path/DISSCOvery"
+# ---- Master variables  ----
+base_input_dir: "your_path/MILAN_input_data" # Path to the MILAN czi data
+base_output_dir: "your_path/output" # Path where output will be created
+project_name: "test_MILAN" # Name of the project
+scripts: "your_path/DISSCOvery" # Path to DISSCovery folder
+exp_design_rounds: 'your_path/MILAN_exp_design_prepared/exp_design_rounds.csv' # Path to exp_design_rounds.csv
 seed: '1234'
+ref_round: "R01" # Reference round used for FFC, STS, AlignQC and segmentation
+ref_version: "V01" # Reference version used for FFC, and STS
+phenotypic_markers_list: ['PD1', 'CD4', 'CD8'] # Marker list for 11 Cell identification Part 1 (1st level clustering)
 
-# 01
+reference_map: # Refernece map used for split scenes
+  test: # replace 'test' with your slide name
+    reference_round: "R01" # replace with your reference round number
+    reference_version: "V01"
+
+# ---- 01 Data parsig ----
 # Deafult number of workers for a single process
 # CHNAGE IT WITH CAUTION !!! 
 # Snakemake run few processes at once. Depending on number of cores 
 # assigned to snakemake it may exceed machine's computantional power
 num_workers: "2"
 
-# 02 FFC variables
-ffc_only_dapi: True # Shoudl mask for Kask be fitted on DAPI channel? (strnolgy recommended)
-technology: "MILAN"
+# ---- 02 FFC ----
+ffc_only_dapi: True # Should mask for Kask be fitted on DAPI channel? (strnolgy recommended)
+technology: "MILAN" 
 hs_pixel_size: "2.6" # Pixel size for FFC
 n_cores_ffc: "4"
 ffc_basic_n_fit_images: '100' # max tiles randomly sampled to fit the model
 ffc_basic_device: 'cpu' # cuda', 'cpu', or 'none'
 ffc_ref_channel: "DAPI" # Reference channel used for FFC, STS and AlignQC
-ref_round: "R01" # Reference round used for FFC, STS, AlignQC and segmentation
-ref_version: "V01" # Reference version used for FFC, STS and AlignQC
 
-# 03-04 STS
+
+# ---- 03 HS & 04 STS ----
 hs_pixel_size_sts: "2.6" # Pixel size forSTS
 sts_only_dapi: True
 hs_pixel_size_qc: "0.65" # Pixel size for Qualifai
@@ -33,31 +41,18 @@ sts_reg_zscore: '20' # regsitraion z score for STS course registration
 bool_t: "True"
 bool_f: "False"
 
-# 06 Split scenes 
-# Split scenes needs reference round and version for each slide to be specified before running the pipeline
-reference_map:
-  test: # slide name
-    reference_round: "R01"
-    reference_version: "V01"
-    
-# 07 - Setting up registration
+# ---- 07 Registration ----
 reg_channel: "DAPI" # registration reference channel
 n_cores_reg: "4"
 reg_run_qc: 'yes' # Should registration QC be run?
 ref_verion_align_qc: 'V01'
 reg_feather_px: "10"
 
-# 08 AFS
-# Two two files below have to be prepared before running the pipeline. 
-# The files must follow the default scheme
-# In the software it is prepared by interactring with the interface
-exp_design_rounds: 'your_path/MILAN_exp_design_prepared/exp_design_rounds.csv'
-
-# 09 Segmentation
+# ---- 09 Segmentation ----
 conv_factor_seg: '1' # Conversion factor (1 for MILAN 0.65/0.28 for COMET, 0.65/0.5 for AKOYA)
-segmentation_model: 'stardist' # Segmentwtion model
+segmentation_model: 'stardist' # Segmentation model
 
-# 11 Cell identification
+# ---- 11 Cell identification ----
 ci_node_id: "n01"
 ci_version_id: "v01"
 ci_child_id: "c01"
@@ -67,8 +62,6 @@ normalization_scope: 'sample' #sample or global, sample (default): z-score each 
 sample_yes_or_no: '1' # Should only a sample of the data be used for clustering? 1: yes, 0: no
 number_of_cells: '15000' # How many cell should be sampeld?
 sample_seed: '1234' # Seed for sampling
-phenotypic_markers_list: ['PD1', 'CD4', 'CD8'] # markers for 1st level clustering
-
 knn_n_neighbors: '25'
 prediction_high_confidence: '0.80'
 prediction_medium_confidence: '0.60'

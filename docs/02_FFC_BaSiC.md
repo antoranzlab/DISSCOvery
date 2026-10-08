@@ -30,10 +30,10 @@ stateDiagram-v2
 
 ---
 
-#### **Script 1:** [FFC_BaSiC.py](src/02_FFC/FFC_BaSiC.py)  
+#### **Script 1:** [FFC_BaSiC.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/02_FFC/FFC_BaSiC.py)  
 
 
-This function performs FFC using BaSiC method. It takes as an input a path to a folder with tiles and returns the same tiles without vignetting effect. It also creates QC plots. 
+This function performs FFC using [BaSiC](https://www.nature.com/articles/ncomms14836) method. It takes as an input a path to a folder with tiles and returns the same tiles without vignetting effect. It also creates QC plots. 
 
 !!! warning
     This function requires a library (basicpy) that is not compatible with the typical TensorFlow installation. 
@@ -53,16 +53,16 @@ python src/02_FFC/02_FFC_BaSiC.py \
 ```
 
 `--in_path`
-: Path to the input directory where the tiles are stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND`
+: Path to the input directory where the tiles are stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs/test_R00_V01_BENCHMARK_ND`
 
 `--channel`
 : Channel name (str). Example: `DAPI`
 
 `--out_path_corr`
-: Path to the output directory where the corrected tiles will be stored (dir). Example: `/path/to/project_directory/output_FFC_corrected/BM_R00_V01_BENCHMARK_ND`
+: Path to the output directory where the corrected tiles will be stored (dir). Example: `/path/to/project_directory/output_FFC_corrected/test_R00_V01_BENCHMARK_ND`
 
 `--out_path_templates`
-: Path to the output directory where the correction templates will be stored (dir). Example: `/path/to/project_directory/output_FFC_templates/BM_R00_V01_BENCHMARK_ND`
+: Path to the output directory where the correction templates will be stored (dir). Example: `/path/to/project_directory/output_FFC_templates/test_R00_V01_BENCHMARK_ND`
 
 `--n_write_workers`
 : Number of workers used for writing the corrected tiles (int). Example: `4`
@@ -75,6 +75,5 @@ python src/02_FFC/02_FFC_BaSiC.py \
 
 `--seed`
 : Random seed used for reproducibility (int). Example: `42`
-
 ---
 

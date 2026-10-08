@@ -32,10 +32,10 @@ stateDiagram-v2
 
 ---
 
-# 1. FFC Raw
+## 1. FFC Raw
 
 
-#### **Script 1:** [run_ffc_raw.py](src/02_FFC/run_ffc_raw.py)
+#### **Script 1:** [FFC_raw.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/02_FFC/FFC_raw.py)
 
 
 This function copies the raw tiles to the output folder
@@ -50,13 +50,13 @@ python src/02_FFC/FFC_raw.py \
 ```
 
 `--input_images`
-: Path to the input directory where the raw tiles are stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND`
+: Path to the input directory where the raw tiles are stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs/test_R00_V01_BENCHMARK_ND`
 
 `--channel`
 : Channel identifier (str). Example: `DAPI`
 
 `--output_path_corrected_tiles`
-: Path to the output directory where the corrected tiles will be stored (dir). Example: `/path/to/project_directory/output_FFC_corrected/BM_R00_V01_BENCHMARK_ND`
+: Path to the output directory where the corrected tiles will be stored (dir). Example: `/path/to/project_directory/output_FFC_corrected/test_R00_V01_BENCHMARK_ND`
 
 `--skip_existing`
 : Whether to skip already existing results (str). Example: `False`
@@ -64,14 +64,14 @@ python src/02_FFC/FFC_raw.py \
 
 ---
 
-# 2. FFC metadata
+## 2. FFC metadata
 
 ---
 
 !!! note
     While FFC raw is not required for all platforms, the metadata scripts needs to be run regardless of used technology
 
-#### **Script 2:** [FFC_metadata.py](src/02_FFC/FFC_metadata.py)
+#### **Script 2:** [FFC_metadata.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/02_FFC/FFC_metadata.py)
 
 This function copies the metadata from the raw tiles to the output folders.
 
@@ -82,10 +82,10 @@ python src/02_FFC/FFC_metadata.py \
 ```
 
 `--input_metadata`
-: Path to the input CSV file with the metadata. For example: `path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND/BM_R00_V01_BENCHMARK_ND.csv`
+: Path to the input CSV file with the metadata. For example: `path/to/project_directory/output_tiles_tiffs/test_R00_V01_BENCHMARK_ND/test_R00_V01_BENCHMARK_ND.csv`
 
 `--output_metadata`
-: Path to the output CSV file with the metadata. For example: `path/to/project_directory/output_FFC_corrected/BM_R00_V01_BENCHMARK_ND/BM_R00_V01_BENCHMARK_ND.csv`
+: Path to the output CSV file with the metadata. For example: `path/to/project_directory/output_FFC_corrected/test_R00_V01_BENCHMARK_ND/test_R00_V01_BENCHMARK_ND.csv`
 
 ---
 

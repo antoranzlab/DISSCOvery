@@ -2,7 +2,7 @@
 
 ---
 
-# 1. Overview
+## 1. Overview
 
 ---
 
@@ -28,7 +28,7 @@ stateDiagram-v2
     }
 
     class COMET, STS, QUALIFAI, HS_script, HS_job, Hard_stitching coloring
-    class Hard_stitching coloring2
+    class Resize coloring2
     
 ```
 
@@ -36,17 +36,17 @@ stateDiagram-v2
 
 ---
 
-# 2. Resize scripts
+## 2. Resize scripts
 
 ----
 
-**Script:** [resize_images_list_jobs.py](src/03_hard_stitching/resize_images_list_jobs.py) 
+#### **Script 1:** [resize_images_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/resize_images_list_jobs.py) 
 
 This function lists all the folders in the input directory and generates a csv with the list of jobs that have to be run for coarse stitching. 
 Images from COMET needs it to be executed twice, once for STS and once for QUALIFAI.
 
 ``` shell
-python src/03_hard_stitching/hard_stitching_list_jobs.py \
+python src/03_hard_stitching/resize_images_list_jobs.py \
     --input_path_images <path_to_images/> \
     --output_folder <path_to_output/> \
     --output_path_csv <path_to_joblist.csv> \
@@ -73,7 +73,7 @@ python src/03_hard_stitching/hard_stitching_list_jobs.py \
 
 ---
 
-**Script:** [01_resize_processed.py](src/03_hard_stitching/01_resize_processed.py) 
+#### **Script 2:** [01_resize_processed.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/01_resize_processed.py) 
 
 This function generates a rescaled, re-nomalized, 8-bit image.
 

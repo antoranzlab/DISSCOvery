@@ -27,13 +27,14 @@ stateDiagram-v2
 
 ---
 
-# 1. Input files preparation
+## 1. Input files preparation
 
 ---
 
-This function performs FFC with the method described by Kask et al. Before running the main script that reduces vignetting, it is necessary to prepare all the input files required for this algorithm. 
+This function performs FFC with the method described by [Kask et al. (2016)](https://onlinelibrary.wiley.com/doi/10.1111/jmi.12404). Before running the main script that reduces vignetting, it is necessary to prepare all the input files required for this algorithm. 
 Therefore, first the course stitching and tissue masks have to be generated.  
 
+---
 
 <div align="center">
 
@@ -71,21 +72,22 @@ stateDiagram-v2
 ```
 </div>
 
+---
 
 #### **Coarse stitching scripts:**
-   - [hard_stitching_list_jobs.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
-   - [hard_stitching.py](src/03_hard_stitching/hard_stitching.py)
+   - [hard_stitching_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/hard_stitching_list_jobs.py) 
+   - [hard_stitching.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/hard_stitching.py)
    
 #### **Mask generation scripts:**
-   - [mask_generation_list_jobs.py](src/04_STS/mask_generation_list_jobs.py) 
-   - [STS_generate_mask.py](src/04_STS/STS_generate_mask.py)
+   - [mask_generation_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/mask_generation_list_jobs.py) 
+   - [STS_generate_mask.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/STS_generate_mask.py)
 
 
 ---
 
-# 2. FFC Kask
+## 2. FFC Kask
 
-#### **Script 1:** [FFC_Kask.py](src/02_FFC/FFC_Kask.py)
+#### **Script 1:** [FFC_Kask.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/02_FFC/FFC_Kask.py)
 
 ``` shell
 python src/02_FFC/FFC_Kask.py \
@@ -100,13 +102,13 @@ python src/02_FFC/FFC_Kask.py \
 ```
 
 `--input_images`
-: Path to the input directory where the raw tiles are stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND`
+: Path to the input directory where the raw tiles are stored (dir). Example: `/path/to/project_directory/output_tiles_tiffs/test_R00_V01_BENCHMARK_ND`
 
 `--input_metadata`
-: Path to the CSV where the metadata is stored (.csv). Example: `/path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND/BM_R00_V01_BENCHMARK_ND.csv`
+: Path to the CSV where the metadata is stored (.csv). Example: `/path/to/project_directory/output_tiles_tiffs/test_R00_V01_BENCHMARK_ND/test_R00_V01_BENCHMARK_ND.csv`
 
 `--input_mask`
-: Path to the TIFF file where the mask is stored (.tiff). Example: `/path/to/project_directory/output_FFC_kask_masks/BM/BM_R00_V01_BENCHMARK_ND_DAPI.tiff`
+: Path to the TIFF file where the mask is stored (.tiff). Example: `/path/to/project_directory/output_FFC_kask_masks/test/test_R00_V01_BENCHMARK_ND_DAPI.tiff`
 
 `--pixel_size`
 : Pixel size used for the mask (numeric). Example: `2.6`
@@ -115,10 +117,10 @@ python src/02_FFC/FFC_Kask.py \
 : Channel identifier (str). Example: `DAPI`
 
 `--output_path_corrected_tiles`
-: Path to the output directory where the corrected tiles will be stored (dir). Example: `/path/to/project_directory/output_FFC_corrected/BM_R00_V01_BENCHMARK_ND`
+: Path to the output directory where the corrected tiles will be stored (dir). Example: `/path/to/project_directory/output_FFC_corrected/test_R00_V01_BENCHMARK_ND`
 
 `--output_path_templates`
-: Path to the output directory where the correction templates will be stored (dir). Example: `/path/to/project_directory/output_FFC_templates/KASK/BM_R00_V01_BENCHMARK_ND`
+: Path to the output directory where the correction templates will be stored (dir). Example: `/path/to/project_directory/output_FFC_templates/KASK/test_R00_V01_BENCHMARK_ND`
 
 `--n_cores`
 : Number of cores to use (numeric). Example: `10`

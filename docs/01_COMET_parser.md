@@ -1,4 +1,4 @@
-# COMET parser
+# Data parsing - COMET
 ---
 
 <div align="center">
@@ -7,21 +7,29 @@
 stateDiagram-v2
     classDef coloring fill:#6d9a8a, stroke:#468e74, color:#ffffff
     classDef coloring2 fill:#ffffff, stroke:#6d9a8a
-  
-    state Data_extraction{
-      COMET_QC --> COMET_exp_design
-      COMET_QC: Quality Control
-      COMET_exp_design: Experimental design
-      COMET_exp_design --> COMET_parsing
-      COMET_parsing: Data parsing
-    }
+
+    COMET --> Quality_control
+    Quality_control --> Experimental_design
+    Experimental_design --> Data_parsing
+
+
+    state Quality_control{
+          COMET_qc: comet_files_qc_processed.py
+        }
+    state Experimental_design{
+          COMET_exp_design --> slides
+          COMET_exp_design: exp_design_comet.py
+          slides: parse_slide_names.py
+        }
+    state Data_parsing{
+          parsing_job --> parsing
+          parsing_job: comet_generate_csv_joblist.py
+          parsing: extract_lunaphore_ometiff_processed.py
+        }
+
     
-    
-    class COMET_QC coloring
-    class COMET_exp_design coloring
-    class COMET_parsing coloring
-    class Data_extraction coloring2
-    class COMET coloring2
+    class COMET, COMET_qc, COMET_exp_design, parsing_job, slides, parsing coloring
+    class Data_parsing, Quality_control,  Experimental_design coloring2
 ```
 </div>
 
@@ -29,35 +37,13 @@ Data parsing for COMET data consist of three main steps.
 The first one is to check the quality of the input data. The second one is extracting the information about the channels from the input.
 Last step is to extract the raw data. 
 
-The graph below demonstrates the order to execute the scripts.
-
-<div align="center">
-
-```mermaid
-stateDiagram-v2
-    classDef coloring fill:#6d9a8a, stroke:#468e74, color:#ffffff
-    1 --> 2
-    1: 1. comet_files_qc_processed.py
-    2: 2. exp_design_comet.py
-    2 --> 3
-    3: 3. parse_slide_names.py
-    3 --> 4
-    4: 4. comet_generate_csv_joblist.py
-    4 --> 5
-    5: 5. extract_lunaphore_ometiff_processed.py
-    
-    class 1,2,3,4, 5 coloring
-```
-
-</div>
-
 ---
 
 ## 1. Tiles QC
 
 ---
  
-#### **Script 1:**  [comet_files_qc_processed.py](src/01_file_parser/comet_files_qc_processed.py)
+#### **Script 1:**  [comet_files_qc_processed.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/comet_files_qc_processed.py)
 
 
 The script ensures the correctness of the input data. It checks if:
@@ -115,9 +101,12 @@ Condition: missing metadata in: 2025-BM-fin
 
 ---
 
-#### **Script 2:**  [exp_design_comet.py](src/01_file_parser/exp_design_comet.py)
+#### **Script 1:**  [exp_design_comet.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/exp_design_comet.py)
 
 This function reads all the input files and generates a map from channel numbers (C0, C1, C2, etc.) to channel names (DAPI, FITC, AF, etc.). 
+
+!!! warning
+    Marker names can contain alphanumeric characters and "-". Using other signs may cause problems in later stages of the image preprocessing. 
 
 ``` shell
 python src/01_file_parser/exp_design_comet.py \
@@ -138,7 +127,7 @@ python src/01_file_parser/exp_design_comet.py \
 
 ---
 
-#### **Script 3:**  [parse_slide_names.py](src/01_file_parser/parse_slide_names.py)
+#### **Script 2:**  [parse_slide_names.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/parse_slide_names.py)
 
 !!! warning
     Before running this step, you need to manually add column `slide_id`, with the ID name of yur choice,  to */path/to/project_directory/experimental_design/exp_design_slides.csv* file. 
@@ -168,7 +157,7 @@ python src/01_file_parser/parse_slide_names.py \
 
 ---
 
-#### **Script 4:**  [comet_generate_csv_joblist.py](src/01_file_parser/comet_generate_csv_joblist.py)
+#### **Script 1:**  [comet_generate_csv_joblist.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/comet_generate_csv_joblist.py)
 
 
 `comet_generate_csv_joblist.py` lists all the czi files in the project’s folder and generates a csv file with all the jobs that need to be run in the next step. 
@@ -207,7 +196,7 @@ python src/01_file_parser/comet_generate_csv_joblist.py \
 
 ---
 
-#### **Script 5:**  [extract_lunaphore_ometiff_processed.py](src/01_file_parser/extract_lunaphore_ometiff_processed.py)
+#### **Script 2:**  [extract_lunaphore_ometiff_processed.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/extract_lunaphore_ometiff_processed.py)
 
 `extract_lunaphore_ometiff_processed.py` reads an input czi given a full path and extracts all the tiles and metadata in a predefined directory. 
 

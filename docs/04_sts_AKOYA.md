@@ -32,17 +32,17 @@ stateDiagram-v2
 
 ---
 
-# 1. Overview
+## 1. Overview
 
 Smart Tissue Selection for AKOYA doesn't require additional image preparation before generating the bounding boxes.
 
 ---
 
-# 2. Bounding Box Generation
+## 2. Bounding Box Generation
 
 ---
 
-**Script 1:** [04_STS/BB_estimation_list_jobs.py](src/04_STS/BB_estimation_list_jobs.py) 
+#### **Script 1:** [BB_estimation_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/BB_estimation_list_jobs.py) 
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Bounding Boxes Estimation.
 
@@ -69,7 +69,7 @@ python src/04_STS/BB_estimation_list_jobs.py \
 
 ---
 
-**Script 2:** [04_STS/STS_generate_BB.py](src/04_STS/STS_generate_BB.py) 
+#### **Script 2:** [STS_generate_BB.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/STS_generate_BB.py) 
 
 The script creates csv files that contains bounding boxes coordinates for each scene
 

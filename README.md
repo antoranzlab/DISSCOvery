@@ -5,15 +5,15 @@ DISSCovery is an interactive image analysis platform that allows for high-qualit
 It utilizes state-of-the-art tools for flat-field correction, tissue detection, artifact recognition, tile stitching, cycle registration, autofluorescence subtraction, cell segmentation, and consensus cell phenotyping.
 
 ## Documentation
-The documentation regarding the technical aspects of the pipeline can be found [here](src). All the pre-trained models required by the scripts are located [here](models).
+The documentation regarding the technical aspects of the pipeline can be found [here](https://antoranzlab.github.io/DISSCOvery/). All the pre-trained models required by the scripts are located [here](https://github.com/antoranzlab/DISSCOvery/tree/main/models).
 
 ## Installation and software dependencies
 DISSCOvery is an online platform and doesn't require a special installation. Link to the platform: [DISSCOvery](https://app2.disscovery.org)
 
-This repository contains the source code and allows for a manual run of the pipeline, outside of the app. 
+This repository contains the source code and allows for a manual run of the pipeline, outside the app. 
 
 ### Setting up the environment
-In order to ensure reproducibility, the environment is dockerized, To set up the environment pass
+In order to ensure reproducibility, the environment is [dockerized](https://hub.docker.com/r/augpath/disscovery_backend/tags), To set up the environment pass
 
 ```
 docker pull augpath/disscovery_backend:latest
@@ -21,7 +21,7 @@ docker pull augpath/disscovery_backend:latest
 You can check if the image was properly installed with  
 
 ```
-docker docker image ls
+docker image ls
 ```
 
 ### Running DISSCOvery outside of the software
@@ -45,4 +45,4 @@ Since each snakemake requires adjusting the config file, it's necessary to mount
 docker run -it -v /path_to_input_data/:/path_to_input_data/ -v /path_to_output/:/path_to_output/ -v your_path/DISSCOvery/:your_path/DISSCOvery/ augpath/disscovery_backend:latest
 ```
 
-A detailed tutorial about running the snakemake pipelines for chosen technology is [here].
+A detailed tutorial about running the snakemake pipelines for chosen technology is [here](https://antoranzlab.github.io/DISSCOvery/snakemake_MILAN/).

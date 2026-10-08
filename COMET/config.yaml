@@ -1,14 +1,21 @@
-# ---- Master variables (replaces the "Master variables" block in the bash script) ----
-base_input_dir: "your_path/COMET_input_data"
-base_output_dir: "your_path/output"
-project_name: "test_COMET_revission"
-scripts: "your_path/DISSCOvery"
+# ---- Master variables  ----
+base_input_dir: "your_path/COMET_input_data"  # Path to the COMET input data
+base_output_dir: "your_path/output" # Path where output will be created
+project_name: "test_COMET" # Name of the project
+scripts: "your_path/DISSCOvery" # Path to DISSCovery folder
 seed: '1234'
 slide_id: 'test'
-user_id: 'KN'
-project_id: 'BM'
+user_id: 'AB'
+project_id: 'CD'
+phenotypic_markers_list: ['FOXP3', 'TIM3', 'CD56'] # Marker list for 11 Cell identification Part 1 (1st level clustering)
+reference_round: "R01" # Reference round used globally
 
-# 01
+reference_map: # Refernece map used for split scenes
+  test: # replace 'test' with your slide name
+    reference_round: "R01" # replace with your reference round number
+    reference_version: "V01"
+
+# ---- 01 Data parsig ----
 # Deafult number of workers for a single process
 # CHNAGE IT WITH CAUTION !!!
 # Snakemake run few processes at once. Depending on number of cores
@@ -16,7 +23,7 @@ project_id: 'BM'
 num_workers: "2"
 # parse_rounds:  "R01,R10,R11,R12"
 
-# 03-04 STS
+# ---- 03 Resize & 04 STS ----
 pixel_input: "0.28"
 pixel_output_sts: "2.6"
 pixel_output_qc: "0.65"
@@ -27,22 +34,11 @@ sts_reg_zscore: '20' # regsitraion z score for STS course registration
 bool_t: "True"
 bool_f: "False"
 
-# 06 Split scenes
-# Split scenes needs reference round and version for each slide to be specified before running the pipeline
-reference_map:
-  test: # slide name
-    reference_round: "R01"
-    reference_version: "V01"
-
-
-# 09 Segmentation
+# ---- 09 Segmentation ----
 conv_factor_seg: '2.321429' # Conversion factor (1 for MILAN 0.65/0.28 for COMET, 0.65/0.5 for AKOYA)
 segmentation_model: 'stardist' # Segmentwtion model
 
-# 10 FE
-reference_round: "R01"
-
-# 11 Cell identification
+# ---- 11 Cell identification ----
 ci_node_id: "n01"
 ci_version_id: "v01"
 ci_child_id: "c01"
@@ -52,8 +48,6 @@ normalization_scope: 'sample' #sample or global, sample (default): z-score each 
 sample_yes_or_no: '1' # Should only a sample of the data be used for clustering? 1: yes, 0: no
 number_of_cells: '15000' # How many cell should be sampeld?
 sample_seed: '1234' # Seed for sampling
-phenotypic_markers_list: ['FOXP3', 'TIM3', 'CD56'] # markers for 1st level clustering
-
 knn_n_neighbors: '25'
 prediction_high_confidence: '0.80'
 prediction_medium_confidence: '0.60'

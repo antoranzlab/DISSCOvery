@@ -2410,6 +2410,7 @@ def all_clustering_flags(wildcards):
 
 rule cluster_other_methods:
     input:
+        done = PHENOGRAPH_DONE,
         data=CSV_11_DATA_SAMPLED,
         phenograph=os.path.join(PATH_REDUCED_DATA, "phenograph.parquet"),
     output:
@@ -2457,6 +2458,7 @@ def all_clustering_csv_flags(wildcards):
 rule cluster_phenograph_csv:
     input:
         data=CSV_11_DATA_SAMPLED,
+        done=CLUSTERING_DONE,
     output:
         clusters=os.path.join(PATH_REDUCED_DATA, "phenograph.csv"),
         done=touch(os.path.join(PROJECT_DIR,"logs", "ci_phenograph_csv_done.flag")),
@@ -2481,6 +2483,7 @@ rule cluster_phenograph_csv:
 rule cluster_other_methods_csv:
     input:
         data=CSV_11_DATA_SAMPLED,
+        done=CLUSTERING_DONE,
         phenograph=os.path.join(PATH_REDUCED_DATA, "phenograph.parquet"),
     output:
         clusters=os.path.join(PATH_REDUCED_DATA,"{method}.csv"),
@@ -2546,7 +2549,7 @@ def all_mapped_clustering_flags(wildcards):
 rule mapped_clustering:
     input:
         data=os.path.join(PATH_REDUCED_DATA, "{method}.parquet"),
-        done=CLUSTERING_DONE,
+        done=CLUSTERING_CSV_DONE,
     output:
         clusters=os.path.join(PATH_REDUCED_DATA,"{method}_mapped_clusters.parquet"),
         done=touch(os.path.join(PROJECT_DIR,"logs", "ci_{method}_mapped_clusters_done.flag")),
@@ -2597,7 +2600,7 @@ def all_mapped_clustering_csv_flags(wildcards):
 rule mapped_clustering_csv:
     input:
         data=os.path.join(PATH_REDUCED_DATA, "{method}.parquet"),
-        done=CLUSTERING_DONE,
+        done=MAPPED_CLUSTERING_DONE,
     output:
         clusters=os.path.join(PATH_REDUCED_DATA,"{method}_mapped_clusters.csv" ),
         done=touch(os.path.join(PROJECT_DIR,"logs","ci_{method}_mapped_clusters_csv_done.flag")),

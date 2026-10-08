@@ -31,15 +31,15 @@ stateDiagram-v2
 
 ---
 
-# 1. Overview
+## 1. Overview
 
 Split scenes cut the input image into smaller scenes
 
 ---
 
-# 2. Generate scenes
+## 2. Generate scenes
 
-**Script 1:** [generate_scenes_csv.py](src/06_split_scenes/generate_scenes_csv.py) 
+#### **Script 1:** [generate_scenes_csv.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/06_split_scenes/generate_scenes_csv.py) 
 
 The script generates CSV file that is necessary to run cell phenotyping and assigning cells to specific tissues
 
@@ -71,12 +71,12 @@ The .json input should be provided in the following format:
 
 ---
 
-# 3. Split scenes
+## 3. Split scenes
 
 The script generates CSV job list file
 
 
-**Script 1:** [split_scenes_processed_list_jobs.py](src/06_split_scenes/split_scenes_processed_list_jobs.py) 
+#### **Script 1:** [split_scenes_processed_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/06_split_scenes/split_scenes_processed_list_jobs.py) 
 
 ```
 python src/06_split_scenes/split_scenes_processed_list_jobs.py \
@@ -128,7 +128,7 @@ python src/06_split_scenes/split_scenes_processed_list_jobs.py \
 
 ---
 
-**Script 2:** [split_scenes_processed.py](src/06_split_scenes/split_scenes_processed.py) 
+#### **Script 2:** [split_scenes_processed.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/06_split_scenes/split_scenes_processed.py) 
 
 Splits the slides into scenes
 
@@ -168,9 +168,6 @@ python src/06_split_scenes/split_scenes_processed.py \
 
 `--skip_existing`
 : Whether to skip scenes that already exist. Example: `False`
-
-
-
 
 
 ---

@@ -34,16 +34,16 @@ stateDiagram-v2
 
 ---
 
-# 1. Overview
+## 1. Overview
 
 In MILAN, the hard stitching scripts are used in three different steps: FFC Kask, STS and artifact detection with Qual-IF-AI. 
 The input files remain the same in all three steps. The most important difference is the required pixel size - for Kask and STS the output images are downscaled by the factor of 4, in Qual-IF-AI the output needs to be in full resolution. 
 
 ---
 
-# 2. Hard stitching scripts
+## 2. Hard stitching scripts
 
-#### **Script 1:** [hard_stitching_list_jobs.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
+#### **Script 1:** [hard_stitching_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/hard_stitching_list_jobs.py) 
 
 This script generates coarse stitched images from the individual tiles. 
 
@@ -85,7 +85,7 @@ python src/03_hard_stitching/hard_stitching_list_jobs.py \
 
 ----
 
-#### **Script 2:** [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) 
+#### **Script 2:** [hard_stitching.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/hard_stitching.py) 
 
 This function generates a hard stitched image.
 

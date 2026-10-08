@@ -36,19 +36,18 @@ stateDiagram-v2
 
 ---
 
-# 1. Overview
+## 1. Overview
 
 MILAN data require image registration. The registration is conducted using COLLAGE. Afterwards, it's quality is assessed with AlignQC model. 
 Lastly, since MILAN allows for many versions of the same slide and round, the pipeline merge the available versions to achieve the highest quality of the output
 
 ---
 
-# 2. COLLAGE registration
+## 2. COLLAGE registration
 
-**Script 1:** [run_collage.py](src/07_stitching_registration/run_collage.py) 
+#### **Script 1:** [src/07_stitching_registration/run_collage.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/07_stitching_registration/run_collage.py) 
 
-Registration for MILAN is conducted using COLLAGE. More information can be found here:
-https://www.biorxiv.org/content/10.1101/2024.07.15.603557v1
+Registration for MILAN is conducted using COLLAGE. More information about COLLAGE can be found [here](https://www.biorxiv.org/content/10.1101/2024.07.15.603557v1)
 
 ```
 python src/07_stitching_registration/run_collage.py \
@@ -97,9 +96,9 @@ python src/07_stitching_registration/run_collage.py \
 
 ---
 
-# 3. Evaluate registration performance (AlgnQC)
+## 3. Evaluate registration performance (AlgnQC)
 
-**Script 1:** [algnqc_list_jobs.py](src/07_stitching_registration/algnqc_list_jobs.py) 
+#### **Script 1:** [src/07_stitching_registration/algnqc_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/07_stitching_registration/algnqc_list_jobs.py) 
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for QC evaluation
 
@@ -145,7 +144,7 @@ python src/07_stitching_registration/algnqc_list_jobs.py \
 
 ---
 
-**Script 2:** [evaluate_registration_algnqc.py](src/07_stitching_registration/evaluate_registration_algnqc.py) 
+#### **Script 2:** [src/07_stitching_registration/evaluate_registration_algnqc.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/07_stitching_registration/evaluate_registration_algnqc.py) 
 
 This script generates the QC figures to evaluate the registration.
 
@@ -180,9 +179,11 @@ python src/07_stitching_registration/evaluate_registration_algnqc.py \
 
 ---
 
-# 4. Merge versions
+## 4. Merge versions
 
-**Script 1:** [merge_versions_list_jobs.py](src/07_stitching_registration/merge_versions_list_jobs.py) 
+#### **Script 1:** [src/07_stitching_registration/merge_versions_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/07_stitching_registration/merge_versions_list_jobs.py) 
+
+This function lists all the paths for input and output files and generates a csv with the job list that have to be run for the merging script
 
 ```
 python src/07_stitching_registration/merge_versions_list_jobs.py \
@@ -210,7 +211,9 @@ python src/07_stitching_registration/merge_versions_list_jobs.py \
 
 ---
 
-**Script 2:** [merge_versions.py](src/07_stitching_registration/merge_versions.py) 
+#### **Script 2:** [src/07_stitching_registration/merge_versions.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/07_stitching_registration/merge_versions.py) 
+
+This script evaluates the registered images based on the alignQC output and merge the images into one version
 
 ```
 python src/07_stitching_registration/merge_versions.py \
@@ -231,3 +234,5 @@ python src/07_stitching_registration/merge_versions.py \
 
 `--feather_px`
 : Number of pixels used for feathering/blending image boundaries during merging. Example: `10`
+
+---

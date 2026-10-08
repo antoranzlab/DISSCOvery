@@ -1,4 +1,10 @@
-# MILAN parser
+# Data parsing - MILAN
+
+[//]: # (<p align="center">)
+
+[//]: # (<img src="images/tile_extraction_transparent.png" width="200">)
+
+[//]: # (</p>)
 
 ---
 
@@ -9,20 +15,25 @@ stateDiagram-v2
     classDef coloring fill:#6d9a8a, stroke:#468e74, color:#ffffff
     classDef coloring2 fill:#ffffff, stroke:#6d9a8a
 
-    
-    state Data_extraction{
-      MILAN_raw --> MILAN_exp_design
-      MILAN_raw: Quality Control
-      MILAN_exp_design: Experimental design
-      MILAN_exp_design --> MILAN_parsing
-      MILAN_parsing: Data parsing
+    MILAN --> Quality_control
+    Quality_control --> Experimental_design
+    Experimental_design --> Data_parsing
 
-    }
-    class MILAN_raw coloring
-    class MILAN_exp_design coloring
-    class MILAN_parsing coloring
-    class Data_extraction coloring2
-    class MILAN coloring2
+    state Quality_control{
+          MILAN_qc: czi_files_qc.py
+        }
+    state Experimental_design{
+          MILAN_exp_design: czi_extract_channel_metadata.py
+        }
+    state Data_parsing{
+          parsing_job --> parsing
+          parsing_job: czi_generate_csv_joblist.py
+          parsing: czi_reader.py
+        }
+
+    
+    class MILAN, MILAN_qc, MILAN_exp_design, parsing_job, parsing coloring
+    class Data_parsing, Quality_control,  Experimental_design coloring2
 ```
 </div>
 
@@ -33,33 +44,13 @@ In the DISSCOvery app, this is done in GUI. However, when running the code manua
 More detail about this file here.
 Last step is raw data extraction.
 
-The graph below demonstrates the execution order of the scripts.
-
-<div align="center">
-
-```mermaid
-stateDiagram-v2
-    classDef coloring fill:#6d9a8a, stroke:#468e74, color:#ffffff
-    1 --> 2
-    1: 1. czi_files_qc.py
-    2: 2. czi_extract_channel_metadata.py
-    2 --> 3
-    3: 3. czi_generate_csv_joblist.py
-    3 --> 4
-    4: 4. czi_reader.py
-    
-    class 1,2,3,4 coloring
-```
-
-</div>
-
 ---
 
 ## 1. Raw tiles QC
 
 ---
 
-#### **Script 1:** [czi_files_qc.py](https://gitlab.kuleuven.be/u0172795/disscovery/-/blob/main/src/01_file_parser/czi_files_qc.py?ref_type=heads)
+#### **Script 1:** [czi_files_qc.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/czi_files_qc.py)
 
 The script ensures the correctness of the input data. It checks if:
 
@@ -110,7 +101,7 @@ Check3 - File tabulation mismatch: /benchmarking_MILAN/R06/file_name.czi
 
 ---
 
-#### **Script 2:** [czi_extract_channel_metadata.py](https://gitlab.kuleuven.be/u0172795/disscovery/-/blob/main/src/01_file_parser/czi_extract_channel_metadata.py?ref_type=heads)
+#### **Script 1:** [czi_extract_channel_metadata.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/czi_extract_channel_metadata.py)
 
 This function reads all the .czi files in the input directory (folder and subfolders) and generates a map from channel numbers (C0, C1, C2, etc.) to channel names (DAPI, FITC, AF, etc.)
 
@@ -151,7 +142,10 @@ Output_csv_channels has the following columns:
 - `user_id` - identifier for the user who acquired the data
 
 !!! warning
-    When running the pipeline manually, after obtaining the *exp_design_slides.csv* you need to add there and additional columns, `slide_id`, that contains slide names 
+    Marker names can contain alphanumeric characters and "-". Using other signs may cause problems in later stages of the image preprocessing. 
+
+!!! warning
+    When running the pipeline manually, after obtaining the *exp_design_slides.csv* you need to add there and additional columns, `slide_id`, that contains slide names. 
 
 ---
 
@@ -159,7 +153,7 @@ Output_csv_channels has the following columns:
 
 ---
 
-#### **Script 3:** [czi_generate_csv_joblist.py](https://gitlab.kuleuven.be/u0172795/disscovery/-/blob/main/src/01_file_parser/czi_generate_csv_joblist.R?ref_type=heads)
+#### **Script 1:** [czi_generate_csv_joblist.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/czi_generate_csv_joblist.py)
 
 In this step, `.czi`'s files are processed to extract individual tiles and the corresponding metadata. 
 `czi_generate_csv_joblist.py` lists all the czi files in the project’s folder and generates a `.csv` file containing all the jobs that need to be run in the next step.
@@ -186,7 +180,7 @@ python src/01_file_parser/czi_generate_csv_joblist.py \
 : Path to the output `.csv` file where the list of jobs will be stored. Example: `/path/to/project_directory/czi_extraction_csv.csv`                      
 
 
-#### **Script 4\*:** [czi_reader.py](src/01_file_parser/czi_reader.py)
+#### **Script 2:** [czi_reader.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/01_file_parser/czi_reader.py)
 
 
 `czi_reader.py` reads an input czi given a full path and extracts all the tiles and metadata in a predefined output directory. 

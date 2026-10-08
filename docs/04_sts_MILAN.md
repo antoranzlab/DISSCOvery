@@ -9,8 +9,7 @@ stateDiagram-v2
     classDef coloring fill:#6d9a8a, stroke:#468e74, color:#ffffff
     classDef coloring2 fill:#ffffff, stroke:#6d9a8a
 
-%%    MILAN --> STS
-%%    STS --> Hard_stitching
+
     STS --> MILAN
     MILAN --> Hard_stitching
     Hard_stitching --> Coarse_registration
@@ -58,16 +57,16 @@ stateDiagram-v2
 
 ---
 
-# 1. Overview
+## 1. Overview
 
 Smart Tissue Selection for MILAN is a complex steps and requires to first preparate the input images after FFC to generate the mask and bounding boxes.
 Additionally, to the data quality the bounding boxes concordance is check as the last step. 
 
 ---
 
-# 2. Hard stitching scripts
+## 2. Hard stitching scripts
 
-#### **Script 1:** [hard_stitching_list_jobs.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
+#### **Script 1:** [hard_stitching_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/hard_stitching_list_jobs.py) 
 
 This script generates coarse stitched images from the individual tiles. 
 
@@ -109,7 +108,7 @@ python src/03_hard_stitching/hard_stitching_list_jobs.py \
 
 ----
 
-#### **Script 2:** [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) 
+#### **Script 2:** [hard_stitching.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/hard_stitching.py) 
 
 This function generates a hard stitched image.
 
@@ -124,13 +123,13 @@ python src/03_hard_stitching/hard_stitching.py \
 ```
 
 `--input_tiles`
-: Path to the directory containing the input tiles (dir). Example: `/path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND`
+: Path to the directory containing the input tiles (dir). Example: `/path/to/project_directory/output_tiles_tiffs/test_R00_V01_BENCHMARK_ND`
 
 `--input_meta`
-: Path to the CSV file containing the tile metadata (.csv). Example: `/path/to/project_directory/output_tiles_tiffs/BM_R00_V01_BENCHMARK_ND/full_BM_R00_V01_BENCHMARK_ND_meta.csv`
+: Path to the CSV file containing the tile metadata (.csv). Example: `/path/to/project_directory/output_tiles_tiffs/test_R00_V01_BENCHMARK_ND/test_R00_V01_BENCHMARK_ND_meta.csv`
 
 `--output_folder`
-: Path to the folder where the hard stitched images will be stored (dir). Example: `/path/to/project_directory/hard_stitching_FFC/BM`, `/path/to/project_directory/hard_stitching_STS/BM` or `/path/to/project_directory/hard_stitching_QC/BM`
+: Path to the folder where the hard stitched images will be stored (dir). Example: `/path/to/project_directory/hard_stitching_FFC/BM`, `/path/to/project_directory/hard_stitching_STS/test` or `/path/to/project_directory/hard_stitching_QC/test`
 
 `--conversion_factor`
 : Conversion factor for downscaling (numeric), 4 for STS or Kask, 1 for QUALIFAI. Example: `4`
@@ -146,9 +145,9 @@ python src/03_hard_stitching/hard_stitching.py \
     The conversion factor is automatically calculated when running job list script and is stored in the generated csv file
 ---
 
-# 3. Coarse registration scripts
+## 3. Coarse registration scripts
 
-#### **Script 1:** [coarse_registration_list_jobs.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
+#### **Script 1:** [coarse_registration_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/coarse_registration_list_jobs.py) 
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Coarse Registration.
 
@@ -184,9 +183,9 @@ python src/04_STS/coarse_registration_list_jobs.py \
 `--output_path_csv`
 : Path to the CSV file where the generated coarse-registration job list will be stored (.csv). Example: `/path/to/project_directory/coarse_registration_job_list.csv`
 
-#### **Script 2:** [STS_coarse_registration_imreg.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
+#### **Script 2:** [STS_coarse_registration_imreg.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/STS_coarse_registration_imreg.py) 
 
-The script performs coarse registration with Imreg.
+The script performs coarse registration with [imreg](https://github.com/cgohlke/imreg).
 
 ```
 python src/04_STS/STS_coarse_registration_imreg.py \
@@ -217,9 +216,9 @@ python src/04_STS/STS_coarse_registration_imreg.py \
 : Z-score threshold used for quality control of the registration (numeric). Example: `20`
 
 
-# 4. Mask generation scripts
+## 4. Mask generation scripts
 
-#### **Script 1:** [mask_generation_list_jobs.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
+#### **Script 1:** [mask_generation_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/mask_generation_list_jobs.py) 
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Mask Generation.
 
@@ -247,7 +246,7 @@ python src/04_STS/mask_generation_list_jobs.py \
 `--ref_channel`
 : Reference channel used for mask generation. Example: `DAPI`
 
-#### **Script 2:** [STS_generate_mask.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
+#### **Script 2:** [STS_generate_mask.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/STS_generate_mask.py) 
 
 The script creates tissue masks. 
 
@@ -269,11 +268,11 @@ python src/04_STS/STS_generate_mask.py \
 
 ---
 
-# 5. Bounding Box Generation
+## 5. Bounding Box Generation
 
 ---
 
-**Script 1:** [04_STS/BB_estimation_list_jobs.py](src/04_STS/BB_estimation_list_jobs.py) 
+#### **Script 1:** [BB_estimation_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/BB_estimation_list_jobs.py) 
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Bounding Boxes Estimation.
 
@@ -300,7 +299,7 @@ python src/04_STS/BB_estimation_list_jobs.py \
 
 ---
 
-**Script 2:** [04_STS/STS_generate_BB.py](src/04_STS/STS_generate_BB.py) 
+#### **Script 2:** [STS_generate_BB.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/STS_generate_BB.py) 
 
 The script creates csv files that contains bounding boxes coordinates for each scene
 
@@ -322,11 +321,11 @@ python src/04_STS/STS_generate_BB.py \
 
 ---
 
-# 6. Evaluate concordance 
+## 6. Evaluate concordance 
 
 ---
 
-**Script 1:** [04_STS/bb_concordance_list_jobs.py](src/04_STS/bb_concordance_list_jobs.py) 
+#### **Script 1:** [bb_concordance_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/bb_concordance_list_jobs.py) 
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for concordance evaluation 
 
@@ -361,7 +360,7 @@ python src/04_STS/bb_concordance_list_jobs.py \
 
 ---
 
-**Script 2:** [04_STS/STS_evaluate_concordance.py](src/04_STS/STS_evaluate_concordance.py)
+#### **Script 2:** [STS_evaluate_concordance.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/STS_evaluate_concordance.py)
 
 This script performs concordance evaluation. 
 

@@ -2,7 +2,7 @@
 
 ---
 
-# 1. Overview
+## 1. Overview
 
 ---
 
@@ -49,9 +49,9 @@ stateDiagram-v2
 </div>
 
 ---
-# 2. Hard stitching scripts
+## 2. Hard stitching scripts
 
-#### **Script 1:** [hard_stitching_list_jobs.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
+#### **Script 1:** [hard_stitching_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/hard_stitching_list_jobs.py) 
 
 This script generates coarse stitched images from the individual tiles. It needs to be run before FFC
 
@@ -93,7 +93,7 @@ python src/03_hard_stitching/hard_stitching_list_jobs.py \
 
 ----
 
-#### **Script 2:** [hard_stitching.py](src/03_hard_stitching/hard_stitching.py) 
+#### **Script 2:** [hard_stitching.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/hard_stitching.py) 
 
 This function generates a hard stitched image.
 
@@ -130,11 +130,11 @@ python src/03_hard_stitching/hard_stitching.py \
     The conversion factor is automatically calculated when running job list script and is stored in the generated csv file
 ---
 
-# 2. Rebuild scripts
+## 2. Rebuild scripts
 
 ----
 
-**Script:** [rebuild_preprocessed_ffc_akoya_list_jobs.py](src/03_hard_stitching/rebuild_preprocessed_ffc_akoya_list_jobs.py) 
+#### **Script 1:** [rebuild_preprocessed_ffc_akoya_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/rebuild_preprocessed_ffc_akoya_list_jobs.py) 
 
 This function lists all the folders in the input directory and generates a csv with the list of jobs that have to be run for coarse stitching. 
 Images from AKOYA needs rebuild after FFC is done
@@ -165,7 +165,7 @@ python src/03_hard_stitching/rebuild_preprocessed_ffc_akoya_list_jobs.py \
 
 ---
 
-**Script:** [01_rebuild_after_ffc.py](src/03_hard_stitching/01_rebuild_after_ffc.py) 
+#### **Script 2:** [01_rebuild_after_ffc.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/01_rebuild_after_ffc.py) 
 
 This function generates a rescaled, re-nomalized, 8-bit image.
 
@@ -196,11 +196,11 @@ python src/03_hard_stitching/01_rebuild_after_ffc.py \
 ---
 
 
-# 3. Resize scripts
+## 3. Resize scripts
 
 ----
 
-**Script:** [resize_images_list_jobs.py](src/03_hard_stitching/resize_images_list_jobs.py) 
+#### **Script 1:** [resize_images_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/resize_images_list_jobs.py) 
 
 This function lists all the folders in the input directory and generates a csv with the list of jobs that have to be run for coarse stitching. 
 Images from AKOYA needs to be resized for QUALIFAI.
@@ -233,9 +233,9 @@ python src/03_hard_stitching/hard_stitching_list_jobs.py \
 
 ---
 
-**Script:** [01_resize_processed.py](src/03_hard_stitching/01_resize_processed.py) 
+#### **Script 2:** [01_resize_processed.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/01_resize_processed.py) 
 
-This function generates a rescaled, re-nomalized, 8-bit image.
+This function generates a rescaled, re-normalized, 8-bit image.
 
 ``` shell
 python src/03_hard_stitching/01_resize_processed.py \

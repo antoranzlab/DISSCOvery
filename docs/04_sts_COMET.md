@@ -44,21 +44,21 @@ stateDiagram-v2
 
 ---
 
-# 1. Overview
+## 1. Overview
 
 Smart Tissue Selection for COMET requires to first preparate the input images then generate the tissue masks and bounding boxes.
 
 ---
 
-# 2. Resize images STS
+## 2. Resize images STS
 
-**Script:** [resize_images_list_jobs.py](src/03_hard_stitching/resize_images_list_jobs.py) 
+#### **Script 1:** [resize_images_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/resize_images_list_jobs.py) 
 
 This function lists all the folders in the input directory and generates a csv with the list of jobs that have to be run for coarse stitching. 
 Images from COMET needs it to be executed twice, once for STS and once for QUALIFAI.
 
 ``` shell
-python src/03_hard_stitching/hard_stitching_list_jobs.py \
+python src/03_hard_stitching/resize_images_list_jobs.py \
     --input_path_images <path_to_images/> \
     --output_folder <path_to_output/> \
     --output_path_csv <path_to_joblist.csv> \
@@ -83,9 +83,10 @@ python src/03_hard_stitching/hard_stitching_list_jobs.py \
 : Pixel size input images (numeric). Example: `0.28` (COMET)
 
 
+
 ---
 
-**Script:** [01_resize_processed.py](src/03_hard_stitching/01_resize_processed.py) 
+#### **Script 2:** [01_resize_processed.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/03_hard_stitching/01_resize_processed.py) 
 
 This function generates a rescaled, re-nomalized, 8-bit image.
 
@@ -111,9 +112,9 @@ python src/03_hard_stitching/01_resize_processed.py \
 
 ---
 
-# 3. Mask generation scripts
+## 3. Mask generation scripts
 
-#### **Script 1:** [mask_generation_list_jobs.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
+#### **Script 1:** [mask_generation_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/mask_generation_list_jobs.py) 
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Mask Generation.
 
@@ -141,7 +142,7 @@ python src/04_STS/mask_generation_list_jobs.py \
 `--ref_channel`
 : Reference channel used for mask generation. Example: `DAPI`
 
-#### **Script 2:** [STS_generate_mask.py](src/03_hard_stitching/hard_stitching_list_jobs.py) 
+#### **Script 2:** [STS_generate_mask.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/STS_generate_mask.py) 
 
 The script creates tissue masks. 
 
@@ -163,11 +164,11 @@ python src/04_STS/STS_generate_mask.py \
 
 ---
 
-# 4. Bounding Box Generation
+## 4. Bounding Box Generation
 
 ---
 
-**Script 1:** [04_STS/BB_estimation_list_jobs.py](src/04_STS/BB_estimation_list_jobs.py) 
+#### **Script 1:** [BB_estimation_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/BB_estimation_list_jobs.py) 
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for Bounding Boxes Estimation.
 
@@ -194,7 +195,7 @@ python src/04_STS/BB_estimation_list_jobs.py \
 
 ---
 
-**Script 2:** [04_STS/STS_generate_BB.py](src/04_STS/STS_generate_BB.py) 
+#### **Script 2:** [STS_generate_BB.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/04_STS/STS_generate_BB.py) 
 
 The script creates csv files that contains bounding boxes coordinates for each scene
 

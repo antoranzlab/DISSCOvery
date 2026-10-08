@@ -28,7 +28,7 @@ stateDiagram-v2
 Flat Field Correction (FFC) removes the vignetting from the images, which is the difference in the illumination on the image, typically visible as shading that increases at the edges of the image. . 
 By default COMET and AKOYA provides already partially preprocessed data and don't require FFC. 
 However in case one uses raw data as input for these platforms, we provide also suggestion on how to perform FFC on such data.
-There are three possibilites that can be considered: raw tiles (no FFC needed), method from Kask et al (https://onlinelibrary.wiley.com/doi/10.1111/jmi.12404) and BaSiC (https://www.nature.com/articles/ncomms14836)
+There are three possibilites that can be considered: raw tiles (no FFC needed), method from [Kask et al. (2016)](https://onlinelibrary.wiley.com/doi/10.1111/jmi.12404) and [BaSiC](https://www.nature.com/articles/ncomms14836)
 As a result of the benchmarking study, we have a preferred FFC method per technology and channel, presented in the table below. 
 
 
@@ -57,11 +57,11 @@ If a technology/channel is not included in the list, BASIC is applied as default
 
 ---
 
-## 1. Job list
+## 1. FFC job list
 
 ---
 
-#### **Script 1:** [FFC_list_jobs.py](https://gitlab.kuleuven.be/u0172795/disscovery/-/blob/main/src/02_FFC/FFC_list_jobs.py?ref_type=heads) 
+#### **Script 1:** [FFC_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/02_FFC/FFC_list_jobs.py) 
 
 Regardless of the chosen FFC method, starting the process require generating the job list file first. 
 It embraces all output possibilities, except for processing metadata files.

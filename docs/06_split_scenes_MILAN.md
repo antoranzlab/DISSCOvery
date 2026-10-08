@@ -36,15 +36,15 @@ stateDiagram-v2
 
 ---
 
-# 1. Overview
+## 1. Overview
 
 Split scenes cut the input image into smaller scenes
 
 ---
 
-# 2. Generate scenes
+## 2. Generate scenes
 
-**Script 1:** [generate_scenes_csv.py](src/06_split_scenes/generate_scenes_csv.py) 
+#### **Script 1:** [generate_scenes_csv.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/06_split_scenes/generate_scenes_csv.py) 
 
 The script generates CSV file that is necessary to run cell phenotyping and assigning cells to specific tissues
 
@@ -76,12 +76,12 @@ The .json input should be provided in the following format:
 
 ---
 
-# 3. Reverse_transformation
+## 3. Reverse_transformation
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for reverse transformation
 
 
-**Script 1:** [reverse_transformation_list_jobs.py](src/06_split_scenes/reverse_transformation_list_jobs.py) 
+#### **Script 1:** [reverse_transformation_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/06_split_scenes/reverse_transformation_list_jobs.py) 
 
 ```
 python src/06_split_scenes/reverse_transformation_list_jobs.py \
@@ -121,7 +121,7 @@ python src/06_split_scenes/reverse_transformation_list_jobs.py \
 
 ---
 
-**Script 2:** [reverse_transformation.py](src/06_split_scenes/reverse_transformation.py) 
+#### **Script 2:** [reverse_transformation.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/06_split_scenes/reverse_transformation.py) 
 
 The script projects the masks and bounding boxes from the reference round to other rounds - it inverts the transformation matrix obtained during the coarse registration
 
@@ -155,9 +155,9 @@ python src/06_split_scenes/reverse_transformation.py \
 
 ---
 
-# 4. Split scenes
+## 4. Split scenes
 
-**Script 1:** [split_scenes_list_jobs.py](src/06_split_scenes/split_scenes_list_jobs.py) 
+#### **Script 1:** [split_scenes_list_jobs.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/06_split_scenes/split_scenes_list_jobs.py) 
 
 This function lists all the paths for input and output files and generates a csv with the list of jobs that have to be run for split scenes
 
@@ -211,7 +211,7 @@ python src/06_split_scenes/split_scenes_list_jobs.py \
 
 ---
 
-**Script 2:** [split_scenes.py](src/06_split_scenes/split_scenes.py) 
+#### **Script 2:** [split_scenes.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/06_split_scenes/split_scenes.py) 
 
 This function generates separate scenes from the original images
 

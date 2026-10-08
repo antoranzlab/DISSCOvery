@@ -36,15 +36,15 @@ stateDiagram-v2
 
 ---
 
-# 1. Overview
+## 1. Overview
 
-This function takes as an input the directory of a hard stitched, full resolution images, or equivalent, and lists all the jobs to be run with QUALIFAI
+This function takes as an input the directory of a hard stitched, full resolution images, or equivalent, and lists all the jobs to be run with [QUALIFAI](https://github.com/antoranzlab/QualIFAI)
 
 ---
 
-# 2. QUALIFAI
+## 2. QUALIFAI
 
-**Script 1:** [qualifai_list_jobs_multiclass.py](src/05_artifacts_detection/qualifai_list_jobs_multiclass.py) 
+#### **Script 1:** [qualifai_list_jobs_multiclass.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/05_artifacts_detection/qualifai_list_jobs_multiclass.py) 
 
 
 ```
@@ -69,7 +69,7 @@ python src/05_artifacts_detection/qualifai_list_jobs_multiclass.py \
 
 ---
 
-**Script 2:** [QUALIFAI.py](src/05_artifacts_detection/QUALIFAI.py) 
+#### **Script 2:** [QUALIFAI.py](https://github.com/antoranzlab/DISSCOvery/blob/main/src/05_artifacts_detection/QUALIFAI.py) 
 
 ```
 python src/05_artifacts_detection/QUALIFAI.py \
@@ -86,3 +86,5 @@ python src/05_artifacts_detection/QUALIFAI.py \
 
 `--model_path`
 : Path to the QUALIFAI model used for artifact detection (file). Example: `/path/to/project_directory/models/05_unetpp_best.pth`
+
+---
